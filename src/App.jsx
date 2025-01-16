@@ -6,6 +6,18 @@ import Available from './components/Available';
 import AboutUs from './components/Aboutus';
 import Trip from './components/Trip';
 
+function Home() {
+    return <p>Hero</p>;
+}
+
+function Contact() {
+    return <h1>Contact Page</h1>;
+}
+
+function Donate() {
+    return <h1>Donate Page</h1>;
+}
+
 function App() {
     const [isHindi, setIsHindi] = useState(false);
 
