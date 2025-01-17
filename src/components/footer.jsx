@@ -120,6 +120,7 @@ function Footer({ isHindi }) {
           .footer-col {
             width: 25%;
             padding: 0 15px;
+            margin-bottom: 30px; /* Add some space between columns */
           }
           .footer-col h4 {
             font-size: 18px;
@@ -145,10 +146,9 @@ function Footer({ isHindi }) {
           .footer-col ul li a {
             font-size: 16px;
             text-transform: capitalize;
-            color: #ffffff;
+            color: #bbbbbb;
             text-decoration: none;
             font-weight: 300;
-            color: #bbbbbb;
             display: block;
             transition: all 0.3s ease;
           }
@@ -177,7 +177,6 @@ function Footer({ isHindi }) {
           @media (max-width: 767px) {
             .footer-col {
               width: 50%;
-              margin-bottom: 30px;
             }
           }
           @media (max-width: 574px) {
