@@ -9,9 +9,9 @@ function AboutUs({ isHindi }) {
             missionDescription: "Our mission is to create innovative solutions that empower our customers. We aim to make a positive impact on the world by offering high-quality services, building trust, and fostering lasting relationships with our clients.",
             teamTitle: "Meet Our Team",
             team: [
-                { name: "John Doe", role: "CEO & Founder" },
-                { name: "Jane Smith", role: "Chief Marketing Officer" },
-                { name: "Robert Brown", role: "Lead Developer" },
+                { name: "Nishant Rana", role: "CEO & Founder" },
+                { name: "Amaan Syed", role: "Lead Developer" },
+                { name: "Sanjeevani", role: "Chief Marketing Officer" },
             ],
         },
         hi: {
@@ -21,13 +21,12 @@ function AboutUs({ isHindi }) {
             missionDescription: "हमारा मिशन हमारे ग्राहकों को सशक्त बनाने के लिए नवीन समाधान बनाना है। हम उच्च गुणवत्ता वाली सेवाएं प्रदान करके, विश्वास बनाकर और अपने ग्राहकों के साथ स्थायी संबंध बनाकर दुनिया पर सकारात्मक प्रभाव डालने का लक्ष्य रखते हैं।",
             teamTitle: "हमारी टीम से मिलें",
             team: [
-                { name: "जॉन डो", role: "सीईओ और संस्थापक" },
-                { name: "जेन स्मिथ", role: "मुख्य विपणन अधिकारी" },
-                { name: "रॉबर्ट ब्राउन", role: "लीड डेवलपर" },
-            ],
+                { name: "निशांत राणा", role: "CEO & Founder" },
+                { name: "अमान सैयद", role: "Lead Developer" },
+                { name: "संजीवनी", role: "Chief Marketing Officer" },
+            ]
         },
     };
-
     const [currentLanguage, setCurrentLanguage] = useState(translations.en);
 
     useEffect(() => {
@@ -90,22 +89,31 @@ function AboutUs({ isHindi }) {
     };
 
     const teamMemberStyle = {
+        display: 'flex', // Add flexbox to the team member container
+        flexDirection: 'column', // Stack content vertically
+        alignItems: 'center', // Center-align all items
+        justifyContent: 'center', // Center-align all items
         textAlign: 'center',
         padding: '20px',
         backgroundColor: '#f7f7f7',
         borderRadius: '8px',
         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.4)',
         transition: 'transform 0.3s ease-in-out',
-        margin: '10px', // Add margin for spacing
+        margin: '10px',
         flex: '1 1 250px', // Make the team members responsive
     };
+    
 
     const teamImageStyle = {
         width: '150px',
         height: '150px',
         borderRadius: '50%',
-        objectFit: 'cover',
+        objectFit: 'cover', // Ensures the image fits within the boundaries
+        objectPosition: 'center', // Keeps the focus in the center of the image
+        boxSizing: 'border-box', // Ensures padding and borders don't affect the dimensions
+        overflow: 'hidden', // Ensures content outside boundaries is hidden
     };
+    
 
     const teamNameStyle = {
         fontSize: '1.5rem',
@@ -131,9 +139,16 @@ function AboutUs({ isHindi }) {
                     {currentLanguage.team.map((member, index) => (
                         <div key={index} style={teamMemberStyle}>
                             <img
-                                src={`team-member${index + 1}.jpg`}  // Replace with your actual image paths
+                                src={`/src/assets/team-member${index + 1}.png`}  // Replace with your actual image paths
                                 alt={`Team Member ${index + 1}`}
-                                style={teamImageStyle}
+                                style={{
+                                    width: '150px',
+                                    height: '150px',
+                                    borderRadius: '50%',
+                                    objectFit: index === 2 ? 'contain' : 'cover', // Use 'contain' for the third image
+                                    objectPosition: 'center', // Keep the image centered
+                                    backgroundColor: '#ffffff', // Optional: fill gaps for 'contain'
+                                }}
                             />
                             <h3 style={teamNameStyle}>{member.name}</h3>
                             <p style={teamRoleStyle}>{member.role}</p>
