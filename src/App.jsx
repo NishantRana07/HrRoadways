@@ -7,6 +7,8 @@ import AboutUs from './components/Aboutus';
 import Trip from './components/Trip';
 import Footer from './components/footer';
 import Blog from './components/Blog';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 function Contact() {
     return <h1>Contact Page</h1>;
@@ -64,26 +66,28 @@ function App() {
             {/* Back to Top Button */}
             {showBackToTop && (
                 <button
-                    onClick={handleScrollToTop}
-                    onMouseEnter={() => setHovered(true)}
-                    onMouseLeave={() => setHovered(false)}
-                    style={{
-                        position: 'fixed',
-                        bottom: '20px',
-                        right: '20px',
-                        backgroundColor: hovered ? '#555' : '#333',
-                        color: '#fff',
-                        padding: '10px 15px',
-                        borderRadius: '5px',
-                        fontSize: '18px',
-                        cursor: 'pointer',
-                        zIndex: '1000',
-                        border: 'none',
-                        transition: 'background-color 0.3s ease',
-                    }}
-                >
-                    ↑
-                </button>
+                onClick={handleScrollToTop}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+                style={{
+                    position: "fixed",
+                    bottom: "20px",
+                    right: "20px",
+                    backgroundColor: hovered ? "#1E90FF" : "#007BFF", // Lighter blue on hover
+                    color: "#fff",
+                    padding: "10px 15px",
+                    borderRadius: "50px",
+                    fontSize: "18px",
+                    cursor: "pointer",
+                    zIndex: "1000",
+                    border: "none",
+                    boxShadow: hovered ? "0px 4px 6px rgba(0, 0, 0, 0.2)" : "none",
+                    transition: "background-color 0.3s ease, box-shadow 0.3s ease",
+                }}
+                aria-label="Scroll to top"
+            >
+                <FontAwesomeIcon icon={faArrowUp} size='xl'/>
+            </button>
             )}
         </Router>
     );
