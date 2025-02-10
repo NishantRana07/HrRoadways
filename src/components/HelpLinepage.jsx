@@ -127,7 +127,7 @@ const HelplinePage = ({ isHindi }) => {
             <input 
               type="text" 
               placeholder={currentLanguage.searchPlaceholder} 
-              className="w-full px-6 py-3 rounded-full text-gray-800 border-2 border-transparent 
+              className="w-full px-12 py-3 rounded-full text-gray-800 border-2 border-transparent 
                 focus:border-blue-400 outline-none transition-all duration-300 shadow-md
                 hover:shadow-lg focus:shadow-xl"
               value={searchQuery}

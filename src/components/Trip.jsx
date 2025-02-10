@@ -1,26 +1,15 @@
-import React, { useState } from 'react';
-import { MapPin, Star, Moon } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { MapPin, Star, Moon } from "lucide-react";
 
-// Example translations object
-const translations = {
-  en: {
-    filters: "Filters",
-    priceRange: "Price Range",
-    minRating: "Minimum Rating",
-    perNight: "per night",
-    hotels: "Hotels",
-    noHotels: "No hotels found",
-    priceLabel: (price) => `₹${price}`,
-  },
-  hi: {
-    filters: "फ़िल्टर",
-    priceRange: "मूल्य सीमा",
-    minRating: "न्यूनतम रेटिंग",
-    perNight: "प्रति रात",
-    hotels: "होटल",
-    noHotels: "कोई होटल नहीं मिला",
-    priceLabel: (price) => `₹${price}`,
-  },
+// Default translations (fallback) in English
+const defaultLanguage = {
+  filters: "Filters",
+  priceRange: "Price Range",
+  minRating: "Minimum Rating",
+  perNight: "per night",
+  hotels: "Hotels",
+  noHotels: "No hotels found",
+  priceLabel: (price) => `₹${price}`,
 };
 
 const hotels = [
@@ -92,7 +81,6 @@ const hotels = [
 
 const CustomSlider = ({ min, max, value, onChange, step }) => {
   const percentage = ((value - min) / (max - min)) * 100;
-
   return (
     <div className="relative w-full h-6 flex items-center">
       <div className="absolute w-full h-2 bg-blue-100 rounded-full">
@@ -112,7 +100,7 @@ const CustomSlider = ({ min, max, value, onChange, step }) => {
       />
       <div
         className="absolute h-4 w-4 bg-white border-2 border-blue-500 rounded-full cursor-pointer"
-        style={{ left: `${percentage}%`, transform: 'translateX(-50%)' }}
+        style={{ left: `${percentage}%`, transform: "translateX(-50%)" }}
       />
     </div>
   );
@@ -130,8 +118,8 @@ const HotelCard = ({ hotel, currentLanguage }) => (
         <div
           className="h-full bg-repeat-x"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='16' viewBox='0 0 20 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 8L10 0L20 8L10 16L0 8Z' fill='%233B82F6' fill-opacity='0.2'/%3E%3C/svg%3E")`,
-            backgroundSize: '20px 16px',
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='16' viewBox='0 0 20 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 8L10 0L20 8L10 16L0 8Z' fill='%23ccc'/%3E%3C/svg%3E")`,
+            backgroundSize: "20px 16px",
           }}
         />
       </div>
@@ -167,7 +155,6 @@ const SidebarFilter = ({ filters, onFilterChange, currentLanguage }) => (
         {currentLanguage.filters}
       </h3>
     </div>
-
     <div className="space-y-8">
       <div className="filter-section">
         <div className="flex items-center gap-2 mb-4">
@@ -180,7 +167,9 @@ const SidebarFilter = ({ filters, onFilterChange, currentLanguage }) => (
           min={500}
           max={8000}
           value={filters.priceRange[0]}
-          onChange={(value) => onFilterChange("priceRange", [value, filters.priceRange[1]])}
+          onChange={(value) =>
+            onFilterChange("priceRange", [value, filters.priceRange[1]])
+          }
           step={200}
         />
         <div className="flex justify-between text-sm font-bold text-blue-600 mt-2">
@@ -210,8 +199,8 @@ const SidebarFilter = ({ filters, onFilterChange, currentLanguage }) => (
                 key={index}
                 className={`w-4 h-4 ${
                   index < Math.floor(filters.minRating)
-                    ? 'text-blue-500 fill-blue-500'
-                    : 'text-gray-300'
+                    ? "text-blue-500 fill-blue-500"
+                    : "text-gray-300"
                 }`}
               />
             ))}
@@ -226,11 +215,33 @@ const SidebarFilter = ({ filters, onFilterChange, currentLanguage }) => (
 );
 
 const Trip = ({ isHindi }) => {
-  const currentLanguage = isHindi ? translations.hi : translations.en;
+  // Use defaultLanguage as the initial state
+  const [currentLanguage, setCurrentLanguage] = useState(defaultLanguage);
   const [filters, setFilters] = useState({
     priceRange: [500, 8000],
     minRating: 0,
   });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Replace with your actual JSONBlob URL
+    fetch("https://jsonblob.com/api/jsonBlob/1336696987667587072")
+      .then((response) => response.json())
+      .then((data) => {
+        const langData = isHindi ? data.hi.trip : data.en.trip;
+        // Create the dynamic priceLabel function
+        const priceLabelFunc = new Function("price", `return (${langData.priceLabelFunc})(price);`);
+        setCurrentLanguage({
+          ...langData,
+          priceLabel: priceLabelFunc,
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching translations:", error);
+        setLoading(false);
+      });
+  }, [isHindi]);
 
   const handleFilterChange = (type, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [type]: value }));
@@ -244,6 +255,10 @@ const Trip = ({ isHindi }) => {
     return matchesPrice && matchesRating;
   });
 
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-6">
       <div className="max-w-7xl mx-auto">
@@ -255,7 +270,6 @@ const Trip = ({ isHindi }) => {
               currentLanguage={currentLanguage}
             />
           </div>
-
           <div className="flex-1">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
@@ -268,7 +282,6 @@ const Trip = ({ isHindi }) => {
                 {filteredHotels.length} {currentLanguage.hotels}
               </span>
             </div>
-
             {filteredHotels.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredHotels.map((hotel) => (
@@ -291,4 +304,4 @@ const Trip = ({ isHindi }) => {
   );
 };
 
-export default Trip; 
+export default Trip;

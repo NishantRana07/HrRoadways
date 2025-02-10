@@ -74,7 +74,7 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
               <Phone className="w-4 h-4 mr-1" />
               1800-180-2345
             </span>
-            <Link to="/guide" className="guide-link">
+            <Link to="/rules" className="guide-link">
               {currentLanguage.guide}
             </Link>
           </div>

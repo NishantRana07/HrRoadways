@@ -1,106 +1,115 @@
 import React from 'react';
-import '../styles/BusCard.css';
-import { MdPinDrop } from "react-icons/md";
-import { TiFlag } from "react-icons/ti";
-import { FaLongArrowAltRight } from "react-icons/fa";
-
-const busImg = 'https://i.ibb.co/sJ5LLzXZ/hr-bus.png';
+import { useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 function BusCard({ isHindi = false }) {
-  // Define English and Hindi translations
-  const translations = {
-    en: {
-      busHeading: "Haryana Roadways",
-      busSubHeading: "Have a safe journey with Haryana Roadways",
-      from: "Dehradun",
-      to: "Yamunanagar",
-      distanceLabel: "Distance : ",
-      departureLabel: "Departure Time : ",
-      acLabel: "AC : ",
-      fareLabel: "Fare : ",
-      viaLabel: "Via - ",
-      checkoutBtn: "Checkout",
-      compareBtn: "Compare",
-      mapBtn: "Map",
-      available: "Available"
-    },
-    hi: {
-      busHeading: "हरियाणा रोडवेज",
-      busSubHeading: "हरियाणा रोडवेज के साथ सुरक्षित यात्रा करें",
-      from: "देहरादून",
-      to: "यमुनानगर",
-      distanceLabel: "दूरी : ",
-      departureLabel: "प्रस्थान समय : ",
-      acLabel: "एसी : ",
-      fareLabel: "किराया : ",
-      viaLabel: "मार्ग - ",
-      checkoutBtn: "चेकआउट",
-      compareBtn: "तुलना करें",
-      mapBtn: "मानचित्र",
-      available: "उपलब्ध"
-    },
-  };
+  const location = useLocation();
+  const bookingInfo = location.state?.bookingInfo;
 
-  // Choose the current translation
-  const t = isHindi ? translations.hi : translations.en;
+  if (!bookingInfo) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg">No booking information available.</p>
+      </div>
+    );
+  }
+
+  const {
+    busName,
+    busNumber,
+    from,
+    to,
+    departureTime,
+    passengers,
+    baseFare,
+    tax,
+    totalFare,
+    contactInfo,
+  } = bookingInfo;
 
   return (
-    <>
-      <div className="card">
-        <div className="image">
-          <img src={busImg} alt="Travel" className="image_tag" />
-        </div>
-        {/* Image */}
-
-        <div className="card-content">
-          <h2>{t.busHeading}</h2>
-          <p className="description">{t.busSubHeading}</p>
-          <div className="info">
-            <div>
-              <i className="fa-solid fa-map-pin"></i>
-              <span>{t.from}</span>
-
-              <i className="fa-solid fa-arrow-right"></i>
-
-              <i className="fa-solid fa-location-dot"></i>
-              <span>{t.to}</span>
-
-              <i className="fa-solid fa-bolt"></i>
-
-              <span>{t.distanceLabel}</span>
-              200 km
-            </div>
-            <div>
-              <i className="fas fa-clock"></i>
-              <span>{t.departureLabel}</span>
-              8:30 AM
-            </div>
-            <div>
-              <i className="fas fa-snowflake"></i>
-              <span>{t.acLabel}</span>
-              {t.available}
-            </div>
-            <div>
-              <i className="fas fa-money-bill-wave"></i>
-              <span>{t.fareLabel}</span>
-              ₹500
-            </div>
-            <div className='via'>
-              <i className="fas fa-map-marker-alt"></i>
-              <b>{t.viaLabel}</b> Route A
-            </div>
-          </div>
-        </div>
-        {/* Content */}
-
-        <div className="buttons">
-          <button>{t.checkoutBtn}</button>
-          <button>{t.compareBtn}</button>
-          <button>{t.mapBtn}</button>
-        </div>
-        {/* Buttons */}
+    <motion.div
+      className="max-w-2xl mx-auto my-8 p-6 bg-white rounded-xl border border-gray-200 shadow-md"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3, duration: 0.8 }}
+    >
+      {/* Bus Details */}
+      <div className="border-b pb-4">
+        <h1 className="text-2xl font-bold text-gray-800">{busName}</h1>
+        <p className="text-sm text-gray-600">Bus Number: {busNumber}</p>
+        <p className="mt-2 text-gray-700">
+          <strong>From:</strong> {from} <span className="mx-2">&rarr;</span> <strong>To:</strong> {to}
+        </p>
+        <p className="text-gray-700 mt-1">
+          <strong>Departure Time:</strong> {departureTime}
+        </p>
       </div>
-    </>
+
+      {/* Passenger Details */}
+      <div className="my-4">
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">Passenger Details</h2>
+        {passengers && passengers.length > 0 ? (
+          <div className="space-y-2">
+            {passengers.map((p, index) => (
+              <div key={index} className="p-2 border rounded-md">
+                <p className="text-gray-800">
+                  <strong>Seat:</strong> {p.seatId}
+                </p>
+                <p className="text-gray-800">
+                  <strong>Name:</strong> {p.name}
+                </p>
+                <p className="text-gray-800">
+                  <strong>Age:</strong> {p.age}
+                </p>
+                <p className="text-gray-800">
+                  <strong>Gender:</strong> {p.gender}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-600">No passengers selected.</p>
+        )}
+      </div>
+
+      {/* Fare Summary */}
+      <div className="my-4">
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">Fare Summary</h2>
+        <div className="space-y-1">
+          <p className="text-gray-800">
+            <strong>Base Fare:</strong> ₹{baseFare}
+          </p>
+          <p className="text-gray-800">
+            <strong>Tax (18%):</strong> ₹{tax.toFixed(2)}
+          </p>
+          <p className="text-gray-800 text-xl font-bold">
+            <strong>Total Fare:</strong> ₹{totalFare.toFixed(2)}
+          </p>
+        </div>
+      </div>
+
+      {/* Contact Information */}
+      <div className="my-4 border-t pt-4">
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">Contact Information</h2>
+        <p className="text-gray-800">
+          <strong>Phone:</strong> {contactInfo.phone}
+        </p>
+        <p className="text-gray-800">
+          <strong>Email:</strong> {contactInfo.email}
+        </p>
+      </div>
+
+      {/* Action Button */}
+      <div className="mt-6 text-center">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          className="px-6 py-3 bg-blue-600 text-white rounded-full focus:outline-none"
+        >
+          Confirm Ticket
+        </motion.button>
+      </div>
+    </motion.div>
   );
 }
 

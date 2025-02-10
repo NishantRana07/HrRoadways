@@ -13,7 +13,28 @@ import {
 } from 'lucide-react';
 import '../styles/AffiliateProgram.css'; // Import the CSS file
 
+// Custom hook to fetch translations
+const useTranslation = (isHindi) => {
+  const [currentLanguage, setCurrentLanguage] = useState(null);
+  // Replace with your hosted JSON blob URL that contains the translation data
+  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338188829663879168';
+
+  useEffect(() => {
+    fetch(translationsUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrentLanguage(isHindi ? data.hi : data.en);
+      })
+      .catch((error) => {
+        console.error('Error fetching translations:', error);
+      });
+  }, [isHindi, translationsUrl]);
+
+  return currentLanguage;
+};
+
 const AffiliateProgram = ({ isHindi = false }) => {
+  const t = useTranslation(isHindi);
   const [copiedCode, setCopiedCode] = useState(false);
   const [activeTab, setActiveTab] = useState('benefits');
   const [referralCode] = useState('HR' + Math.random().toString(36).substring(2, 8).toUpperCase());
@@ -23,56 +44,13 @@ const AffiliateProgram = ({ isHindi = false }) => {
     averageCommission: '₹1,890'
   });
 
-  const content = {
-    headerTitle: isHindi ? 'हमारे सहायक कार्यक्रम में शामिल हों' : 'Join Our Affiliate Program',
-    headerDescription: isHindi
-      ? 'हमारे साथ साझेदारी करें और दूसरों को हमारी अद्भुत सेवाओं की खोज में मदद करते हुए कमाएं। यह सरल, लाभदायक और एक शानदार अवसर है!'
-      : 'Partner with us and earn while you help others discover our amazing services. Its simple, rewarding, and a great opportunity!',
-    joinNow: isHindi ? 'अभी शामिल हों' : 'Join Now',
-    whyJoin: isHindi ? 'क्यों शामिल हों?' : 'Why Join?',
-    benefits: [
-      {
-        title: isHindi ? 'कमीशन कमाएं' : 'Earn Commission',
-        description: isHindi
-          ? 'हर रेफ़रल के लिए एक अच्छा कमीशन अर्जित करें।'
-          : 'Earn a generous commission for every referral.',
-        icon: DollarSign,
-        color: 'bg-green-100 text-green-600'
-      },
-      {
-        title: isHindi ? 'विशेष पुरस्कार' : 'Exclusive Rewards',
-        description: isHindi
-          ? 'जैसे-जैसे आप बढ़ते हैं, विशेष पुरस्कार और लाभ प्राप्त करें।'
-          : 'Unlock exclusive rewards and perks as you grow.',
-        icon: Gift,
-        color: 'bg-purple-100 text-purple-600'
-      },
-      {
-        title: isHindi ? 'मार्केटिंग सामग्री' : 'Marketing Materials',
-        description: isHindi
-          ? 'बैनर, टेम्पलेट और संसाधनों तक पहुंच प्राप्त करें।'
-          : 'Get access to banners, templates, and resources.',
-        icon: TrendingUp,
-        color: 'bg-blue-100 text-blue-600'
-      },
-    ],
-    tabs: {
-      benefits: isHindi ? 'लाभ' : 'Benefits',
-      howItWorks: isHindi ? 'कैसे काम करता है' : 'How It Works',
-      earnings: isHindi ? 'कमाई' : 'Earnings'
-    },
-    footerTitle: isHindi ? 'शुरू करने के लिए तैयार हैं?' : 'Ready to get started?',
-    signUp: isHindi ? 'सहायक के रूप में साइन अप करें' : 'Sign Up as an Affiliate',
-    referralCode: isHindi ? 'आपका रेफरल कोड' : 'Your Referral Code'
-  };
-
   const copyReferralCode = () => {
     navigator.clipboard.writeText(referralCode);
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 2000);
   };
 
-  const tabContent = {
+  const tabContent = t ? {
     benefits: (
       <motion.div 
         initial={{ opacity: 0 }}
@@ -80,7 +58,7 @@ const AffiliateProgram = ({ isHindi = false }) => {
         transition={{ duration: 0.5 }}
         className="grid md:grid-cols-3 gap-6"
       >
-        {content.benefits.map((benefit, index) => (
+        {t.benefits.map((benefit, index) => (
           <motion.div 
             key={index}
             whileHover={{ scale: 1.05 }}
@@ -104,24 +82,18 @@ const AffiliateProgram = ({ isHindi = false }) => {
       >
         {[
           { 
-            title: isHindi ? 'साइन अप करें' : 'Sign Up', 
-            description: isHindi 
-              ? 'अपना खाता बनाएं और अपना रेफरल कोड प्राप्त करें।' 
-              : 'Create your account and get your unique referral code.',
+            title: t.signUp, 
+            description: t.signUpDescription,
             icon: UserPlus
           },
           { 
-            title: isHindi ? 'साझा करें' : 'Share', 
-            description: isHindi 
-              ? 'अपने रेफरल कोड को दोस्तों और परिवार के साथ साझा करें।' 
-              : 'Share your referral code with friends and family.',
+            title: t.share, 
+            description: t.shareDescription,
             icon: Copy
           },
           { 
-            title: isHindi ? 'कमाएं' : 'Earn', 
-            description: isHindi 
-              ? 'हर सफल रेफरल पर कमीशन प्राप्त करें।' 
-              : 'Earn commission on every successful referral.',
+            title: t.earn, 
+            description: t.earnDescription,
             icon: DollarSign
           }
         ].map((step, index) => (
@@ -146,17 +118,17 @@ const AffiliateProgram = ({ isHindi = false }) => {
       >
         {[
           { 
-            title: isHindi ? 'कुल सहयोगी' : 'Total Affiliates', 
+            title: t.totalAffiliates, 
             value: stats.totalAffiliates,
             icon: Users
           },
           { 
-            title: isHindi ? 'कुल कमाई' : 'Total Earnings', 
+            title: t.totalEarnings, 
             value: stats.totalEarnings,
             icon: DollarSign
           },
           { 
-            title: isHindi ? 'औसत कमीशन' : 'Avg. Commission', 
+            title: t.avgCommission, 
             value: stats.averageCommission,
             icon: Star
           }
@@ -174,7 +146,11 @@ const AffiliateProgram = ({ isHindi = false }) => {
         ))}
       </motion.div>
     )
-  };
+  } : {};
+
+  if (!t) {
+    return <div>Loading translations...</div>;
+  }
 
   return (
     <div className="affiliate-program-container">
@@ -186,16 +162,16 @@ const AffiliateProgram = ({ isHindi = false }) => {
           className="header"
         >
           <h1 className="header-title">
-            {content.headerTitle}
+            {t.headerTitle}
           </h1>
           <p className="header-description">
-            {content.headerDescription}
+            {t.headerDescription}
           </p>
         </motion.header>
 
         <div className="tabs-container">
           <div className="tabs">
-            {Object.entries(content.tabs).map(([key, label]) => (
+            {Object.entries(t.tabs).map(([key, label]) => (
               <button
                 key={key}
                 onClick={() => setActiveTab(key)}
@@ -227,7 +203,7 @@ const AffiliateProgram = ({ isHindi = false }) => {
           transition={{ duration: 0.7, delay: 0.5 }}
           className="referral-code-container"
         >
-          <h2 className="referral-code-title">{content.referralCode}</h2>
+          <h2 className="referral-code-title">{t.referralCode}</h2>
           <div className="referral-code-box">
             <div className="referral-code">
               {referralCode}
@@ -248,11 +224,11 @@ const AffiliateProgram = ({ isHindi = false }) => {
           className="footer"
         >
           <h2 className="footer-title">
-            {content.footerTitle}
+            {t.footerTitle}
           </h2>
           <button className="sign-up-button">
             <Zap className="icon" />
-            <span>{content.signUp}</span>
+            <span>{t.signUp}</span>
             <Zap className="icon" />
           </button>
         </motion.footer>

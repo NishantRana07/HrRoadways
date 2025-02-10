@@ -1,136 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, ThumbsUp, Share2, Bookmark, Search, MapPin, Bus } from 'lucide-react';
-import '../styles/Blog.css'; // Import the CSS file
+import '../styles/Blog.css';
 
 const BlogPage = ({ isHindi }) => {
-  const translations = {
-    en: {
-      title: "Haryana Roadways Blog",
-      subtitle: "Your Journey, Our Pride",
-      subscribeButton: "Subscribe to Updates",
-      searchPlaceholder: "Search posts...",
-      categories: [
-        'all',
-        'Service Updates',
-        'Travel Guide',
-        'Safety Tips',
-        'News',
-        'Route Updates'
-      ],
-      sortBy: {
-        latest: "Latest",
-        popular: "Most Popular"
-      },
-      addNewPost: "Add New Post",
-      titlePlaceholder: "Title",
-      contentPlaceholder: "Content",
-      categoryPlaceholder: "Select Category",
-      tagsPlaceholder: "Tags (comma-separated)",
-      routePlaceholder: "Related Route (optional)",
-      publishButton: "Publish Post",
-      popularRoutes: "Popular Routes",
-      postBy: "By",
-      saved: "Saved",
-      save: "Save",
-      share: "Share",
-      posts: [
-        {
-          id: 1,
-          title: "Why Choose Haryana Roadways for Your Next Journey?",
-          content: "Planning a trip? Haryana Roadways offers a safe, reliable, and cost-effective way to travel across the state and beyond. Our buses are equipped with modern amenities like GPS tracking, comfortable seating, and more.",
-          date: "2025-01-18",
-          author: "Transport Department",
-          category: "Service Updates",
-          tags: ["Travel", "Safety", "Comfort"],
-          likes: 45,
-          route: "Delhi-Chandigarh",
-          readTime: "3 min"
-        },
-        {
-          id: 2,
-          title: "Explore the Best of Haryana: Top 5 Destinations",
-          content: "Haryana is home to some incredible destinations that are perfect for weekend getaways or short trips. Here are our top five picks: \n\n1. Sultanpur National Park: A paradise for bird watchers.\n2. Kurukshetra: A historical and spiritual destination.\n3. Pinjore Gardens: Beautifully landscaped gardens.\n4. Morni Hills: A serene hill station.\n5. Surajkund: Known for its annual crafts fair.",
-          date: "2025-01-17",
-          author: "Tourism Department",
-          category: "Travel Guide",
-          tags: ["Tourism", "Destinations", "Weekend Getaway"],
-          likes: 72,
-          route: "Multiple Routes",
-          readTime: "5 min"
-        }
-      ]
-    },
-    hi: {
-      title: "हरियाणा रोडवेज ब्लॉग",
-      subtitle: "आपकी यात्रा, हमारी शान",
-      subscribeButton: "अपडेट्स के लिए सदस्यता लें",
-      searchPlaceholder: "पोस्ट खोजें...",
-      categories: [
-        'सभी',
-        'सेवा अपडेट',
-        'यात्रा गाइड',
-        'सुरक्षा टिप्स',
-        'समाचार',
-        'मार्ग अपडेट'
-      ],
-      sortBy: {
-        latest: "नवीनतम",
-        popular: "सबसे लोकप्रिय"
-      },
-      addNewPost: "नई पोस्ट जोड़ें",
-      titlePlaceholder: "शीर्षक",
-      contentPlaceholder: "सामग्री",
-      categoryPlaceholder: "श्रेणी चुनें",
-      tagsPlaceholder: "टैग (अल्पविराम से अलग करें)",
-      routePlaceholder: "संबंधित मार्ग (वैकल्पिक)",
-      publishButton: "पोस्ट प्रकाशित करें",
-      popularRoutes: "लोकप्रिय मार्ग",
-      postBy: "द्वारा",
-      saved: "सहेजा गया",
-      save: "सहेजें",
-      share: "साझा करें",
-      posts: [
-        {
-          id: 1,
-          title: "अपनी अगली यात्रा के लिए हरियाणा रोडवेज क्यों चुनें?",
-          content: "यात्रा की योजना बना रहे हैं? हरियाणा रोडवेज राज्य भर में और उससे आगे यात्रा करने का एक सुरक्षित, विश्वसनीय और किफायती तरीका प्रदान करता है। हमारी बसें जीपीएस ट्रैकिंग, आरामदायक सीटिंग और अन्य आधुनिक सुविधाओं से सुसज्जित हैं।",
-          date: "2025-01-18",
-          author: "परिवहन विभाग",
-          category: "सेवा अपडेट",
-          tags: ["यात्रा", "सुरक्षा", "आराम"],
-          likes: 45,
-          route: "दिल्ली-चंडीगढ़",
-          readTime: "3 मिनट"
-        },
-        {
-          id: 2,
-          title: "हरियाणा का सर्वश्रेष्ठ अन्वेषण करें: शीर्ष 5 गंतव्य",
-          content: "हरियाणा कुछ अविश्वसनीय गंतव्यों का घर है जो सप्ताहांत की छुट्टियों या छोटी यात्राओं के लिए एकदम सही हैं। यहां हमारे शीर्ष पांच चयन हैं: \n\n1. सुल्तानपुर नेशनल पार्क: पक्षी प्रेमियों के लिए स्वर्ग।\n2. कुरुक्षेत्र: एक ऐतिहासिक और आध्यात्मिक गंतव्य।\n3. पिंजौर गार्डन: खूबसूरती से सजाए गए बगीचे।\n4. मोरनी हिल्स: एक शांत पहाड़ी स्टेशन।\n5. सूरजकुंड: अपने वार्षिक शिल्प मेले के लिए जाना जाता है।",
-          date: "2025-01-17",
-          author: "पर्यटन विभाग",
-          category: "यात्रा गाइड",
-          tags: ["पर्यटन", "गंतव्य", "सप्ताहांत छुट्टी"],
-          likes: 72,
-          route: "एकाधिक मार्ग",
-          readTime: "5 मिनट"
-        }
-      ]
-    },
-  };
-
-  const [currentLanguage, setCurrentLanguage] = useState(translations.en);
-  const [posts, setPosts] = useState(currentLanguage.posts);
-
+  // State to store fetched translations
+  const [translations, setTranslations] = useState(null);
+  // Holds the selected language based on the isHindi prop
+  const [currentLanguage, setCurrentLanguage] = useState(null);
+  // Posts state, form state and other UI states
+  const [posts, setPosts] = useState([]);
   const [formData, setFormData] = useState({ title: '', content: '', category: '', tags: '', route: '' });
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [savedPosts, setSavedPosts] = useState(new Set());
   const [sortBy, setSortBy] = useState('latest');
 
+  // Replace with your hosted JSON blob URL
+  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1336703432563810304';
+
+  // Fetch the translations when the component mounts
   useEffect(() => {
-    setCurrentLanguage(isHindi ? translations.hi : translations.en);
-    setPosts(isHindi ? translations.hi.posts : translations.en.posts);
-  }, [isHindi]);
+    fetch(translationsUrl)
+      .then(response => response.json())
+      .then(data => {
+        setTranslations(data);
+        // Set the current language and posts based on the isHindi prop
+        setCurrentLanguage(isHindi ? data.hi : data.en);
+        setPosts(isHindi ? data.hi.posts : data.en.posts);
+      })
+      .catch(error => console.error('Error fetching translations:', error));
+  }, [translationsUrl, isHindi]);
+
+  // Update the current language and posts when the isHindi prop changes
+  useEffect(() => {
+    if (translations) {
+      setCurrentLanguage(isHindi ? translations.hi : translations.en);
+      setPosts(isHindi ? translations.hi.posts : translations.en.posts);
+    }
+  }, [isHindi, translations]);
+
+  // Display a loading state until translations are fetched
+  if (!currentLanguage) {
+    return <div>Loading translations...</div>;
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -296,9 +208,7 @@ const BlogPage = ({ isHindi }) => {
                         </button>
                         <button
                           onClick={() => toggleSave(post.id)}
-                          className={`post-action-button ${
-                            savedPosts.has(post.id) ? 'saved' : ''
-                          }`}
+                          className={`post-action-button ${savedPosts.has(post.id) ? 'saved' : ''}`}
                         >
                           <Bookmark size={18} />
                           {savedPosts.has(post.id) ? currentLanguage.saved : currentLanguage.save}
@@ -363,10 +273,7 @@ const BlogPage = ({ isHindi }) => {
                   value={formData.route}
                   onChange={handleChange}
                 />
-                <button
-                  type="submit"
-                  className="form-submit-button"
-                >
+                <button type="submit" className="form-submit-button">
                   {currentLanguage.publishButton}
                 </button>
               </form>

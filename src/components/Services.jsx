@@ -7,6 +7,26 @@ import {
 } from 'lucide-react';
 import '../styles/OurServices.css';
 
+// Custom hook to fetch translations
+const useTranslation = (isHindi) => {
+  const [currentLanguage, setCurrentLanguage] = useState(null);
+  // Replace with your hosted JSON blob URL that contains the translation data
+  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338186662206955520';
+
+  useEffect(() => {
+    fetch(translationsUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrentLanguage(isHindi ? data.hi : data.en);
+      })
+      .catch((error) => {
+        console.error('Error fetching translations:', error);
+      });
+  }, [isHindi, translationsUrl]);
+
+  return currentLanguage;
+};
+
 const useIntersectionObserver = (ref, options = {}) => {
   const [isIntersecting, setIsIntersecting] = useState(false);
 
@@ -57,68 +77,17 @@ const ServiceCard = ({ icon: Icon, title, description, color }) => {
 };
 
 const ServiceCategories = ({ isHindi }) => {
-  const translations = {
-    en: {
-      passenger: {
-        title: 'Passenger Services',
-        services: [
-          { title: 'Comfortable Buses', description: 'AC and Non-AC options with premium seating' },
-          { title: 'Luggage Facility', description: 'Safe and secure luggage storage' },
-          { title: 'Ticket Booking', description: 'Online and offline booking options' }
-        ]
-      },
-      digital: {
-        title: 'Digital Services',
-        services: [
-          { title: 'Mobile App', description: 'Real-time tracking and booking' },
-          { title: 'Online Payment', description: 'Secure digital payment methods' },
-          { title: 'E-Ticket', description: 'Instant digital ticket generation' }
-        ]
-      },
-      safety: {
-        title: 'Safety Services',
-        services: [
-          { title: 'GPS Tracking', description: 'Real-time bus location tracking' },
-          { title: 'Emergency Support', description: '24/7 customer assistance' },
-          { title: 'Clean Travel', description: 'Sanitized buses and safety protocols' }
-        ]
-      }
-    },
-    hi: {
-      passenger: {
-        title: 'यात्री सेवाएं',
-        services: [
-          { title: 'आरामदायक बसें', description: 'एसी और गैर-एसी विकल्प प्रीमियम सीटिंग के साथ' },
-          { title: 'सामान सुविधा', description: 'सुरक्षित और सुरक्षित सामान भंडारण' },
-          { title: 'टिकट बुकिंग', description: 'ऑनलाइन और ऑफलाइन बुकिंग विकल्प' }
-        ]
-      },
-      digital: {
-        title: 'डिजिटल सेवाएं',
-        services: [
-          { title: 'मोबाइल ऐप', description: 'वास्तविक समय ट्रैकिंग और बुकिंग' },
-          { title: 'ऑनलाइन भुगतान', description: 'सुरक्षित डिजिटल भुगतान विधियां' },
-          { title: 'ई-टिकट', description: 'तत्काल डिजिटल टिकट जनरेशन' }
-        ]
-      },
-      safety: {
-        title: 'सुरक्षा सेवाएं',
-        services: [
-          { title: 'जीपीएस ट्रैकिंग', description: 'वास्तविक समय बस स्थान ट्रैकिंग' },
-          { title: 'आपातकालीन सहायता', description: '24/7 ग्राहक सहायता' },
-          { title: 'स्वच्छ यात्रा', description: 'सैनिटाइज्ड बसें और सुरक्षा प्रोटोकॉल' }
-        ]
-      }
-    }
-  };
-
-  const currentLanguage = isHindi ? translations.hi : translations.en;
-
+  const t = useTranslation(isHindi);
   const [activeCategory, setActiveCategory] = useState('passenger');
+
+  if (!t) {
+    return <div>Loading translations...</div>;
+  }
+
   const categories = [
-    { id: 'passenger', icon: Bus, title: currentLanguage.passenger.title, services: currentLanguage.passenger.services },
-    { id: 'digital', icon: Smartphone, title: currentLanguage.digital.title, services: currentLanguage.digital.services },
-    { id: 'safety', icon: Shield, title: currentLanguage.safety.title, services: currentLanguage.safety.services }
+    { id: 'passenger', icon: Bus, title: t.passenger.title, services: t.passenger.services },
+    { id: 'digital', icon: Smartphone, title: t.digital.title, services: t.digital.services },
+    { id: 'safety', icon: Shield, title: t.safety.title, services: t.safety.services }
   ];
 
   return (
@@ -166,55 +135,7 @@ const ServiceCategories = ({ isHindi }) => {
 };
 
 const ServicesPage = ({ isHindi }) => {
-  const translations = {
-    en: {
-      title: "Haryana Roadways Services",
-      subtitle: "Connecting Communities, Delivering Comfort",
-      keyServices: [
-        { icon: Bus, title: 'Extensive Network', description: 'Connecting 120+ districts with 2500+ buses', color: 'blue' },
-        { icon: CreditCard, title: 'Multiple Payment', description: 'Convenient digital and cash payment options', color: 'green' },
-        { icon: Wifi, title: 'Connected Journey', description: 'Free Wi-Fi in select premium buses', color: 'purple' },
-        { icon: MapPin, title: 'Route Flexibility', description: 'Comprehensive route network across Haryana', color: 'orange' }
-      ],
-      additionalSupport: "Additional Support",
-      additionalServices: [
-        { icon: Headphones, title: '24/7 Customer Support', description: 'Always available to assist you' },
-        { icon: AlertTriangle, title: 'Real-time Alerts', description: 'Get instant notifications about your journey' },
-        { icon: TrendingUp, title: 'Continuous Improvement', description: 'Constantly enhancing our services' }
-      ],
-      statsLabels: {
-        dailyPassengers: 'Daily Passengers',
-        coverageArea: 'Districts Covered',
-        busFleet: 'Bus Fleet',
-        customerSatisfaction: 'Customer Rating'
-      }
-    },
-    hi: {
-      title: "हरियाणा रोडवेज सेवाएं",
-      subtitle: "समुदायों को जोड़ना, आराम प्रदान करना",
-      keyServices: [
-        { icon: Bus, title: 'व्यापक नेटवर्क', description: '120+ जिलों को 2500+ बसों से जोड़ना', color: 'blue' },
-        { icon: CreditCard, title: 'कई भुगतान विकल्प', description: 'सुविधाजनक डिजिटल और नकद भुगतान विकल्प', color: 'green' },
-        { icon: Wifi, title: 'कनेक्टेड यात्रा', description: 'चयनित प्रीमियम बसों में मुफ्त वाई-फाई', color: 'purple' },
-        { icon: MapPin, title: 'मार्ग लचीलापन', description: 'हरियाणा भर में व्यापक मार्ग नेटवर्क', color: 'orange' }
-      ],
-      additionalSupport: "अतिरिक्त सहायता",
-      additionalServices: [
-        { icon: Headphones, title: '24/7 ग्राहक सहायता', description: 'हमेशा आपकी सहायता के लिए उपलब्ध' },
-        { icon: AlertTriangle, title: 'वास्तविक समय अलर्ट', description: 'अपनी यात्रा के बारे में तत्काल सूचनाएं प्राप्त करें' },
-        { icon: TrendingUp, title: 'निरंतर सुधार', description: 'हमारी सेवाओं को लगातार बढ़ाना' }
-      ],
-      statsLabels: {
-        dailyPassengers: 'दैनिक यात्री',
-        coverageArea: 'कवर किए गए जिले',
-        busFleet: 'बस बेड़ा',
-        customerSatisfaction: 'ग्राहक रेटिंग'
-      }
-    }
-  };
-
-  const currentLanguage = isHindi ? translations.hi : translations.en;
-
+  const t = useTranslation(isHindi);
   const [stats, setStats] = useState({
     dailyPassengers: 50000,
     coverageArea: 120,
@@ -225,6 +146,10 @@ const ServicesPage = ({ isHindi }) => {
   const statsRef = useRef(null);
   const isStatsVisible = useIntersectionObserver(statsRef, { threshold: 0.1 });
 
+  if (!t) {
+    return <div>Loading translations...</div>;
+  }
+
   return (
     <div className="services-page">
       <motion.header 
@@ -233,15 +158,15 @@ const ServicesPage = ({ isHindi }) => {
         transition={{ duration: 0.5 }}
         className="services-header"
       >
-        <h1 className="services-title">{currentLanguage.title}</h1>
+        <h1 className="services-title">{t.title}</h1>
         <p className="services-subtitle">
-          {currentLanguage.subtitle}
+          {t.subtitle}
         </p>
       </motion.header>
 
       <section className="key-services">
         <div className="services-grid">
-          {currentLanguage.keyServices.map((service, index) => (
+          {t.keyServices.map((service, index) => (
             <ServiceCard 
               key={index}
               {...service}
@@ -270,7 +195,7 @@ const ServicesPage = ({ isHindi }) => {
                 {key === 'coverageArea' && '+'}
               </div>
               <div className="stat-label">
-                {currentLanguage.statsLabels[key]}
+                {t.statsLabels[key]}
               </div>
             </motion.div>
           ))}
@@ -278,9 +203,9 @@ const ServicesPage = ({ isHindi }) => {
       </section>
 
       <section className="additional-services">
-        <h2 className="section-title">{currentLanguage.additionalSupport}</h2>
+        <h2 className="section-title">{t.additionalSupport}</h2>
         <div className="support-grid">
-          {currentLanguage.additionalServices.map((service, index) => (
+          {t.additionalServices.map((service, index) => (
             <div key={index} className="support-card">
               <service.icon className="support-icon" />
               <h3>{service.title}</h3>

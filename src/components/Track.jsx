@@ -2,57 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Bus, Clock, MapPin, Phone, Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const translations = {
-  en: {
-    title: "Live Bus Tracking",
-    subtitle: "Track your bus in real-time",
-    activeBuses: "Active Buses",
-    loading: "Loading bus locations...",
-    updateTime: "Last Updated",
-    refreshing: "Refreshing locations...",
-    busInfo: {
-      route: "Route",
-      speed: "Current Speed",
-      nextStop: "Next Stop",
-      eta: "ETA",
-      passengers: "Passengers",
-      driver: "Driver",
-      contact: "Contact"
-    },
-    kmh: "km/h",
-    minutes: "min",
-    routes: {
-      "Delhi-Chandigarh Express": "Delhi-Chandigarh Express",
-      "Gurgaon-Sonipat Express": "Gurgaon-Sonipat Express",
-      "Panipat": "Panipat",
-      "Rohini": "Rohini"
-    }
-  },
-  hi: {
-    title: "लाइव बस ट्रैकिंग",
-    subtitle: "अपनी बस को वास्तविक समय में ट्रैक करें",
-    activeBuses: "सक्रिय बसें",
-    loading: "बस स्थान लोड हो रहे हैं...",
-    updateTime: "अंतिम अपडेट",
-    refreshing: "स्थान ताजगी कर रहे हैं...",
-    busInfo: {
-      route: "रूट",
-      speed: "वर्तमान गति", 
-      nextStop: "अगला स्टॉप",
-      eta: "ETA",
-      passengers: "यात्री",
-      driver: "चालक",
-      contact: "संपर्क"
-    },
-    kmh: "किमी/घंटा",
-    minutes: "मिनट",
-    routes: {
-      "Delhi-Chandigarh Express": "दिल्ली-चंडीगढ़ एक्सप्रेस",
-      "Gurgaon-Sonipat Express": "गुरुग्राम-सोनीपत एक्सप्रेस",
-      "Panipat": "पानीपत",
-      "Rohini": "रोहिणी"
-    }
-  }
+// Custom hook to fetch translations
+const useTranslation = (isHindi) => {
+  const [currentLanguage, setCurrentLanguage] = useState(null);
+  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338199785118818304';
+
+  useEffect(() => {
+    fetch(translationsUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrentLanguage(isHindi ? data.hi : data.en);
+      })
+      .catch((error) => {
+        console.error('Error fetching translations:', error);
+      });
+  }, [isHindi]);
+
+  return currentLanguage;
 };
 
 const mockBusData = [
@@ -237,7 +203,7 @@ const BusTracker = ({ isHindi = false }) => {
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState(new Date());
 
-  const currentLanguage = isHindi ? translations.hi : translations.en;
+  const currentLanguage = useTranslation(isHindi);
 
   useEffect(() => {
     const fetchBusLocations = async () => {
@@ -253,7 +219,9 @@ const BusTracker = ({ isHindi = false }) => {
     return () => clearInterval(interval);
   }, []);
 
-  if (typeof window === 'undefined') return null;
+  if (!currentLanguage) {
+    return <div>Loading translations...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

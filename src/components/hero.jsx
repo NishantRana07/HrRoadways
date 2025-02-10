@@ -3,72 +3,30 @@ import { Calendar, Clock, MapPin, AlertCircle, Info, Repeat, Shield, Star, Phone
 import TrafficUpdates from './TrafficUpdates';
 import PopularRoutes from './PopularRoutes';
 import BusDetailModal from './BusDetailModal';
-import WeatherUpdates from './WeatherUpdates';  
+import WeatherUpdates from './WeatherUpdates';
 import '../styles/hero.css';
-import '../styles/modal.css'; // Import modal styles
+import '../styles/modal.css';
 
+// CustomAlert Component to display info and warning alerts
 const CustomAlert = ({ type, children }) => (
   <div className={`custom-alert ${type === 'warning' ? 'warning' : 'info'}`}>
-    {type === 'warning' ? 
-      <AlertCircle className="icon" /> : 
-      <Info className="icon" />}
+    {type === 'warning' ? <AlertCircle className="icon" /> : <Info className="icon" />}
     <p className="text">{children}</p>
   </div>
 );
 
+// CustomCard Component for reusable card layout
 const CustomCard = ({ children, className }) => (
   <div className={`custom-card ${className}`}>
     {children}
   </div>
 );
 
-const translations = {
-  en: {
-    heading: "Haryana Roadways - Your Own Bus Service",
-    subheading: "Your Journey, Our Pride | आपकी यात्रा, हमारा गौरव",
-    departure: "From",
-    arrival: "To",
-    button: "Search Buses",
-    popular: "Popular Routes",
-    allBuses: "All Buses",
-    volvo: "Volvo AC",
-    superExpress: "Super Express",
-    ordinary: "Ordinary",
-    searchPlaceholder: "Search bus stands...",
-    passengers: "Passengers",
-    roundTrip: "Round Trip",
-    features: [
-      { icon: Shield, title: 'Safe Travel', desc: 'GPS tracked buses' },
-      { icon: Clock, title: 'Punctual', desc: '98% on-time arrival' },
-      { icon: Star, title: 'Top Rated', desc: '4.5/5 user rating' },
-      { icon: Phone, title: '24/7 Support', desc: 'Always here to help' }
-    ]
-  },
-  hi: {
-    heading: "हरियाणा रोडवेज - आपकी अपनी बस सेवा",
-    subheading: "आपकी यात्रा, हमारा गौरव",
-    departure: "कहाँ से",
-    arrival: "कहाँ तक",
-    button: "बसें खोजें",
-    popular: "लोकप्रिय मार्ग",
-    allBuses: "सभी बसें",
-    volvo: "वोल्वो एसी",
-    superExpress: "सुपर एक्सप्रेस",
-    ordinary: "साधारण",
-    searchPlaceholder: "बस स्टैंड खोजें...",
-    passengers: "यात्री",
-    roundTrip: "राउंड ट्रिप",
-    features: [
-      { icon: Shield, title: 'सुरक्षित यात्रा', desc: 'जीपीएस ट्रैक की गई बसें' },
-      { icon: Clock, title: 'समयनिष्ठ', desc: '98% समय पर आगमन' },
-      { icon: Star, title: 'शीर्ष रेटेड', desc: '4.5/5 उपयोगकर्ता रेटिंग' },
-      { icon: Phone, title: '24/7 सहायता', desc: 'हमेशा मदद के लिए यहाँ' }
-    ]
-  }
-};
-
+// Hero Component - Main Component
 const Hero = ({ isHindi }) => {
-  const [currentLanguage, setCurrentLanguage] = useState(translations.en);
+
+  // State management
+  const [currentLanguage, setCurrentLanguage] = useState({});
   const [formData, setFormData] = useState({
     src: '',
     dest: '',
@@ -77,27 +35,28 @@ const Hero = ({ isHindi }) => {
     roundTrip: false,
   });
   const [busStands, setBusStands] = useState([]);
-  const [filteredSrcStands, setFilteredSrcStands] = useState([]);
-  const [filteredDestStands, setFilteredDestStands] = useState([]);
+  const [srcSuggestions, setSrcSuggestions] = useState([]);
+  const [destSuggestions, setDestSuggestions] = useState([]);
   const [showSrcSuggestions, setShowSrcSuggestions] = useState(false);
   const [showDestSuggestions, setShowDestSuggestions] = useState(false);
   const [alerts, setAlerts] = useState([]);
-  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
-  const [activeInput, setActiveInput] = useState('');
   const [buses, setBuses] = useState([]);
-  const suggestionsRef = useRef([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBus, setSelectedBus] = useState(null);
+  const [activeSrcSuggestionIndex, setActiveSrcSuggestionIndex] = useState(-1);
+  const [activeDestSuggestionIndex, setActiveDestSuggestionIndex] = useState(-1);
+
   const inputRefs = useRef([]);
   const containerRef = useRef(null);
 
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBus, setSelectedBus] = useState(null);
-
-
+  // Fetch language data
   useEffect(() => {
-    setCurrentLanguage(isHindi ? translations.hi : translations.en);
+    fetch('https://jsonblob.com/api/jsonBlob/1336693063321575424')
+      .then(response => response.json())
+      .then(data => setCurrentLanguage(isHindi ? data.hi : data.en));
   }, [isHindi]);
 
+  // Fetch alerts
   useEffect(() => {
     setAlerts([
       { type: 'info', message: 'Extra buses available on Delhi-Chandigarh route' },
@@ -105,6 +64,7 @@ const Hero = ({ isHindi }) => {
     ]);
   }, []);
 
+  // Fetch bus stands
   useEffect(() => {
     fetch('https://jsonblob.com/api/jsonBlob/1333092652136194048')
       .then(response => response.json())
@@ -118,157 +78,56 @@ const Hero = ({ isHindi }) => {
       });
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setShowSrcSuggestions(false);
-        setShowDestSuggestions(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
+  // Handle input change for form fields
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
 
     if (name === 'src') {
-      const filtered = busStands.filter(stand => 
+      const filtered = busStands.filter(stand =>
         stand.toLowerCase().includes(value.toLowerCase())
       ).slice(0, 10); // Limit to 10 locations
-      setFilteredSrcStands(filtered);
+      setSrcSuggestions(filtered);
       setShowSrcSuggestions(true);
-      setFilteredDestStands([]);
-      setShowDestSuggestions(false);
-      setActiveInput('src');
-      setActiveSuggestionIndex(-1);
-    } else if (name === 'dest' && formData.src) {
-      const filtered = busStands.filter(stand => 
-        stand.toLowerCase().includes(value.toLowerCase()) && stand !== formData.src
+      setActiveSrcSuggestionIndex(-1);
+    } else if (name === 'dest') {
+      const filtered = busStands.filter(stand =>
+        stand.toLowerCase().includes(value.toLowerCase())
       ).slice(0, 10); // Limit to 10 locations
-      setFilteredDestStands(filtered);
+      setDestSuggestions(filtered);
       setShowDestSuggestions(true);
-      setActiveInput('dest');
-      setActiveSuggestionIndex(-1);
+      setActiveDestSuggestionIndex(-1);
     }
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      if (activeSuggestionIndex >= 0) {
-        if (activeInput === 'src') {
-          setFormData({ ...formData, src: filteredSrcStands[activeSuggestionIndex] });
-          setShowSrcSuggestions(false);
-        } else if (activeInput === 'dest') {
-          setFormData({ ...formData, dest: filteredDestStands[activeSuggestionIndex] });
-          setShowDestSuggestions(false);
-        }
-        setActiveSuggestionIndex(-1);
-      }
-
-      const currentIndex = inputRefs.current.indexOf(document.activeElement);
-      if (currentIndex >= 0 && currentIndex < inputRefs.current.length - 1) {
-        inputRefs.current[currentIndex + 1].focus();
-      } else if (currentIndex === inputRefs.current.length - 1) {
-        handleSubmit(event);
-      }
-    } else if (activeInput === 'src' && showSrcSuggestions) {
-      if (event.key === 'ArrowDown') {
-        setActiveSuggestionIndex((prevIndex) => {
-          const newIndex = prevIndex === filteredSrcStands.length - 1 ? 0 : prevIndex + 1;
-          suggestionsRef.current[newIndex]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          return newIndex;
-        });
-      } else if (event.key === 'ArrowUp') {
-        setActiveSuggestionIndex((prevIndex) => {
-          const newIndex = prevIndex <= 0 ? filteredSrcStands.length - 1 : prevIndex - 1;
-          suggestionsRef.current[newIndex]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          return newIndex;
-        });
-      }
-    } else if (activeInput === 'dest' && showDestSuggestions) {
-      if (event.key === 'ArrowDown') {
-        setActiveSuggestionIndex((prevIndex) => {
-          const newIndex = prevIndex === filteredDestStands.length - 1 ? 0 : prevIndex + 1;
-          suggestionsRef.current[newIndex]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          return newIndex;
-        });
-      } else if (event.key === 'ArrowUp') {
-        setActiveSuggestionIndex((prevIndex) => {
-          const newIndex = prevIndex <= 0 ? filteredDestStands.length - 1 : prevIndex - 1;
-          suggestionsRef.current[newIndex]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          return newIndex;
-        });
-      }
-    }
-  };
-
-  const handleSuggestionClick = (name, value) => {
-    setFormData(prevState => ({ ...prevState, [name]: value }));
-    setShowSrcSuggestions(false);
-    setShowDestSuggestions(false);
-    setActiveSuggestionIndex(-1);
-  };
-
-  const handlePopularRouteClick = (route) => {
-    setFormData({
-      ...formData,
-      src: route.src,
-      dest: route.dest
-    });
-    setFilteredSrcStands([]);
-    setShowSrcSuggestions(false);
-    setFilteredDestStands([]);
-    setShowDestSuggestions(false);
-    setActiveSuggestionIndex(-1);
-  };
-
+  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch('https://jsonblob.com/api/jsonBlob/1333092652136194048')
       .then(response => response.json())
       .then(data => {
         const filteredBuses = data.filter(bus => {
-          const isExactRoute =
-            bus.from.toLowerCase() === formData.src.toLowerCase() &&
-            bus.to.toLowerCase() === formData.dest.toLowerCase();
-          const isReverseRoute =
-            formData.roundTrip &&
-            bus.from.toLowerCase() === formData.dest.toLowerCase() &&
-            bus.to.toLowerCase() === formData.src.toLowerCase();
-          const isViaRoute =
-            bus.from.toLowerCase() === formData.src.toLowerCase() &&
-            bus.via?.toLowerCase().includes(formData.dest.toLowerCase());
-          const isViaReverseRoute =
-            formData.roundTrip &&
-            bus.from.toLowerCase() === formData.dest.toLowerCase() &&
-            bus.via?.toLowerCase().includes(formData.src.toLowerCase());
-
+          const isExactRoute = bus.from.toLowerCase() === formData.src.toLowerCase() && bus.to.toLowerCase() === formData.dest.toLowerCase();
+          const isReverseRoute = formData.roundTrip && bus.from.toLowerCase() === formData.dest.toLowerCase() && bus.to.toLowerCase() === formData.src.toLowerCase();
+          const isViaRoute = bus.from.toLowerCase() === formData.src.toLowerCase() && bus.via?.toLowerCase().includes(formData.dest.toLowerCase());
+          const isViaReverseRoute = formData.roundTrip && bus.from.toLowerCase() === formData.dest.toLowerCase() && bus.via?.toLowerCase().includes(formData.src.toLowerCase());
           return isExactRoute || isReverseRoute || isViaRoute || isViaReverseRoute;
         });
         setBuses(filteredBuses);
       });
   };
 
-  const handleCheckboxChange = () => {
-    setFormData({ ...formData, roundTrip: !formData.roundTrip });
-  };
-
+  // Handle bus card click to open modal
   const handleBusCardClick = (bus) => {
     setSelectedBus(bus);
     setIsModalOpen(true);
   };
 
+  // Close modal
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedBus(null);
   };
-
 
   return (
     <div className="hero-container" ref={containerRef}>
@@ -282,146 +141,37 @@ const Hero = ({ isHindi }) => {
 
       <div className="hero-features">
         <div className="features-container">
-          {currentLanguage.features.map((feature, index) => (
-            <div key={index} className="feature-item">
-              <feature.icon className="feature-icon" />
-              <div>
-                <div className="feature-title">{feature.title}</div>
-                <div className="feature-desc">{feature.desc}</div>
+          {currentLanguage.features?.map((feature, index) => {
+            const IconComponent = feature.icon === "Shield" ? Shield : feature.icon === "Clock" ? Clock : feature.icon === "Star" ? Star : feature.icon === "Phone" ? Phone : null;
+            return (
+              <div key={index} className="feature-item">
+                {IconComponent && <IconComponent className="feature-icon" />}
+                <div>
+                  <div className="feature-title">{feature.title}</div>
+                  <div className="feature-desc">{feature.desc}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
+
       <div className="hero-content">
         <div className="content-grid">
           <CustomCard className="form-card">
-            <form className="form" onKeyDown={handleKeyDown} onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label className="form-label">
-                  <MapPin className="form-icon" />
-                  {currentLanguage.departure}
-                </label>
-                <input
-                  type="text"
-                  name="src"
-                  value={formData.src}
-                  onChange={handleChange}
-                  className="form-input"
-                  placeholder={currentLanguage.searchPlaceholder}
-                  autoComplete="off" // Disable Chrome autocomplete
-                  onFocus={() => setActiveInput('src')}
-                  ref={(el) => (inputRefs.current[0] = el)}
-                />
-                {showSrcSuggestions && (
-                  <div className="suggestions-container">
-                    {filteredSrcStands.map((stand, index) => (
-                      <div
-                        key={stand}
-                        ref={(el) => suggestionsRef.current[index] = el}
-                        className={`suggestion-item ${index === activeSuggestionIndex ? 'active' : ''}`}
-                        onClick={() => handleSuggestionClick('src', stand)}
-                      >
-                        {stand}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">
-                  <MapPin className="form-icon" />
-                  {currentLanguage.arrival}
-                </label>
-                <input
-                  type="text"
-                  name="dest"
-                  value={formData.dest}
-                  onChange={handleChange}
-                  className="form-input"
-                  placeholder={currentLanguage.searchPlaceholder}
-                  autoComplete="off" // Disable Chrome autocomplete
-                  disabled={!formData.src}
-                  onFocus={() => setActiveInput('dest')}
-                  ref={(el) => (inputRefs.current[1] = el)}
-                />
-                {showDestSuggestions && (
-                  <div className="suggestions-container">
-                    {filteredDestStands.map((stand, index) => (
-                      <div
-                        key={stand}
-                        ref={(el) => suggestionsRef.current[index] = el}
-                        className={`suggestion-item ${index === activeSuggestionIndex ? 'active' : ''}`}
-                        onClick={() => handleSuggestionClick('dest', stand)}
-                      >
-                        {stand}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">
-                  <Calendar className="form-icon" />
-                  Date
-                </label>
-                <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleChange}
-                  className="form-input"
-                  ref={(el) => (inputRefs.current[2] = el)}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">
-                  <Users className="form-icon" />
-                  {currentLanguage.passengers}
-                </label>
-                <input
-                  type="number"
-                  name="passengers"
-                  value={formData.passengers}
-                  onChange={handleChange}
-                  className="form-input"
-                  min="1"
-                  ref={(el) => (inputRefs.current[3] = el)}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">
-                  <Repeat className="form-icon" />
-                  {currentLanguage.roundTrip}
-                </label>
-                <input
-                  type="checkbox"
-                  name="roundTrip"
-                  checked={formData.roundTrip}
-                  onChange={handleCheckboxChange}
-                  className="form-checkbox"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="search-button"
-              >
-                {currentLanguage.button}
-              </button>
+            <form className="form" onSubmit={handleSubmit}>
+              <FormInput label={currentLanguage.departure} name="src" value={formData.src} onChange={handleChange} suggestions={srcSuggestions} showSuggestions={showSrcSuggestions} setShowSuggestions={setShowSrcSuggestions} activeSuggestionIndex={activeSrcSuggestionIndex} setActiveSuggestionIndex={setActiveSrcSuggestionIndex} />
+              <FormInput label={currentLanguage.arrival} name="dest" value={formData.dest} onChange={handleChange} suggestions={destSuggestions} showSuggestions={showDestSuggestions} setShowSuggestions={setShowDestSuggestions} activeSuggestionIndex={activeDestSuggestionIndex} setActiveSuggestionIndex={setActiveDestSuggestionIndex} disabled={!formData.src} />
+              <FormInput label="Date" name="date" type="date" value={formData.date} onChange={handleChange} />
+              <FormInput label={currentLanguage.passengers} name="passengers" type="number" value={formData.passengers} onChange={handleChange} min="1" />
+              <FormCheckbox label={currentLanguage.roundTrip} name="roundTrip" checked={formData.roundTrip} onChange={() => setFormData({ ...formData, roundTrip: !formData.roundTrip })} />
+              <button type="submit" className="search-button">{currentLanguage.button}</button>
             </form>
           </CustomCard>
 
           <div className="right-panel">
-            <PopularRoutes onRouteClick={handlePopularRouteClick} /> {/* Pass the function as a prop */}
-
-            <div className="traffic-updates">
-              <WeatherUpdates />
-            </div>
+            <PopularRoutes onRouteClick={(route) => handleChange({ target: { name: 'src', value: route.src } })} />
+            <WeatherUpdates />
           </div>
         </div>
 
@@ -429,56 +179,150 @@ const Hero = ({ isHindi }) => {
           <div className="bus-results">
             <h3 className="bus-results-heading">{currentLanguage.allBuses}</h3>
             <div className="bus-grid">
-              {buses.map((bus, index) => {
-                const distance = parseFloat(bus.Total_Distance.replace(/[^0-9.]/g, ''));
-                const fillPercentage = Math.min((distance / 1000) * 100, 100);
-
-                return (
-                  <div key={index} className="bus-item" onClick={() => handleBusCardClick(bus)}>
-                    <div className="bus-info">
-                      <div className="bus-card-header">
-                        <div className="bus-card-title">
-                          <Clock size={20} className="text-blue-600" />
-                          <span>{bus.Bus_Type}</span>
-                        </div>
-                        <div className="bus-card-price">
-                          <div className="bus-card-price-value">
-                            {bus.Price.includes("₹") ? bus.Price : `₹${bus.Price}`}
-                          </div>
-                          <div className="bus-card-price-distance">
-                            {bus.Total_Distance.includes("KM")
-                              ? bus.Total_Distance
-                              : `${bus.Total_Distance} KM`}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="bus-card-details">
-                        <div className="bus-card-detail">
-                          <MapPin size={16} className="text-gray-400" />
-                          <span>{bus.Departure_Time}</span>
-                        </div>
-                        <div className="bus-card-detail">
-                          <MapPin size={16} className="text-gray-400" />
-                          <span>Via: {bus.Via}</span>
-                        </div>
-                      </div>
-                      <div className="distance-bar-wrapper">
-                        <div
-                          className="distance-bar-fill"
-                          style={{
-                            width: `${fillPercentage}%`,
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              {buses.map((bus, index) => (
+                <BusCard key={index} bus={bus} onClick={() => handleBusCardClick(bus)} />
+              ))}
             </div>
           </div>
         )}
       </div>
       <BusDetailModal isOpen={isModalOpen} onClose={closeModal} bus={selectedBus} />
+    </div>
+  );
+};
+
+// FormInput Component - Reusable input field with suggestions
+const FormInput = ({ label, name, value, onChange, suggestions = [], showSuggestions, setShowSuggestions, type = 'text', disabled = false, min, activeSuggestionIndex, setActiveSuggestionIndex }) => {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    const handlePosition = () => {
+      if (inputRef.current) {
+        const rect = inputRef.current.getBoundingClientRect();
+        const dropdown = inputRef.current.nextElementSibling;
+        if (dropdown) {
+          dropdown.parentElement.setAttribute('data-dropdown-up', rect.bottom + dropdown.offsetHeight > window.innerHeight);
+        }
+      }
+    };
+
+    window.addEventListener('resize', handlePosition);
+    handlePosition();
+
+    return () => {
+      window.removeEventListener('resize', handlePosition);
+    };
+  }, [value]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (activeSuggestionIndex >= 0 && suggestions[activeSuggestionIndex]) {
+        onChange({ target: { name, value: suggestions[activeSuggestionIndex] } });
+        setShowSuggestions(false);
+      }
+    } else if (event.key === 'ArrowDown') {
+      setActiveSuggestionIndex((prevIndex) =>
+        prevIndex === suggestions.length - 1 ? 0 : prevIndex + 1
+      );
+    } else if (event.key === 'ArrowUp') {
+      setActiveSuggestionIndex((prevIndex) =>
+        prevIndex <= 0 ? suggestions.length - 1 : prevIndex - 1
+      );
+    }
+  };
+
+  return (
+    <div className="form-group" onFocus={() => setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}>
+      <label className="form-label">
+        {name === 'src' || name === 'dest' ? <MapPin className="form-icon" /> : null}
+        {label}
+      </label>
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="form-input"
+        autoComplete="off"
+        disabled={disabled}
+        min={min}
+        ref={inputRef}
+        onKeyDown={handleKeyDown}
+      />
+      {showSuggestions && (
+        <div className={`suggestions-dropdown ${suggestions.length ? 'show' : ''}`}>
+          {suggestions.map((suggestion, index) => (
+            <div
+              key={index}
+              className={`suggestion-item ${index === activeSuggestionIndex ? 'active' : ''}`}
+              onMouseDown={() => onChange({ target: { name, value: suggestion } })}
+            >
+              {suggestion}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// FormCheckbox Component - Reusable checkbox input
+const FormCheckbox = ({ label, name, checked, onChange }) => (
+  <div className="form-group">
+    <label className="form-label">
+      <Repeat className="form-icon" />
+      {label}
+    </label>
+    <input
+      type="checkbox"
+      name={name}
+      checked={checked}
+      onChange={onChange}
+      className="form-checkbox"
+    />
+  </div>
+);
+
+// BusCard Component - Bus card displaying bus details
+const BusCard = ({ bus, onClick }) => {
+  const distance = parseFloat(bus.Total_Distance.replace(/[^0-9.]/g, ''));
+  const fillPercentage = Math.min((distance / 1000) * 100, 100);
+
+  return (
+    <div className="bus-item" onClick={onClick}>
+      <div className="bus-info">
+        <div className="bus-card-header">
+          <div className="bus-card-title">
+            <Clock size={20} className="text-blue-600" />
+            <span>{bus.Bus_Type}</span>
+          </div>
+          <div className="bus-card-price">
+            <div className="bus-card-price-value">
+              {bus.Price.includes("₹") ? bus.Price : `₹${bus.Price}`}
+            </div>
+            <div className="bus-card-price-distance">
+              {bus.Total_Distance.includes("KM") ? bus.Total_Distance : `${bus.Total_Distance} KM`}
+            </div>
+          </div>
+        </div>
+        <div className="bus-card-details">
+          <div className="bus-card-detail">
+            <MapPin size={16} className="text-gray-400" />
+            <span>{bus.Departure_Time}</span>
+          </div>
+          <div className="bus-card-detail">
+            <MapPin size={16} className="text-gray-400" />
+            <span>Via: {bus.Via}</span>
+          </div>
+        </div>
+        <div className="distance-bar-wrapper">
+          <div
+            className="distance-bar-fill"
+            style={{ width: `${fillPercentage}%` }}
+          ></div>
+        </div>
+      </div>
     </div>
   );
 };

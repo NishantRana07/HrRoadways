@@ -3,87 +3,23 @@ import { Heart, Bus, CreditCard, CheckCircle, Clock, Users } from 'lucide-react'
 
 const QRCode = 'https://i.postimg.cc/Y0Zv8SGc/HR-QR.png';
 
-// Translation Component
-const translations = {
-  en: {
-    headerTitle: "Haryana Roadways",
-    headerSubtitle: "Your Journey, Our Pride",
-    supportMission: "Support Our Mission",
-    selectAmount: "Select Donation Amount (INR)",
-    customAmount: "Custom Amount",
-    oneTime: "One-time",
-    monthly: "Monthly",
-    fullName: "Full Name",
-    email: "Email",
-    phoneNumber: "Phone Number",
-    panCard: "PAN Card (for tax benefits)",
-    message: "Message (Optional)",
-    shareMessage: "Share why you're supporting us...",
-    paymentMethod: "Payment Method",
-    card: "Card",
-    upi: "UPI",
-    netBanking: "Net Banking",
-    completeDonation: "Complete Donation",
-    thankYou: "Thank You for Your Donation!",
-    thankYouMessage: "Your generous contribution will help us improve our services and infrastructure. A confirmation email has been sent to",
-    makeAnotherDonation: "Make Another Donation",
-    yourImpact: "Your Impact",
-    maintainedMonthly: "Maintained monthly",
-    servedDaily: "Served daily",
-    roundTheClock: "Round the clock operations",
-    recentSupporters: "Recent Supporters",
-    taxBenefits: "Tax Benefits",
-    taxBenefitsMessage: "All donations are eligible for tax deduction under Section 80G of the Income Tax Act. You will receive a tax receipt via email.",
-    cardNumber: "Card Number",
-    expiryDate: "MM/YY",
-    cvv: "CVV",
-    upiId: "UPI ID",
-    bankName: "Bank Name",
-    accountNumber: "Account Number"
-  },
-  hi: {
-    headerTitle: "हरियाणा रोडवेज",
-    headerSubtitle: "आपकी यात्रा, हमारा गर्व",
-    supportMission: "हमारे मिशन का समर्थन करें",
-    selectAmount: "दान राशि चुनें (INR)",
-    customAmount: "कस्टम राशि",
-    oneTime: "एक बार",
-    monthly: "मासिक",
-    fullName: "पूरा नाम",
-    email: "ईमेल",
-    phoneNumber: "फोन नंबर",
-    panCard: "पैन कार्ड (कर लाभ के लिए)",
-    message: "संदेश (वैकल्पिक)",
-    shareMessage: "हमें समर्थन देने का कारण साझा करें...",
-    paymentMethod: "भुगतान का तरीका",
-    card: "कार्ड",
-    upi: "यूपीआई",
-    netBanking: "नेट बैंकिंग",
-    completeDonation: "दान पूरा करें",
-    thankYou: "आपके दान के लिए धन्यवाद!",
-    thankYouMessage: "आपका उदार योगदान हमारे सेवाओं और बुनियादी ढांचे को सुधारने में मदद करेगा। एक पुष्टिकरण ईमेल भेजा गया है",
-    makeAnotherDonation: "एक और दान करें",
-    yourImpact: "आपका प्रभाव",
-    maintainedMonthly: "मासिक रूप से बनाए रखा",
-    servedDaily: "दैनिक सेवा",
-    roundTheClock: "चौबीसों घंटे संचालन",
-    recentSupporters: "हाल के समर्थक",
-    taxBenefits: "कर लाभ",
-    taxBenefitsMessage: "सभी दान आयकर अधिनियम की धारा 80G के तहत कर कटौती के लिए पात्र हैं। आपको एक कर रसीद ईमेल के माध्यम से प्राप्त होगी।",
-    cardNumber: "कार्ड नंबर",
-    expiryDate: "एमएम/वर्ष",
-    cvv: "सीवीवी",
-    upiId: "यूपीआई आईडी",
-    bankName: "बैंक का नाम",
-    accountNumber: "खाता संख्या"
-  }
-};
-
+// Custom hook to fetch translations
 const useTranslation = (isHindi) => {
-  const [currentLanguage, setCurrentLanguage] = useState(isHindi ? translations.hi : translations.en);
+  const [currentLanguage, setCurrentLanguage] = useState(null);
+  // Replace with your hosted JSON blob URL that contains the translation data
+  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1336704294946267136';
+
   useEffect(() => {
-    setCurrentLanguage(isHindi ? translations.hi : translations.en);
-  }, [isHindi]);
+    fetch(translationsUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrentLanguage(isHindi ? data.hi : data.en);
+      })
+      .catch((error) => {
+        console.error('Error fetching translations:', error);
+      });
+  }, [isHindi, translationsUrl]);
+
   return currentLanguage;
 };
 
@@ -93,7 +29,9 @@ const Button = ({ onClick, active, children }) => (
     type="button"
     onClick={onClick}
     className={`py-3 px-4 rounded-lg border text-center transition-all duration-300 hover:scale-105 ${
-      active ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white text-gray-700 border-gray-300 hover:border-blue-500 hover:shadow-md'
+      active
+        ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
+        : 'bg-white text-gray-700 border-gray-300 hover:border-blue-500 hover:shadow-md'
     }`}
   >
     {children}
@@ -198,6 +136,11 @@ const DonatePage = ({ isHindi }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Display a loading state until translations are fetched
+  if (!t) {
+    return <div>Loading translations...</div>;
+  }
 
   if (showThankYou) {
     return (

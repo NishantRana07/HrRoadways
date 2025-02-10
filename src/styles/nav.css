@@ -233,8 +233,16 @@ a.nav-link:hover {
   text-decoration: none;
   color: white;
   font-weight: 500;
+  padding: 1rem;
+  display: block;
+  transition: background-color 0.3s ease, padding-left 0.3s ease;
 }
 
+.sidebar ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);  /* Light background on hover */
+  padding-left: 1.5rem;  /* Adds a little padding shift for effect */
+  color: rgb(128, 183, 255);  /*text color */
+}
 
 /* Ensure the dropdown has a higher z-index */
 .dropdown.show {
@@ -301,4 +309,16 @@ a.nav-link:hover {
 .guide-link:hover {
   background-color: rgba(2, 6, 90, 0.175); /* Change background color on hover */
   color: rgb(128, 183, 255); /* Change text color on hover */
+}
+
+/* Add hover effect to the navigation links */
+.nav-link {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Use inherited color from parent */
+  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for color and transform */
+}
+
+.nav-link:hover {
+  color: #196bae; /* Change color on hover */
+  transform: scale(1.15); /* Slightly enlarge the text */
 }

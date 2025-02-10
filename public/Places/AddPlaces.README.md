@@ -31,3 +31,8 @@
 8. Mumbai : http://jsonblob.com/1334985048755200000
 9. Pune : http://jsonblob.com/1334985160164302848
 10. Sehore : http://jsonblob.com/1334985267030974464
+11. Udaipur : http://jsonblob.com/1336323444350050304
+12. Gurgaon : http://jsonblob.com/1336324242312192000
+13. Panaji : http://jsonblob.com/1336324512094019584
+14. North Goa : http://jsonblob.com/1336324895931555840
+15. South Goa : http://jsonblob.com/1336325155869351936

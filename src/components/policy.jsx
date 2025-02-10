@@ -21,7 +21,27 @@ import {
   CheckCircle2
 } from 'lucide-react';
 
+// Custom hook to fetch translations
+const useTranslation = (initialLanguage) => {
+  const [currentLanguage, setCurrentLanguage] = useState(null);
+  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338192958461239296';
+
+  useEffect(() => {
+    fetch(translationsUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrentLanguage(initialLanguage === 'hi' ? data.hi : data.en);
+      })
+      .catch((error) => {
+        console.error('Error fetching translations:', error);
+      });
+  }, [initialLanguage]);
+
+  return currentLanguage;
+};
+
 const InfoPage = ({ initialLanguage = 'en' }) => {
+  const currentTranslation = useTranslation(initialLanguage);
   const [language, setLanguage] = useState(initialLanguage);
   const [activeSection, setActiveSection] = useState('overview');
   const [expandedFAQs, setExpandedFAQs] = useState({});
@@ -34,74 +54,28 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef(null);
 
-  const translations = {
-    en: {
-      header: {
-        title: "Traveler's Companion",
-        subtitle: "Your Ultimate Travel Support Platform"
-      },
-      sections: {
-        overview: "Travel Overview",
-        guidelines: "Travel Guidelines",
-        emergencySupport: "Emergency Support",
-        privacyPolicy: "Privacy Protection",
-        customerCare: "Customer Care"
-      },
-      overviewContent: {
-        description: "A comprehensive platform designed to ensure safe, comfortable, and seamless travel experiences for all passengers.",
-        keyFeatures: [
-          "24/7 Real-time Support",
-          "Multilingual Assistance",
-          "Comprehensive Safety Protocols",
-          "Transparent Communication"
-        ]
-      },
-      faqs: [
-        {
-          question: "How can I book a ticket?",
-          answer: "Visit our website or mobile app, select your route, choose seats, and complete payment. Easy and quick!"
-        },
-        {
-          question: "What safety measures are in place?",
-          answer: "We follow strict COVID-19 protocols, sanitize vehicles, enforce mask wearing, and maintain social distancing."
-        },
-        {
-          question: "Can I change my ticket?",
-          answer: "Yes, tickets can be modified up to 2 hours before departure with a nominal change fee."
-        }
-      ],
-      emergencySections: [
-        {
-          title: "Medical Support",
-          description: "Immediate medical assistance and coordination with local healthcare facilities.",
-          icon: <Headphones />,
-          badge: "24/7 Available"
-        },
-        {
-          title: "Legal Protection",
-          description: "Comprehensive legal support and guidance during travel emergencies.",
-          icon: <Shield />,
-          badge: "Multilingual"
-        },
-        {
-          title: "Financial Assistance",
-          description: "Emergency financial support and travel insurance coordination.",
-          icon: <CreditCard />,
-          badge: "Instant Processing"
-        }
-      ],
-      supportForm: {
-        title: "Need Immediate Assistance?",
-        namePlaceholder: "Your Name",
-        emailPlaceholder: "Your Email",
-        messagePlaceholder: "Describe your issue",
-        submitButton: "Send Support Request",
-        successMessage: "Request submitted successfully!"
-      }
-    },
-    hi: {
-      // Complete Hindi translations here
-    }
+  const toggleLanguage = () => {
+    const newLanguage = language === 'en' ? 'hi' : 'en';
+    setLanguage(newLanguage);
+  };
+
+  const toggleFAQ = (index) => {
+    setExpandedFAQs((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+
+  const handleSupportFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSupportSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    console.log('Support Request Submitted', formData);
+    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(false);
+    setSupportModalOpen(false);
   };
 
   useEffect(() => {
@@ -113,15 +87,9 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
     }
   }, [activeSection]);
 
-  const handleSupportSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Support Request Submitted', formData);
-    setFormData({ name: '', email: '', message: '' });
-    setIsSubmitting(false);
-    setSupportModalOpen(false);
-  };
+  if (!currentTranslation) {
+    return <div>Loading translations...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100 text-gray-800">
