@@ -1,0 +1,522 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cinzel:wght@400;700;900&display=swap');
+
+:root {
+    --royal-blue: #1a5f7a;
+    --royal-gold: #d4af37;
+    --royal-cream: #f5f5dc;
+    --royal-navy: #0a2351;
+    --royal-accent: #87b3d0;
+    --royal-text: #2c3e50;
+}
+
+.royal-haryana-container {
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, var(--royal-cream) 0%, #e6e6fa 100%);
+    color: var(--royal-text);
+    overflow-x: hidden;
+}
+
+/* Enhanced Curtain Animation */
+.curtain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        45deg, 
+        var(--royal-navy) 0%, 
+        var(--royal-blue) 50%, 
+        var(--royal-accent) 100%
+    );
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: all 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+    perspective: 1000px;
+}
+
+.curtain.open {
+    transform: rotateX(90deg);
+    opacity: 0;
+}
+
+.royal-header {
+    position: relative;
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.6), 
+        rgba(26, 95, 122, 0.7)
+    ), url('/api/placeholder/1600/900') center/cover no-repeat;
+    background-blend-mode: multiply;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.header-content {
+    text-align: center;
+    color: white;
+    padding: 2rem;
+    border-left: 10px solid var(--royal-gold);
+    border-right: 10px solid var(--royal-gold);
+    transform: perspective(500px) rotateX(-10deg);
+    transition: all 0.5s ease;
+}
+
+.header-content:hover {
+    transform: perspective(500px) rotateX(0);
+}
+
+.royal-title {
+    font-family: 'Cinzel', serif;
+    font-size: 4.5rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    color: var(--royal-gold);
+}
+
+.royal-subtitle {
+    font-size: 1.8rem;
+    opacity: 0.9;
+    font-style: italic;
+}
+
+.royal-features {
+    display: flex;
+    justify-content: space-around;
+    padding: 4rem 2rem;
+    background: linear-gradient(
+        to right, 
+        var(--royal-cream) 0%, 
+        #f0f8ff 100%
+    );
+    box-shadow: 0 -15px 30px rgba(0,0,0,0.1);
+}
+
+.feature-card {
+    text-align: center;
+    max-width: 250px;
+    padding: 1.5rem;
+    border-radius: 15px;
+    transition: all 0.5s ease;
+    background: white;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.feature-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.feature-icon {
+    color: var(--royal-blue);
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1rem;
+    padding: 15px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--royal-cream), #f0f8ff);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.search-section {
+    background: linear-gradient(
+        to right, 
+        var(--royal-blue), 
+        var(--royal-accent)
+    );
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.royal-search-input {
+    padding: 1.2rem 2.5rem;
+    width: 500px;
+    border: 3px solid var(--royal-gold);
+    border-radius: 60px;
+    font-size: 1.1rem;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: all 0.4s ease;
+}
+
+.royal-search-input:focus {
+    outline: none;
+    border-color: var(--royal-gold);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.royal-search-button {
+    padding: 1.2rem 2.5rem;
+    background: var(--royal-gold);
+    color: var(--royal-navy);
+    border: none;
+    border-radius: 60px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.royal-search-button:hover {
+    background: var(--royal-blue);
+    color: white;
+    transform: translateY(-5px);
+}
+
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2.5rem;
+    padding: 4rem;
+    background: linear-gradient(
+        to bottom right, 
+        var(--royal-cream), 
+        #f0f8ff
+    );
+}
+
+.destination-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    padding: 2.5rem;
+    cursor: pointer;
+    border-left: 10px solid var(--royal-blue);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.destination-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(
+        to right, 
+        var(--royal-blue), 
+        var(--royal-gold)
+    );
+}
+
+.destination-card:hover {
+    transform: scale(1.05) translateY(-15px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+}
+
+/* Additional Royal Animations */
+@keyframes royalGlow {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+    100% { box-shadow: 0 0 20px 10px rgba(212, 175, 55, 0); }
+}
+
+.destination-card:hover {
+    animation: royalGlow 1.5s infinite alternate;
+}
+
+:root {
+    --royal-blue: #1a5f7a;
+    --royal-gold: #d4af37;
+    --royal-cream: #f5f5dc;
+    --royal-navy: #0a2351;
+    --royal-accent: #87b3d0;
+    --royal-text: #2c3e50;
+    --royal-shadow: rgba(26, 95, 122, 0.2);
+}
+
+/* Enhanced Destination Cards */
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 3rem;
+    padding: 4rem 6rem;
+    background: linear-gradient(
+        to bottom right, 
+        var(--royal-cream), 
+        #f0f8ff
+    );
+}
+
+.destination-card {
+    position: relative;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 
+        0 20px 40px var(--royal-shadow),
+        0 10px 20px rgba(0,0,0,0.05);
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    font-family: 'Crimson Text', serif;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.destination-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg, 
+        transparent 0%, 
+        var(--royal-gold) 50%, 
+        transparent 100%
+    );
+    opacity: 0.1;
+    transform: rotate(-45deg);
+    transition: all 0.6s ease;
+}
+
+.destination-card:hover::before {
+    opacity: 0.3;
+    transform: rotate(45deg);
+}
+
+.destination-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 
+        0 30px 50px var(--royal-shadow),
+        0 15px 30px rgba(0,0,0,0.1);
+    border-color: var(--royal-gold);
+}
+
+.destination-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(
+        to right, 
+        var(--royal-blue), 
+        var(--royal-accent)
+    );
+    color: white;
+}
+
+.destination-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.destination-rating {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.destination-rating svg {
+    color: var(--royal-gold);
+    margin-right: 0.5rem;
+}
+
+.destination-description {
+    padding: 1.5rem 2rem;
+    font-size: 1.1rem;
+    color: var(--royal-text);
+    font-style: italic;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.destination-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    background: #f9f9f9;
+}
+
+.destination-price {
+    font-weight: bold;
+    color: var(--royal-blue);
+    font-size: 1.3rem;
+}
+
+.destination-duration {
+    color: var(--royal-text);
+    opacity: 0.7;
+}
+
+.destination-location {
+    display: flex;
+    align-items: center;
+    color: var(--royal-text);
+    opacity: 0.8;
+}
+
+.destination-location svg {
+    margin-right: 0.5rem;
+    color: var(--royal-gold);
+}
+
+/* Enhanced Destination Modal */
+.destination-modal {
+    background: rgba(26, 95, 122, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 30px;
+    box-shadow: 
+        0 40px 80px rgba(0,0,0,0.2),
+        0 20px 40px rgba(0,0,0,0.1);
+    max-width: 700px;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(
+        to right, 
+        var(--royal-blue), 
+        var(--royal-gold)
+    );
+}
+
+.close-modal {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--royal-text);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+.modal-header {
+    padding: 2.5rem 3rem;
+    background: linear-gradient(
+        to right, 
+        var(--royal-cream), 
+        #f0f8ff
+    );
+}
+
+.modal-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--royal-navy);
+}
+
+.modal-meta {
+    display: flex;
+    gap: 1.5rem;
+    opacity: 0.7;
+}
+
+.modal-meta span {
+    display: flex;
+    align-items: center;
+}
+
+.modal-meta svg {
+    margin-right: 0.5rem;
+    color: var(--royal-gold);
+}
+
+.modal-sections {
+    display: flex;
+    padding: 2rem 3rem;
+    gap: 2rem;
+    background: #f9f9f9;
+}
+
+.modal-section {
+    flex: 1;
+}
+
+.modal-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    border-bottom: 2px solid var(--royal-blue);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    color: var(--royal-navy);
+}
+
+.highlight-item, .activity-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+}
+
+.highlight-item svg, .activity-item svg {
+    margin-right: 1rem;
+    color: var(--royal-gold);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 3rem;
+    background: white;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.book-now, .learn-more {
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.book-now {
+    background: var(--royal-blue);
+    color: white;
+}
+
+.learn-more {
+    border: 2px solid var(--royal-blue);
+    color: var(--royal-blue);
+    background: transparent;
+}
+
+.book-now:hover {
+    background: var(--royal-navy);
+    transform: translateY(-5px);
+}
+
+.learn-more:hover {
+    background: var(--royal-blue);
+    color: white;
+    transform: translateY(-5px);
+}
