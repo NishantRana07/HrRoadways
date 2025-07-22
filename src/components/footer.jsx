@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Bus, MapPin, Clock, Globe, Share } from "lucide-react";
+import {
+  Bus,
+  MapPin,
+  Clock,
+  Globe,
+  Share,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+} from "lucide-react";
 import "../styles/footer.css"; // Import the CSS file
 
 import { translation } from "../data/translations";
