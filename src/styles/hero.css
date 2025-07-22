@@ -57,43 +57,72 @@
 }
 
 /* Input fields for forms */
-.form-input {
+.content-grid {
+  display: flex;
+  justify-content: center;      /* Center the whole content */
+  align-items: flex-start;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+
+
+.form-card {
+  margin-top: 50px;
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  transition: all 0.3s ease-in-out;
+  max-width: 800px;              /* Wider form */
+  margin-left: 40px;             /* Shift slightly to right */
+  padding: 2rem;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-.form-input::placeholder {
-  color: #aaa;
-  transition: all 0.3s ease-in-out;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
-.form-input:hover {
-  border-color: #007BFF;
-  background-color: #f0f8ff;
-  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-  transform: scale(1.02);
-  cursor: pointer;
+.form input,
+.form select,
+.form .react-datepicker-wrapper input {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.form-input:hover::placeholder {
-  color: #007BFF;
-  opacity: 0.7;
-  font-weight: bold;
-}
-
-.form-input:focus {
-  border-color: #0056b3;
-  background-color: #e6f2ff;
+.form input:focus,
+.form select:focus {
+  border-color: #00796b;
   outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.2);
 }
 
-.form-input:focus::placeholder {
-  opacity: 0;
+.search-button {
+  background-color: #00796b;
+  color: white;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.search-button:hover {
+  background-color: #004d40;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* or any space you want, like 24px */
+}
+
 
 /* Feature items */
 .feature-item {
