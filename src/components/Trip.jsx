@@ -1,83 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MapPin, Star, Moon } from "lucide-react";
 
-// Default translations (fallback) in English
-const defaultLanguage = {
-  filters: "Filters",
-  priceRange: "Price Range",
-  minRating: "Minimum Rating",
-  perNight: "per night",
-  hotels: "Hotels",
-  noHotels: "No hotels found",
-  priceLabel: (price) => `₹${price}`,
-};
-
-const hotels = [
-  {
-    id: 1,
-    name: "Heritage Haveli",
-    location: "Kurukshetra, Haryana",
-    pricePerNight: 3500,
-    rating: 4.5,
-    image: "https://i.ibb.co/LdPxbQLf/Hotel01.jpg",
-  },
-  {
-    id: 2,
-    name: "City Comfort Inn",
-    location: "Panipat, Haryana",
-    pricePerNight: 2200,
-    rating: 4.2,
-    image: "https://i.ibb.co/xKcssCVD/Hotel02.jpg",
-  },
-  {
-    id: 3,
-    name: "Luxury Stay",
-    location: "Gurugram, Haryana",
-    pricePerNight: 5000,
-    rating: 4.8,
-    image: "https://i.ibb.co/Xr99bS34/Hotel03.jpg",
-  },
-  {
-    id: 4,
-    name: "Desert Resort",
-    location: "Hisar, Haryana",
-    pricePerNight: 4000,
-    rating: 4.4,
-    image: "https://i.ibb.co/yFRPSmXn/Hotel04.jpg",
-  },
-  {
-    id: 5,
-    name: "Hilltop Paradise",
-    location: "Panchkula, Haryana",
-    pricePerNight: 4500,
-    rating: 4.7,
-    image: "https://i.ibb.co/LdPxbQLf/Hotel01.jpg",
-  },
-  {
-    id: 6,
-    name: "Urban Retreat",
-    location: "Faridabad, Haryana",
-    pricePerNight: 3000,
-    rating: 4.3,
-    image: "https://i.ibb.co/xKcssCVD/Hotel02.jpg",
-  },
-  {
-    id: 7,
-    name: "Green Valley Inn",
-    location: "Karnal, Haryana",
-    pricePerNight: 2500,
-    rating: 4.1,
-    image: "https://i.ibb.co/Xr99bS34/Hotel03.jpg",
-  },
-  {
-    id: 8,
-    name: "Lakeview Lodge",
-    location: "Rohtak, Haryana",
-    pricePerNight: 3800,
-    rating: 4.6,
-    image: "https://i.ibb.co/yFRPSmXn/Hotel04.jpg",
-  },
-];
+import { hotels } from "../data/hotels";
+import { defaultLanguage, eleventhTranslationURL } from "../constants";
 
 const CustomSlider = ({ min, max, value, onChange, step }) => {
   const percentage = ((value - min) / (max - min)) * 100;
@@ -137,7 +62,9 @@ const HotelCard = ({ hotel, currentLanguage }) => (
       <div className="flex items-center justify-between mt-4 border-t border-blue-100 pt-4">
         <div className="flex items-center gap-1">
           <Moon className="w-4 h-4 text-blue-500" />
-          <span className="text-sm text-gray-600">{currentLanguage.perNight}</span>
+          <span className="text-sm text-gray-600">
+            {currentLanguage.perNight}
+          </span>
         </div>
         <div className="text-blue-600 font-bold text-lg">
           {currentLanguage.priceLabel(hotel.pricePerNight)}
@@ -225,12 +152,15 @@ const Trip = ({ isHindi }) => {
 
   useEffect(() => {
     // Replace with your actual JSONBlob URL
-    fetch("https://jsonblob.com/api/jsonBlob/1336696987667587072")
+    fetch(eleventhTranslationURL)
       .then((response) => response.json())
       .then((data) => {
         const langData = isHindi ? data.hi.trip : data.en.trip;
         // Create the dynamic priceLabel function
-        const priceLabelFunc = new Function("price", `return (${langData.priceLabelFunc})(price);`);
+        const priceLabelFunc = new Function(
+          "price",
+          `return (${langData.priceLabelFunc})(price);`
+        );
         setCurrentLanguage({
           ...langData,
           priceLabel: priceLabelFunc,
@@ -256,7 +186,11 @@ const Trip = ({ isHindi }) => {
   });
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -294,7 +228,9 @@ const Trip = ({ isHindi }) => {
               </div>
             ) : (
               <div className="text-center py-12 bg-white rounded-lg border-2 border-blue-100">
-                <p className="text-gray-600 font-medium">{currentLanguage.noHotels}</p>
+                <p className="text-gray-600 font-medium">
+                  {currentLanguage.noHotels}
+                </p>
               </div>
             )}
           </div>

@@ -1,7 +1,13 @@
 // TutorialStep.jsx
-import React from 'react';
 
-const TutorialStep = ({ icon: Icon, title, description, videoUrl, stepNumber, totalSteps }) => {
+const TutorialStep = ({
+  icon: Icon,
+  title,
+  description,
+  videoUrl,
+  stepNumber,
+  totalSteps,
+}) => {
   return (
     <div className="flex flex-col items-start p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
       {/* Step Number Indicator */}
@@ -15,14 +21,18 @@ const TutorialStep = ({ icon: Icon, title, description, videoUrl, stepNumber, to
       <div className="ml-4 w-full">
         <div className="flex items-center">
           <Icon className="w-6 h-6 text-blue-500 mr-2" />
-          <h3 className="text-lg md:text-xl font-semibold text-gray-800">{title}</h3>
+          <h3 className="text-lg md:text-xl font-semibold text-gray-800">
+            {title}
+          </h3>
         </div>
         <p className="text-gray-600 mt-1">{description}</p>
 
         {/* Video Section: Only show on the last step if videoUrl exists */}
         {videoUrl && stepNumber === totalSteps && (
           <div className="mt-4">
-            <h4 className="text-md font-semibold text-gray-700">Watch Tutorial:</h4>
+            <h4 className="text-md font-semibold text-gray-700">
+              Watch Tutorial:
+            </h4>
             <div className="relative pb-[56.25%] h-0 mt-2">
               <iframe
                 className="absolute top-0 left-0 w-full h-full"

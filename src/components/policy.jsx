@@ -1,61 +1,52 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Globe, 
-  MapPin, 
-  Shield, 
-  Phone, 
-  Mail, 
-  CreditCard, 
-  Headphones, 
-  AlertTriangle, 
-  Lock, 
-  Hammer,
-  MessageCircle,
-  HelpCircle,
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Globe,
+  MapPin,
+  Headphones,
+  AlertTriangle,
+  Lock,
   Star,
   ClipboardList,
-  Download,
   ArrowRight,
   ChevronDown,
   ChevronUp,
-  CheckCircle2
-} from 'lucide-react';
+} from "lucide-react";
+import { seventhTranslationURL } from "../constants";
 
 // Custom hook to fetch translations
 const useTranslation = (initialLanguage) => {
   const [currentLanguage, setCurrentLanguage] = useState(null);
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338192958461239296';
 
   useEffect(() => {
-    fetch(translationsUrl)
+    fetch(seventhTranslationURL)
       .then((response) => response.json())
       .then((data) => {
-        setCurrentLanguage(initialLanguage === 'hi' ? data.hi : data.en);
+        setCurrentLanguage(initialLanguage === "hi" ? data.hi : data.en);
       })
       .catch((error) => {
-        console.error('Error fetching translations:', error);
+        console.error("Error fetching translations:", error);
       });
   }, [initialLanguage]);
 
   return currentLanguage;
 };
 
-const InfoPage = ({ initialLanguage = 'en' }) => {
+const InfoPage = ({ initialLanguage = "en" }) => {
   const currentTranslation = useTranslation(initialLanguage);
   const [language, setLanguage] = useState(initialLanguage);
-  const [activeSection, setActiveSection] = useState('overview');
+  const [activeSection, setActiveSection] = useState("overview");
   const [expandedFAQs, setExpandedFAQs] = useState({});
   const [supportModalOpen, setSupportModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef(null);
 
   const toggleLanguage = () => {
-    const newLanguage = language === 'en' ? 'hi' : 'en';
+    const newLanguage = language === "en" ? "hi" : "en";
     setLanguage(newLanguage);
   };
 
@@ -71,9 +62,9 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
   const handleSupportSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Support Request Submitted', formData);
-    setFormData({ name: '', email: '', message: '' });
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log("Support Request Submitted", formData);
+    setFormData({ name: "", email: "", message: "" });
     setIsSubmitting(false);
     setSupportModalOpen(false);
   };
@@ -81,8 +72,8 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
   useEffect(() => {
     if (sectionRef.current) {
       sectionRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+        behavior: "smooth",
+        block: "start",
       });
     }
   }, [activeSection]);
@@ -105,14 +96,16 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
             </h1>
           </div>
           <div className="flex items-center space-x-4">
-            <button 
+            <button
               onClick={toggleLanguage}
               className="flex items-center space-x-2 bg-white text-blue-600 px-4 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300 border border-blue-100"
             >
-              <span className="font-medium">{language === 'en' ? 'हिं' : 'EN'}</span>
+              <span className="font-medium">
+                {language === "en" ? "हिं" : "EN"}
+              </span>
               <Globe className="h-4 w-4" />
             </button>
-            <button 
+            <button
               onClick={() => setSupportModalOpen(true)}
               className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-2.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
@@ -132,24 +125,29 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
               key={key}
               onClick={() => setActiveSection(key)}
               className={`w-full text-left p-4 rounded-xl mb-2 flex items-center space-x-3 transition-all duration-300 ${
-                activeSection === key 
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                  : 'hover:bg-gray-50/80 text-gray-700 hover:shadow-md'
+                activeSection === key
+                  ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                  : "hover:bg-gray-50/80 text-gray-700 hover:shadow-md"
               }`}
             >
-              {key === 'overview' && <MapPin className="h-5 w-5" />}
-              {key === 'guidelines' && <ClipboardList className="h-5 w-5" />}
-              {key === 'emergencySupport' && <AlertTriangle className="h-5 w-5" />}
-              {key === 'privacyPolicy' && <Lock className="h-5 w-5" />}
-              {key === 'customerCare' && <Headphones className="h-5 w-5" />}
+              {key === "overview" && <MapPin className="h-5 w-5" />}
+              {key === "guidelines" && <ClipboardList className="h-5 w-5" />}
+              {key === "emergencySupport" && (
+                <AlertTriangle className="h-5 w-5" />
+              )}
+              {key === "privacyPolicy" && <Lock className="h-5 w-5" />}
+              {key === "customerCare" && <Headphones className="h-5 w-5" />}
               <span className="font-medium">{label}</span>
             </button>
           ))}
         </div>
 
         {/* Enhanced Content Sections */}
-        <div className="md:col-span-3 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-100" ref={sectionRef}>
-          {activeSection === 'overview' && (
+        <div
+          className="md:col-span-3 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-100"
+          ref={sectionRef}
+        >
+          {activeSection === "overview" && (
             <div className="space-y-8">
               <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
                 {currentTranslation.header.subtitle}
@@ -158,40 +156,48 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
                 {currentTranslation.overviewContent.description}
               </p>
               <div className="grid md:grid-cols-2 gap-6">
-                {currentTranslation.overviewContent.keyFeatures.map((feature, index) => (
-                  <div 
-                    key={index} 
-                    className="group bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-100"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-600 transition-colors duration-300">
-                        <Star className="h-6 w-6 text-blue-600 group-hover:text-white" />
+                {currentTranslation.overviewContent.keyFeatures.map(
+                  (feature, index) => (
+                    <div
+                      key={index}
+                      className="group bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-100"
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-600 transition-colors duration-300">
+                          <Star className="h-6 w-6 text-blue-600 group-hover:text-white" />
+                        </div>
+                        <span className="text-lg font-semibold text-gray-800">
+                          {feature}
+                        </span>
                       </div>
-                      <span className="text-lg font-semibold text-gray-800">{feature}</span>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             </div>
           )}
 
-          {activeSection === 'guidelines' && (
+          {activeSection === "guidelines" && (
             <div className="space-y-6">
               <h2 className="text-3xl font-bold text-gray-900 mb-8">
                 Travel Guidelines & FAQs
               </h2>
               {currentTranslation.faqs.map((faq, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className="border border-gray-200 rounded-xl p-5 hover:shadow-md transition-all duration-300 cursor-pointer"
                   onClick={() => toggleFAQ(index)}
                 >
                   <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-semibold text-gray-800">{faq.question}</h3>
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      {faq.question}
+                    </h3>
                     <div className="p-2 bg-blue-100 rounded-full">
-                      {expandedFAQs[index] ? 
-                        <ChevronUp className="h-5 w-5 text-blue-600" /> : 
-                        <ChevronDown className="h-5 w-5 text-blue-600" />}
+                      {expandedFAQs[index] ? (
+                        <ChevronUp className="h-5 w-5 text-blue-600" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-blue-600" />
+                      )}
                     </div>
                   </div>
                   {expandedFAQs[index] && (
@@ -204,22 +210,24 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
             </div>
           )}
 
-          {activeSection === 'emergencySupport' && (
+          {activeSection === "emergencySupport" && (
             <div className="space-y-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-8">
                 Emergency Support Services
               </h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {currentTranslation.emergencySections.map((section, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="relative bg-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 group overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="relative z-10">
                       <div className="mb-5 flex justify-center">
                         <div className="p-4 bg-blue-600 rounded-2xl shadow-lg">
-                          {React.cloneElement(section.icon, { className: 'h-8 w-8 text-white' })}
+                          {React.cloneElement(section.icon, {
+                            className: "h-8 w-8 text-white",
+                          })}
                         </div>
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
@@ -250,12 +258,22 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
               <h2 className="text-2xl font-bold text-gray-900">
                 {currentTranslation.supportForm.title}
               </h2>
-              <button 
+              <button
                 onClick={() => setSupportModalOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-full"
               >
-                <svg className="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="h-6 w-6 text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>

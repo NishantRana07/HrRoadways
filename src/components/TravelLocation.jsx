@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Calendar, Info } from 'lucide-react';
-
-// Import images
-const Gurgaon = 'https://i.ibb.co/ynW25D0R/GURGAON.jpg';
-const Surajkund = 'https://i.ibb.co/9knrRy7V/Surajkund.jpg';
-const Sultanpur_National_Park = 'https://i.ibb.co/jv9sS8Ld/Sultanpur-National-Park.webp';
-const Kurukshetra = 'https://i.ibb.co/35jgWkDV/Kurukshetra.jpg';
-const Pinjore_Gardens = 'https://i.ibb.co/zVgjsCYC/Pinjore-Gardens.jpg';
-const Morni_Hills = 'https://i.ibb.co/DgY6Ty74/Morni-Hills.webp';
-const Panchkula = 'https://i.ibb.co/HTJnB2k6/Panchkula.jpg';
+import { useState, useEffect } from "react";
+import { Search, MapPin, Calendar, Info } from "lucide-react";
+import { tenthTranslationURL } from "../constants";
 
 const TravelLocations = ({ isHindi }) => {
   const [translations, setTranslations] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
-  // Replace the URL below with your actual hosted JSON blob URL
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1336700697919545344';
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   // Fetch translations from the hosted JSON blob
   useEffect(() => {
-    fetch(translationsUrl)
-      .then(response => response.json())
-      .then(data => setTranslations(data))
-      .catch(error => console.error('Error fetching translations:', error));
+    fetch(tenthTranslationURL)
+      .then((response) => response.json())
+      .then((data) => setTranslations(data))
+      .catch((error) => console.error("Error fetching translations:", error));
   }, []);
 
   // Display a loading message until translations have been fetched
@@ -35,11 +24,12 @@ const TravelLocations = ({ isHindi }) => {
   const currentLanguage = isHindi ? translations.hi : translations.en;
 
   // Filter the locations based on search term and selected category
-  const filteredLocations = currentLanguage.locations.filter(location => {
+  const filteredLocations = currentLanguage.locations.filter((location) => {
     const matchesSearch =
       location.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       location.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || location.category === selectedCategory;
+    const matchesCategory =
+      selectedCategory === "all" || location.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -48,14 +38,19 @@ const TravelLocations = ({ isHindi }) => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Page header */}
         <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold mb-4 text-gray-800">{currentLanguage.title}</h2>
+          <h2 className="text-3xl font-bold mb-4 text-gray-800">
+            {currentLanguage.title}
+          </h2>
           <p className="text-lg text-gray-600">{currentLanguage.subtitle}</p>
         </div>
 
         {/* Search bar and category filters */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder={currentLanguage.searchPlaceholder}
@@ -65,14 +60,14 @@ const TravelLocations = ({ isHindi }) => {
             />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-2">
-            {currentLanguage.categories.map(category => (
+            {currentLanguage.categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
                 className={`px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
                   selectedCategory === category.id
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border'
+                    ? "bg-blue-600 text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-100 border"
                 }`}
               >
                 {category.label}
@@ -84,7 +79,10 @@ const TravelLocations = ({ isHindi }) => {
         {/* Locations grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredLocations.map((location, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105">
+            <div
+              key={index}
+              className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105"
+            >
               <div className="relative h-48">
                 <img
                   src={location.image}
@@ -93,34 +91,51 @@ const TravelLocations = ({ isHindi }) => {
                 />
               </div>
               <div className="p-4">
-                <h3 className="text-xl font-bold mb-2 text-gray-800">{location.name}</h3>
+                <h3 className="text-xl font-bold mb-2 text-gray-800">
+                  {location.name}
+                </h3>
                 <p className="text-gray-600 mb-4">{location.description}</p>
                 <div className="space-y-3">
                   <div className="flex items-start gap-2">
                     <Calendar className="w-5 h-5 text-blue-600 flex-shrink-0" />
                     <div>
-                      <p className="font-semibold text-gray-800">{currentLanguage.bestTime}</p>
-                      <p className="text-sm text-gray-600">{location.bestTime}</p>
+                      <p className="font-semibold text-gray-800">
+                        {currentLanguage.bestTime}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {location.bestTime}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <Info className="w-5 h-5 text-blue-600 flex-shrink-0" />
                     <div>
-                      <p className="font-semibold text-gray-800">{currentLanguage.culturalEvents}</p>
-                      <p className="text-sm text-gray-600">{location.culturalEvents.join(', ')}</p>
+                      <p className="font-semibold text-gray-800">
+                        {currentLanguage.culturalEvents}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {location.culturalEvents.join(", ")}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0" />
                     <div>
-                      <p className="font-semibold text-gray-800">{currentLanguage.localSpecialties}</p>
-                      <p className="text-sm text-gray-600">{location.localCuisine.join(', ')}</p>
+                      <p className="font-semibold text-gray-800">
+                        {currentLanguage.localSpecialties}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {location.localCuisine.join(", ")}
+                      </p>
                     </div>
                   </div>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {location.activities.map((activity, idx) => (
-                    <span key={idx} className="px-2 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
+                    <span
+                      key={idx}
+                      className="px-2 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"
+                    >
                       {activity}
                     </span>
                   ))}

@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { CreditCard, CreditCardIcon, Wallet, ShieldCheck, QrCode, CheckCircle } from 'lucide-react';
+import { useState, useEffect } from "react";
+import {
+  CreditCard,
+  CreditCardIcon,
+  Wallet,
+  ShieldCheck,
+  QrCode,
+  CheckCircle,
+} from "lucide-react";
+import { sixthTranslationURL } from "../constants";
 
 // Custom hook to fetch translations
 const useTranslation = (isHindi) => {
   const [currentLanguage, setCurrentLanguage] = useState(null);
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338200675141738496';
 
   useEffect(() => {
-    fetch(translationsUrl)
+    fetch(sixthTranslationURL)
       .then((response) => response.json())
       .then((data) => {
         setCurrentLanguage(isHindi ? data.hi : data.en);
       })
       .catch((error) => {
-        console.error('Error fetching translations:', error);
+        console.error("Error fetching translations:", error);
       });
   }, [isHindi]);
 
@@ -23,45 +30,45 @@ const useTranslation = (isHindi) => {
 const PaymentOptions = ({ isHindi }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [cardDetails, setCardDetails] = useState({
-    cardNumber: '',
-    cardName: '',
-    expiryDate: '',
-    cvv: ''
+    cardNumber: "",
+    cardName: "",
+    expiryDate: "",
+    cvv: "",
   });
 
   // Diagnostic logging
   useEffect(() => {
-    console.log('Payment Component Mounted');
-    console.log('Selected Payment Method:', selectedPaymentMethod);
+    console.log("Payment Component Mounted");
+    console.log("Selected Payment Method:", selectedPaymentMethod);
   }, [selectedPaymentMethod]);
 
   const currentLanguage = useTranslation(isHindi);
 
   const paymentMethods = [
-    { 
-      id: 'credit', 
-      icon: CreditCard, 
-      title: currentLanguage?.creditCard, 
-      description: currentLanguage?.creditCardDesc 
+    {
+      id: "credit",
+      icon: CreditCard,
+      title: currentLanguage?.creditCard,
+      description: currentLanguage?.creditCardDesc,
     },
-    { 
-      id: 'debit', 
-      icon: CreditCardIcon, 
-      title: currentLanguage?.debitCard, 
-      description: currentLanguage?.debitCardDesc 
+    {
+      id: "debit",
+      icon: CreditCardIcon,
+      title: currentLanguage?.debitCard,
+      description: currentLanguage?.debitCardDesc,
     },
-    { 
-      id: 'upi', 
-      icon: QrCode, 
-      title: currentLanguage?.upi, 
-      description: currentLanguage?.upiDesc 
+    {
+      id: "upi",
+      icon: QrCode,
+      title: currentLanguage?.upi,
+      description: currentLanguage?.upiDesc,
     },
-    { 
-      id: 'wallet', 
-      icon: Wallet, 
-      title: currentLanguage?.wallet, 
-      description: currentLanguage?.walletDesc 
-    }
+    {
+      id: "wallet",
+      icon: Wallet,
+      title: currentLanguage?.wallet,
+      description: currentLanguage?.walletDesc,
+    },
   ];
 
   const handlePaymentMethodSelect = (method) => {
@@ -70,16 +77,16 @@ const PaymentOptions = ({ isHindi }) => {
 
   const handleCardDetailsChange = (e) => {
     const { name, value } = e.target;
-    setCardDetails(prev => ({
+    setCardDetails((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const renderPaymentForm = () => {
-    switch(selectedPaymentMethod?.id) {
-      case 'credit':
-      case 'debit':
+    switch (selectedPaymentMethod?.id) {
+      case "credit":
+      case "debit":
         return (
           <div className="payment-form bg-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold mb-4 text-gray-800">
@@ -87,7 +94,9 @@ const PaymentOptions = ({ isHindi }) => {
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">{currentLanguage.cardNumber}</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  {currentLanguage.cardNumber}
+                </label>
                 <input
                   type="text"
                   name="cardNumber"
@@ -98,7 +107,9 @@ const PaymentOptions = ({ isHindi }) => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">{currentLanguage.cardName}</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  {currentLanguage.cardName}
+                </label>
                 <input
                   type="text"
                   name="cardName"
@@ -110,7 +121,9 @@ const PaymentOptions = ({ isHindi }) => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">{currentLanguage.expiryDate}</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    {currentLanguage.expiryDate}
+                  </label>
                   <input
                     type="text"
                     name="expiryDate"
@@ -121,7 +134,9 @@ const PaymentOptions = ({ isHindi }) => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">{currentLanguage.cvv}</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    {currentLanguage.cvv}
+                  </label>
                   <input
                     type="text"
                     name="cvv"
@@ -135,7 +150,7 @@ const PaymentOptions = ({ isHindi }) => {
             </div>
           </div>
         );
-      case 'upi':
+      case "upi":
         return (
           <div className="payment-form bg-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold mb-4 text-gray-800">
@@ -143,7 +158,9 @@ const PaymentOptions = ({ isHindi }) => {
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">{currentLanguage.upiId}</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  {currentLanguage.upiId}
+                </label>
                 <input
                   type="text"
                   placeholder="yourname@upi"
@@ -157,21 +174,23 @@ const PaymentOptions = ({ isHindi }) => {
             </div>
           </div>
         );
-      case 'wallet':
+      case "wallet":
         return (
           <div className="payment-form bg-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold mb-4 text-gray-800">
               {currentLanguage.digitalWallets}
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              {['Paytm', 'PhonePe', 'Google Pay', 'Amazon Pay'].map((wallet) => (
-                <div 
-                  key={wallet} 
-                  className="wallet-option border rounded-lg p-4 text-center hover:bg-gray-50 cursor-pointer transition"
-                >
-                  {wallet}
-                </div>
-              ))}
+              {["Paytm", "PhonePe", "Google Pay", "Amazon Pay"].map(
+                (wallet) => (
+                  <div
+                    key={wallet}
+                    className="wallet-option border rounded-lg p-4 text-center hover:bg-gray-50 cursor-pointer transition"
+                  >
+                    {wallet}
+                  </div>
+                )
+              )}
             </div>
           </div>
         );
@@ -195,23 +214,30 @@ const PaymentOptions = ({ isHindi }) => {
             </h2>
             <div className="space-y-4">
               {paymentMethods.map((method) => (
-                <div 
+                <div
                   key={method.id}
                   onClick={() => handlePaymentMethodSelect(method)}
                   className={`payment-method-item flex items-center p-4 rounded-lg cursor-pointer transition ${
-                    selectedPaymentMethod?.id === method.id 
-                      ? 'bg-blue-100 border-blue-500 border' 
-                      : 'hover:bg-gray-100'
+                    selectedPaymentMethod?.id === method.id
+                      ? "bg-blue-100 border-blue-500 border"
+                      : "hover:bg-gray-100"
                   }`}
                 >
-                  <method.icon className={`mr-4 ${
-                    selectedPaymentMethod?.id === method.id 
-                      ? 'text-blue-600' 
-                      : 'text-gray-600'
-                  }`} size={24} />
+                  <method.icon
+                    className={`mr-4 ${
+                      selectedPaymentMethod?.id === method.id
+                        ? "text-blue-600"
+                        : "text-gray-600"
+                    }`}
+                    size={24}
+                  />
                   <div>
-                    <h3 className="font-semibold text-gray-800">{method.title}</h3>
-                    <p className="text-sm text-gray-600">{method.description}</p>
+                    <h3 className="font-semibold text-gray-800">
+                      {method.title}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      {method.description}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -234,9 +260,7 @@ const PaymentOptions = ({ isHindi }) => {
                 <div className="text-xl font-bold text-gray-800">
                   {currentLanguage.totalPayable}: ₹2,500
                 </div>
-                <button 
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition flex items-center"
-                >
+                <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition flex items-center">
                   <CheckCircle className="mr-2" size={20} />
                   {currentLanguage.confirmPayment}
                 </button>

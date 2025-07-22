@@ -1,64 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Bus, Clock, MapPin, Phone, Users } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { Bus, Clock, MapPin, Phone, Users } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ninthTranslationURL } from "../constants";
+import { mockBusData } from "../data/busData";
 
 // Custom hook to fetch translations
 const useTranslation = (isHindi) => {
   const [currentLanguage, setCurrentLanguage] = useState(null);
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338199785118818304';
 
   useEffect(() => {
-    fetch(translationsUrl)
+    fetch(ninthTranslationURL)
       .then((response) => response.json())
       .then((data) => {
         setCurrentLanguage(isHindi ? data.hi : data.en);
       })
       .catch((error) => {
-        console.error('Error fetching translations:', error);
+        console.error("Error fetching translations:", error);
       });
   }, [isHindi]);
 
   return currentLanguage;
 };
-
-const mockBusData = [
-  {
-    id: "HR-01-1234",
-    routeNumber: "Delhi-Chandigarh Express",
-    currentLocation: [28.7041, 77.1025],
-    route: [
-      [28.7041, 77.1025],
-      [29.1042, 77.3124],
-      [30.3752, 76.7821]
-    ],
-    speed: 65,
-    nextStop: "Panipat",
-    eta: 25,
-    passengers: 32,
-    capacity: 50,
-    driver: "Rajesh Kumar",
-    contact: "+91 98765-43210",
-    status: "On Time"
-  },
-  {
-    id: "HR-02-5678",
-    routeNumber: "Gurgaon-Sonipat Express",
-    currentLocation: [28.4595, 77.0266],
-    route: [
-      [28.4595, 77.0266],
-      [28.6139, 77.2090],
-      [28.9931, 77.0151]
-    ],
-    speed: 55,
-    nextStop: "Rohini",
-    eta: 15,
-    passengers: 28,
-    capacity: 45,
-    driver: "Amit Singh",
-    contact: "+91 98765-43211",
-    status: "Delayed"
-  }
-];
 
 const BusListItem = ({ bus, onClick, isSelected, language }) => (
   <motion.div
@@ -70,7 +32,7 @@ const BusListItem = ({ bus, onClick, isSelected, language }) => (
     onClick={() => onClick(bus)}
     className="bg-white rounded-lg p-4 cursor-pointer transition-all mb-4 shadow-lg hover:shadow-xl"
     style={{
-      borderLeft: isSelected ? '4px solid #3b82f6' : '4px solid transparent',
+      borderLeft: isSelected ? "4px solid #3b82f6" : "4px solid transparent",
     }}
   >
     <div className="flex justify-between items-start">
@@ -82,16 +44,18 @@ const BusListItem = ({ bus, onClick, isSelected, language }) => (
           >
             <Bus color="#3b82f6" size={24} />
           </motion.div>
-          <span className="font-bold text-lg">{language.routes[bus.routeNumber]}</span>
+          <span className="font-bold text-lg">
+            {language.routes[bus.routeNumber]}
+          </span>
         </div>
         <div className="text-gray-600 mt-1">{bus.id}</div>
       </div>
-      <motion.div 
+      <motion.div
         whileHover={{ scale: 1.1 }}
         className="px-3 py-1 rounded-full text-sm font-semibold"
         style={{
-          backgroundColor: bus.status === 'On Time' ? '#dcfce7' : '#fef9c3',
-          color: bus.status === 'On Time' ? '#166534' : '#854d0e'
+          backgroundColor: bus.status === "On Time" ? "#dcfce7" : "#fef9c3",
+          color: bus.status === "On Time" ? "#166534" : "#854d0e",
         }}
       >
         {bus.status}
@@ -99,17 +63,30 @@ const BusListItem = ({ bus, onClick, isSelected, language }) => (
     </div>
 
     <div className="mt-4 grid grid-cols-3 gap-4">
-      <motion.div whileHover={{ y: -2 }} className="flex flex-col items-center p-2 bg-gray-50 rounded">
+      <motion.div
+        whileHover={{ y: -2 }}
+        className="flex flex-col items-center p-2 bg-gray-50 rounded"
+      >
         <MapPin size={16} color="#3b82f6" />
         <span className="text-sm mt-1">{language.routes[bus.nextStop]}</span>
       </motion.div>
-      <motion.div whileHover={{ y: -2 }} className="flex flex-col items-center p-2 bg-gray-50 rounded">
+      <motion.div
+        whileHover={{ y: -2 }}
+        className="flex flex-col items-center p-2 bg-gray-50 rounded"
+      >
         <Clock size={16} color="#3b82f6" />
-        <span className="text-sm mt-1">{bus.eta} {language.minutes}</span>
+        <span className="text-sm mt-1">
+          {bus.eta} {language.minutes}
+        </span>
       </motion.div>
-      <motion.div whileHover={{ y: -2 }} className="flex flex-col items-center p-2 bg-gray-50 rounded">
+      <motion.div
+        whileHover={{ y: -2 }}
+        className="flex flex-col items-center p-2 bg-gray-50 rounded"
+      >
         <Users size={16} color="#3b82f6" />
-        <span className="text-sm mt-1">{bus.passengers}/{bus.capacity}</span>
+        <span className="text-sm mt-1">
+          {bus.passengers}/{bus.capacity}
+        </span>
       </motion.div>
     </div>
   </motion.div>
@@ -118,7 +95,7 @@ const BusListItem = ({ bus, onClick, isSelected, language }) => (
 const BusDetails = ({ bus, language }) => (
   <motion.div
     initial={{ opacity: 0, height: 0 }}
-    animate={{ opacity: 1, height: 'auto' }}
+    animate={{ opacity: 1, height: "auto" }}
     exit={{ opacity: 0, height: 0 }}
     className="bg-white rounded-lg shadow-xl p-6 mt-6 overflow-hidden"
   >
@@ -127,7 +104,9 @@ const BusDetails = ({ bus, language }) => (
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.2 }}
     >
-      <h3 className="text-2xl font-bold mb-6 text-blue-600">{language.routes[bus.routeNumber]}</h3>
+      <h3 className="text-2xl font-bold mb-6 text-blue-600">
+        {language.routes[bus.routeNumber]}
+      </h3>
       <div className="grid grid-cols-2 gap-6">
         <InfoCard
           icon={<Clock size={20} />}
@@ -157,7 +136,9 @@ const BusDetails = ({ bus, language }) => (
               <Users size={20} color="#3b82f6" />
             </div>
             <div>
-              <div className="text-sm text-gray-600">{language.busInfo.driver}</div>
+              <div className="text-sm text-gray-600">
+                {language.busInfo.driver}
+              </div>
               <div className="font-semibold">{bus.driver}</div>
             </div>
           </div>
@@ -166,7 +147,9 @@ const BusDetails = ({ bus, language }) => (
               <Phone size={20} color="#3b82f6" />
             </div>
             <div>
-              <div className="text-sm text-gray-600">{language.busInfo.contact}</div>
+              <div className="text-sm text-gray-600">
+                {language.busInfo.contact}
+              </div>
               <div className="font-semibold">{bus.contact}</div>
             </div>
           </div>
@@ -208,7 +191,7 @@ const BusTracker = ({ isHindi = false }) => {
   useEffect(() => {
     const fetchBusLocations = async () => {
       setLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setActiveBuses(mockBusData);
       setLastUpdate(new Date());
       setLoading(false);
@@ -268,7 +251,7 @@ const BusTracker = ({ isHindi = false }) => {
               </motion.h2>
 
               <AnimatePresence>
-                {activeBuses.map(bus => (
+                {activeBuses.map((bus) => (
                   <BusListItem
                     key={bus.id}
                     bus={bus}

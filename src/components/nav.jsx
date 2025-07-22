@@ -1,54 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/nav.css';
-import { Menu, X, ChevronDown, Phone } from 'lucide-react';
-import { getStoredLanguage, setStoredLanguage } from '../../libs/languageStorage';
-const Logo = 'https://i.ibb.co/kg3RQQ1S/LogoHR.png';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "../styles/nav.css";
+import { Menu, X, ChevronDown, Phone } from "lucide-react";
+import { setStoredLanguage } from "../../libs/languageStorage";
+import { Logo } from "../constants";
+import { navTranslations } from "../data/translations";
 
 const Navigation = ({ isHindi, onToggleLanguage }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);  
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
 
-  const translations = {
-    en: {
-      home: "Home",
-      contact: "Contact",
-      donate: "Donate",
-      about: "About Us",
-      trip: "Plan Journey",
-      services: "Services",
-      track: "Track Bus",
-      schedule: "Time Table",
-      tourGuide: "Tour Guide", // Add new translation
-      helpline: "24x7 Helpline",
-      blog: "Blog",
-      quickLinks: "Quick Links",
-      travellocations: "Travel",
-      guide: "Guide and Rules"
-    },
-    hi: {
-      home: "मुख्य पृष्ठ",
-      contact: "संपर्क करें",
-      donate: "दान करें",
-      about: "हमारे बारे में",
-      trip: "यात्रा योजना",
-      services: "सेवाएं",
-      track: "बस ट्रैक करें",
-      schedule: "समय सारणी",
-      tourGuide: "मार्गदर्शिका", // Add new translation
-      helpline: "24x7 हेल्पलाइन",
-      blog: "ब्लॉग",
-      quickLinks: "त्वरित लिंक",
-      travellocations: "यात्रा",
-      guide: "मार्गदर्शिका और नियम"
-    },
-  };
+  const currentLanguage = isHindi ? navTranslations.hi : navTranslations.en;
 
-  const currentLanguage = isHindi ? translations.hi : translations.en;
-  
   useEffect(() => {
-    setStoredLanguage(isHindi ? 'hi' : 'en');
+    setStoredLanguage(isHindi ? "hi" : "en");
   }, [isHindi]);
 
   useEffect(() => {
@@ -56,14 +22,14 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const servicesDropdown = [
-    { title: currentLanguage.track, path: '/track' },
-    { title: currentLanguage.schedule, path: '/schedule' },
-    { title: currentLanguage.tourGuide, path: '/tour-guide' }, // Add this line
+    { title: currentLanguage.track, path: "/track" },
+    { title: currentLanguage.schedule, path: "/schedule" },
+    { title: currentLanguage.tourGuide, path: "/tour-guide" }, // Add this line
   ];
 
   const toggleSidebar = () => {
@@ -102,10 +68,10 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
           </div>
         </div>
       </div>
-      
+
       <nav
         className={`sticky top-0 z-50 w-full ${
-          isScrolled ? 'shadow-lg bg-white' : 'bg-white/95'
+          isScrolled ? "shadow-lg bg-white" : "bg-white/95"
         } transition-all duration-300`}
       >
         <div className="container mx-auto px-4">
@@ -131,7 +97,7 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
                   {currentLanguage.services}
                   <ChevronDown className="w-4 h-4 ml-1" />
                 </button>
-                <div className={`dropdown ${isServicesOpen ? 'show' : ''}`}>
+                <div className={`dropdown ${isServicesOpen ? "show" : ""}`}>
                   {servicesDropdown.map((item, index) => (
                     <Link
                       key={index}
@@ -166,17 +132,18 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
               </button>
             </div>
 
-            <button
-              className="md:hidden text-blue-900"
-              onClick={toggleSidebar}
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <button className="md:hidden text-blue-900" onClick={toggleSidebar}>
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
       </nav>
 
-      <div className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
+      <div className={`sidebar ${isMobileMenuOpen ? "open" : ""}`}>
         <ul>
           <li>
             <Link to="/" onClick={toggleSidebar}>

@@ -1,36 +1,46 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Calendar, Clock, MapPin, AlertCircle, Info, Repeat, Shield, Star, Phone, Users } from 'lucide-react';
-import TrafficUpdates from './TrafficUpdates';
-import PopularRoutes from './PopularRoutes';
-import BusDetailModal from './BusDetailModal';
-import WeatherUpdates from './WeatherUpdates';
-import '../styles/hero.css';
-import '../styles/modal.css';
+import { useState, useEffect, useRef } from "react";
+import {
+  Clock,
+  MapPin,
+  AlertCircle,
+  Info,
+  Repeat,
+  Shield,
+  Star,
+  Phone,
+} from "lucide-react";
+import PopularRoutes from "./PopularRoutes";
+import BusDetailModal from "./BusDetailModal";
+import WeatherUpdates from "./WeatherUpdates";
+import "../styles/hero.css";
+import "../styles/modal.css";
+import { busStandURL, fifthTranslationURL } from "../constants";
 
 // CustomAlert Component to display info and warning alerts
 const CustomAlert = ({ type, children }) => (
-  <div className={`custom-alert ${type === 'warning' ? 'warning' : 'info'}`}>
-    {type === 'warning' ? <AlertCircle className="icon" /> : <Info className="icon" />}
+  <div className={`custom-alert ${type === "warning" ? "warning" : "info"}`}>
+    {type === "warning" ? (
+      <AlertCircle className="icon" />
+    ) : (
+      <Info className="icon" />
+    )}
     <p className="text">{children}</p>
   </div>
 );
 
 // CustomCard Component for reusable card layout
 const CustomCard = ({ children, className }) => (
-  <div className={`custom-card ${className}`}>
-    {children}
-  </div>
+  <div className={`custom-card ${className}`}>{children}</div>
 );
 
 // Hero Component - Main Component
 const Hero = ({ isHindi }) => {
-
   // State management
   const [currentLanguage, setCurrentLanguage] = useState({});
   const [formData, setFormData] = useState({
-    src: '',
-    dest: '',
-    date: new Date().toISOString().split('T')[0],
+    src: "",
+    dest: "",
+    date: new Date().toISOString().split("T")[0],
     passengers: 1,
     roundTrip: false,
   });
@@ -44,33 +54,40 @@ const Hero = ({ isHindi }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBus, setSelectedBus] = useState(null);
   const [activeSrcSuggestionIndex, setActiveSrcSuggestionIndex] = useState(-1);
-  const [activeDestSuggestionIndex, setActiveDestSuggestionIndex] = useState(-1);
+  const [activeDestSuggestionIndex, setActiveDestSuggestionIndex] =
+    useState(-1);
 
   const inputRefs = useRef([]);
   const containerRef = useRef(null);
 
   // Fetch language data
   useEffect(() => {
-    fetch('https://jsonblob.com/api/jsonBlob/1336693063321575424')
-      .then(response => response.json())
-      .then(data => setCurrentLanguage(isHindi ? data.hi : data.en));
+    fetch(fifthTranslationURL)
+      .then((response) => response.json())
+      .then((data) => setCurrentLanguage(isHindi ? data.hi : data.en));
   }, [isHindi]);
 
   // Fetch alerts
   useEffect(() => {
     setAlerts([
-      { type: 'info', message: 'Extra buses available on Delhi-Chandigarh route' },
-      { type: 'warning', message: 'Weather alert: Fog expected in northern Haryana' }
+      {
+        type: "info",
+        message: "Extra buses available on Delhi-Chandigarh route",
+      },
+      {
+        type: "warning",
+        message: "Weather alert: Fog expected in northern Haryana",
+      },
     ]);
   }, []);
 
   // Fetch bus stands
   useEffect(() => {
-    fetch('https://jsonblob.com/api/jsonBlob/1333092652136194048')
-      .then(response => response.json())
-      .then(data => {
+    fetch(busStandURL)
+      .then((response) => response.json())
+      .then((data) => {
         const uniqueBusStands = new Set();
-        data.forEach(route => {
+        data.forEach((route) => {
           uniqueBusStands.add(route.from);
           uniqueBusStands.add(route.to);
         });
@@ -83,17 +100,17 @@ const Hero = ({ isHindi }) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
 
-    if (name === 'src') {
-      const filtered = busStands.filter(stand =>
-        stand.toLowerCase().includes(value.toLowerCase())
-      ).slice(0, 10); // Limit to 10 locations
+    if (name === "src") {
+      const filtered = busStands
+        .filter((stand) => stand.toLowerCase().includes(value.toLowerCase()))
+        .slice(0, 10); // Limit to 10 locations
       setSrcSuggestions(filtered);
       setShowSrcSuggestions(true);
       setActiveSrcSuggestionIndex(-1);
-    } else if (name === 'dest') {
-      const filtered = busStands.filter(stand =>
-        stand.toLowerCase().includes(value.toLowerCase())
-      ).slice(0, 10); // Limit to 10 locations
+    } else if (name === "dest") {
+      const filtered = busStands
+        .filter((stand) => stand.toLowerCase().includes(value.toLowerCase()))
+        .slice(0, 10); // Limit to 10 locations
       setDestSuggestions(filtered);
       setShowDestSuggestions(true);
       setActiveDestSuggestionIndex(-1);
@@ -103,15 +120,27 @@ const Hero = ({ isHindi }) => {
   // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch('https://jsonblob.com/api/jsonBlob/1333092652136194048')
-      .then(response => response.json())
-      .then(data => {
-        const filteredBuses = data.filter(bus => {
-          const isExactRoute = bus.from.toLowerCase() === formData.src.toLowerCase() && bus.to.toLowerCase() === formData.dest.toLowerCase();
-          const isReverseRoute = formData.roundTrip && bus.from.toLowerCase() === formData.dest.toLowerCase() && bus.to.toLowerCase() === formData.src.toLowerCase();
-          const isViaRoute = bus.from.toLowerCase() === formData.src.toLowerCase() && bus.via?.toLowerCase().includes(formData.dest.toLowerCase());
-          const isViaReverseRoute = formData.roundTrip && bus.from.toLowerCase() === formData.dest.toLowerCase() && bus.via?.toLowerCase().includes(formData.src.toLowerCase());
-          return isExactRoute || isReverseRoute || isViaRoute || isViaReverseRoute;
+    fetch(busStandURL)
+      .then((response) => response.json())
+      .then((data) => {
+        const filteredBuses = data.filter((bus) => {
+          const isExactRoute =
+            bus.from.toLowerCase() === formData.src.toLowerCase() &&
+            bus.to.toLowerCase() === formData.dest.toLowerCase();
+          const isReverseRoute =
+            formData.roundTrip &&
+            bus.from.toLowerCase() === formData.dest.toLowerCase() &&
+            bus.to.toLowerCase() === formData.src.toLowerCase();
+          const isViaRoute =
+            bus.from.toLowerCase() === formData.src.toLowerCase() &&
+            bus.via?.toLowerCase().includes(formData.dest.toLowerCase());
+          const isViaReverseRoute =
+            formData.roundTrip &&
+            bus.from.toLowerCase() === formData.dest.toLowerCase() &&
+            bus.via?.toLowerCase().includes(formData.src.toLowerCase());
+          return (
+            isExactRoute || isReverseRoute || isViaRoute || isViaReverseRoute
+          );
         });
         setBuses(filteredBuses);
       });
@@ -142,7 +171,16 @@ const Hero = ({ isHindi }) => {
       <div className="hero-features">
         <div className="features-container">
           {currentLanguage.features?.map((feature, index) => {
-            const IconComponent = feature.icon === "Shield" ? Shield : feature.icon === "Clock" ? Clock : feature.icon === "Star" ? Star : feature.icon === "Phone" ? Phone : null;
+            const IconComponent =
+              feature.icon === "Shield"
+                ? Shield
+                : feature.icon === "Clock"
+                ? Clock
+                : feature.icon === "Star"
+                ? Star
+                : feature.icon === "Phone"
+                ? Phone
+                : null;
             return (
               <div key={index} className="feature-item">
                 {IconComponent && <IconComponent className="feature-icon" />}
@@ -160,17 +198,64 @@ const Hero = ({ isHindi }) => {
         <div className="content-grid">
           <CustomCard className="form-card">
             <form className="form" onSubmit={handleSubmit}>
-              <FormInput label={currentLanguage.departure} name="src" value={formData.src} onChange={handleChange} suggestions={srcSuggestions} showSuggestions={showSrcSuggestions} setShowSuggestions={setShowSrcSuggestions} activeSuggestionIndex={activeSrcSuggestionIndex} setActiveSuggestionIndex={setActiveSrcSuggestionIndex} />
-              <FormInput label={currentLanguage.arrival} name="dest" value={formData.dest} onChange={handleChange} suggestions={destSuggestions} showSuggestions={showDestSuggestions} setShowSuggestions={setShowDestSuggestions} activeSuggestionIndex={activeDestSuggestionIndex} setActiveSuggestionIndex={setActiveDestSuggestionIndex} disabled={!formData.src} />
-              <FormInput label="Date" name="date" type="date" value={formData.date} onChange={handleChange} />
-              <FormInput label={currentLanguage.passengers} name="passengers" type="number" value={formData.passengers} onChange={handleChange} min="1" />
-              <FormCheckbox label={currentLanguage.roundTrip} name="roundTrip" checked={formData.roundTrip} onChange={() => setFormData({ ...formData, roundTrip: !formData.roundTrip })} />
-              <button type="submit" className="search-button">{currentLanguage.button}</button>
+              <FormInput
+                label={currentLanguage.departure}
+                name="src"
+                value={formData.src}
+                onChange={handleChange}
+                suggestions={srcSuggestions}
+                showSuggestions={showSrcSuggestions}
+                setShowSuggestions={setShowSrcSuggestions}
+                activeSuggestionIndex={activeSrcSuggestionIndex}
+                setActiveSuggestionIndex={setActiveSrcSuggestionIndex}
+              />
+              <FormInput
+                label={currentLanguage.arrival}
+                name="dest"
+                value={formData.dest}
+                onChange={handleChange}
+                suggestions={destSuggestions}
+                showSuggestions={showDestSuggestions}
+                setShowSuggestions={setShowDestSuggestions}
+                activeSuggestionIndex={activeDestSuggestionIndex}
+                setActiveSuggestionIndex={setActiveDestSuggestionIndex}
+                disabled={!formData.src}
+              />
+              <FormInput
+                label="Date"
+                name="date"
+                type="date"
+                value={formData.date}
+                onChange={handleChange}
+              />
+              <FormInput
+                label={currentLanguage.passengers}
+                name="passengers"
+                type="number"
+                value={formData.passengers}
+                onChange={handleChange}
+                min="1"
+              />
+              <FormCheckbox
+                label={currentLanguage.roundTrip}
+                name="roundTrip"
+                checked={formData.roundTrip}
+                onChange={() =>
+                  setFormData({ ...formData, roundTrip: !formData.roundTrip })
+                }
+              />
+              <button type="submit" className="search-button">
+                {currentLanguage.button}
+              </button>
             </form>
           </CustomCard>
 
           <div className="right-panel">
-            <PopularRoutes onRouteClick={(route) => handleChange({ target: { name: 'src', value: route.src } })} />
+            <PopularRoutes
+              onRouteClick={(route) =>
+                handleChange({ target: { name: "src", value: route.src } })
+              }
+            />
             <WeatherUpdates />
           </div>
         </div>
@@ -180,19 +265,40 @@ const Hero = ({ isHindi }) => {
             <h3 className="bus-results-heading">{currentLanguage.allBuses}</h3>
             <div className="bus-grid">
               {buses.map((bus, index) => (
-                <BusCard key={index} bus={bus} onClick={() => handleBusCardClick(bus)} />
+                <BusCard
+                  key={index}
+                  bus={bus}
+                  onClick={() => handleBusCardClick(bus)}
+                />
               ))}
             </div>
           </div>
         )}
       </div>
-      <BusDetailModal isOpen={isModalOpen} onClose={closeModal} bus={selectedBus} />
+      <BusDetailModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        bus={selectedBus}
+      />
     </div>
   );
 };
 
 // FormInput Component - Reusable input field with suggestions
-const FormInput = ({ label, name, value, onChange, suggestions = [], showSuggestions, setShowSuggestions, type = 'text', disabled = false, min, activeSuggestionIndex, setActiveSuggestionIndex }) => {
+const FormInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  suggestions = [],
+  showSuggestions,
+  setShowSuggestions,
+  type = "text",
+  disabled = false,
+  min,
+  activeSuggestionIndex,
+  setActiveSuggestionIndex,
+}) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -201,31 +307,36 @@ const FormInput = ({ label, name, value, onChange, suggestions = [], showSuggest
         const rect = inputRef.current.getBoundingClientRect();
         const dropdown = inputRef.current.nextElementSibling;
         if (dropdown) {
-          dropdown.parentElement.setAttribute('data-dropdown-up', rect.bottom + dropdown.offsetHeight > window.innerHeight);
+          dropdown.parentElement.setAttribute(
+            "data-dropdown-up",
+            rect.bottom + dropdown.offsetHeight > window.innerHeight
+          );
         }
       }
     };
 
-    window.addEventListener('resize', handlePosition);
+    window.addEventListener("resize", handlePosition);
     handlePosition();
 
     return () => {
-      window.removeEventListener('resize', handlePosition);
+      window.removeEventListener("resize", handlePosition);
     };
   }, [value]);
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
       if (activeSuggestionIndex >= 0 && suggestions[activeSuggestionIndex]) {
-        onChange({ target: { name, value: suggestions[activeSuggestionIndex] } });
+        onChange({
+          target: { name, value: suggestions[activeSuggestionIndex] },
+        });
         setShowSuggestions(false);
       }
-    } else if (event.key === 'ArrowDown') {
+    } else if (event.key === "ArrowDown") {
       setActiveSuggestionIndex((prevIndex) =>
         prevIndex === suggestions.length - 1 ? 0 : prevIndex + 1
       );
-    } else if (event.key === 'ArrowUp') {
+    } else if (event.key === "ArrowUp") {
       setActiveSuggestionIndex((prevIndex) =>
         prevIndex <= 0 ? suggestions.length - 1 : prevIndex - 1
       );
@@ -233,9 +344,15 @@ const FormInput = ({ label, name, value, onChange, suggestions = [], showSuggest
   };
 
   return (
-    <div className="form-group" onFocus={() => setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}>
+    <div
+      className="form-group"
+      onFocus={() => setShowSuggestions(true)}
+      onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+    >
       <label className="form-label">
-        {name === 'src' || name === 'dest' ? <MapPin className="form-icon" /> : null}
+        {name === "src" || name === "dest" ? (
+          <MapPin className="form-icon" />
+        ) : null}
         {label}
       </label>
       <input
@@ -251,12 +368,18 @@ const FormInput = ({ label, name, value, onChange, suggestions = [], showSuggest
         onKeyDown={handleKeyDown}
       />
       {showSuggestions && (
-        <div className={`suggestions-dropdown ${suggestions.length ? 'show' : ''}`}>
+        <div
+          className={`suggestions-dropdown ${suggestions.length ? "show" : ""}`}
+        >
           {suggestions.map((suggestion, index) => (
             <div
               key={index}
-              className={`suggestion-item ${index === activeSuggestionIndex ? 'active' : ''}`}
-              onMouseDown={() => onChange({ target: { name, value: suggestion } })}
+              className={`suggestion-item ${
+                index === activeSuggestionIndex ? "active" : ""
+              }`}
+              onMouseDown={() =>
+                onChange({ target: { name, value: suggestion } })
+              }
             >
               {suggestion}
             </div>
@@ -286,7 +409,7 @@ const FormCheckbox = ({ label, name, checked, onChange }) => (
 
 // BusCard Component - Bus card displaying bus details
 const BusCard = ({ bus, onClick }) => {
-  const distance = parseFloat(bus.Total_Distance.replace(/[^0-9.]/g, ''));
+  const distance = parseFloat(bus.Total_Distance.replace(/[^0-9.]/g, ""));
   const fillPercentage = Math.min((distance / 1000) * 100, 100);
 
   return (
@@ -302,7 +425,9 @@ const BusCard = ({ bus, onClick }) => {
               {bus.Price.includes("₹") ? bus.Price : `₹${bus.Price}`}
             </div>
             <div className="bus-card-price-distance">
-              {bus.Total_Distance.includes("KM") ? bus.Total_Distance : `${bus.Total_Distance} KM`}
+              {bus.Total_Distance.includes("KM")
+                ? bus.Total_Distance
+                : `${bus.Total_Distance} KM`}
             </div>
           </div>
         </div>

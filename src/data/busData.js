@@ -1,0 +1,38 @@
+export const mockBusData = [
+  {
+    id: "HR-01-1234",
+    routeNumber: "Delhi-Chandigarh Express",
+    currentLocation: [28.7041, 77.1025],
+    route: [
+      [28.7041, 77.1025],
+      [29.1042, 77.3124],
+      [30.3752, 76.7821],
+    ],
+    speed: 65,
+    nextStop: "Panipat",
+    eta: 25,
+    passengers: 32,
+    capacity: 50,
+    driver: "Rajesh Kumar",
+    contact: "+91 98765-43210",
+    status: "On Time",
+  },
+  {
+    id: "HR-02-5678",
+    routeNumber: "Gurgaon-Sonipat Express",
+    currentLocation: [28.4595, 77.0266],
+    route: [
+      [28.4595, 77.0266],
+      [28.6139, 77.209],
+      [28.9931, 77.0151],
+    ],
+    speed: 55,
+    nextStop: "Rohini",
+    eta: 15,
+    passengers: 28,
+    capacity: 45,
+    driver: "Amit Singh",
+    contact: "+91 98765-43211",
+    status: "Delayed",
+  },
+];

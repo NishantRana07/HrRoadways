@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaStar, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import { motion } from "framer-motion";
+
+import { eightTranslationURL } from "../constants";
 
 // Custom hook to fetch translations
 const useTranslation = (isHindi) => {
   const [currentLanguage, setCurrentLanguage] = useState(null);
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338186662206955520';
 
   useEffect(() => {
-    fetch(translationsUrl)
+    fetch(eightTranslationURL)
       .then((response) => response.json())
       .then((data) => {
         setCurrentLanguage(isHindi ? data.hi : data.en);
       })
       .catch((error) => {
-        console.error('Error fetching translations:', error);
+        console.error("Error fetching translations:", error);
       });
   }, [isHindi]);
 
@@ -28,7 +29,8 @@ const Reviews = ({ isHindi }) => {
       name: "John Doe",
       date: "2025-01-30",
       rating: 5,
-      comment: "Excellent service! The buses are punctual and the staff is very helpful.",
+      comment:
+        "Excellent service! The buses are punctual and the staff is very helpful.",
       likes: 12,
       dislikes: 1,
       topic: "On Time",
@@ -37,7 +39,8 @@ const Reviews = ({ isHindi }) => {
         {
           name: "Assistant",
           date: "2025-01-30",
-          comment: "Thank you for your positive feedback, John! We're glad to hear that you enjoyed our punctual service.",
+          comment:
+            "Thank you for your positive feedback, John! We're glad to hear that you enjoyed our punctual service.",
         },
         {
           name: "Jane Doe",
@@ -132,7 +135,10 @@ const Reviews = ({ isHindi }) => {
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  const currentReviews = filteredReviews.slice(indexOfFirstReview, indexOfLastReview);
+  const currentReviews = filteredReviews.slice(
+    indexOfFirstReview,
+    indexOfLastReview
+  );
 
   const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
 
@@ -156,7 +162,9 @@ const Reviews = ({ isHindi }) => {
       <div className="flex flex-col-reverse lg:flex-row">
         <div className="w-full lg:w-2/3 lg:pr-10">
           <div className="mb-4">
-            <label className="block mb-2 text-lg font-semibold">{currentLanguage.sortBy}</label>
+            <label className="block mb-2 text-lg font-semibold">
+              {currentLanguage.sortBy}
+            </label>
             <div className="relative inline-block w-full">
               <select
                 value={sortTopic}
@@ -170,7 +178,13 @@ const Reviews = ({ isHindi }) => {
                 ))}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 12l-6-6h12z"/></svg>
+                <svg
+                  className="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 12l-6-6h12z" />
+                </svg>
               </div>
             </div>
           </div>
@@ -193,14 +207,22 @@ const Reviews = ({ isHindi }) => {
                       <FaStar
                         key={i}
                         className={`h-6 w-6 ${
-                          i < review.rating ? "text-yellow-500" : "text-gray-300"
+                          i < review.rating
+                            ? "text-yellow-500"
+                            : "text-gray-300"
                         }`}
                       />
                     ))}
                   </div>
                 </div>
                 <p className="mt-3 text-gray-700">{review.comment}</p>
-                {review.photo && <img src={review.photo} alt="Review" className="mt-4 rounded-lg shadow-md" />}
+                {review.photo && (
+                  <img
+                    src={review.photo}
+                    alt="Review"
+                    className="mt-4 rounded-lg shadow-md"
+                  />
+                )}
                 <div className="flex justify-between items-center mt-4">
                   <div className="flex items-center space-x-4">
                     <button
@@ -219,7 +241,10 @@ const Reviews = ({ isHindi }) => {
                   <p className="text-gray-500">{review.topic}</p>
                 </div>
                 {review.replies.map((reply, replyIndex) => (
-                  <div key={replyIndex} className="mt-4 ml-6 p-4 bg-gray-100 rounded-lg shadow-inner">
+                  <div
+                    key={replyIndex}
+                    className="mt-4 ml-6 p-4 bg-gray-100 rounded-lg shadow-inner"
+                  >
                     <div className="flex justify-between items-center">
                       <div>
                         <h3 className="text-lg font-semibold text-gray-800">
@@ -267,12 +292,14 @@ const Reviews = ({ isHindi }) => {
           </div>
         </div>
         <div className="w-full lg:w-1/3 lg:pl-10 mb-10 lg:mb-0">
-          <motion.form 
-            onSubmit={handleSubmit} 
+          <motion.form
+            onSubmit={handleSubmit}
             className="bg-gray-100 p-6 rounded-lg shadow-lg"
             whileHover={{ scale: 1.02 }}
           >
-            <h2 className="text-2xl font-semibold mb-4">{currentLanguage.addReview}</h2>
+            <h2 className="text-2xl font-semibold mb-4">
+              {currentLanguage.addReview}
+            </h2>
             <div className="mb-4">
               <input
                 type="text"

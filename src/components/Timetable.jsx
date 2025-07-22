@@ -1,21 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Clock, 
-  Bus,
-  MapPin,
-  Route,
-  Search,
-  X,
-  ArrowRight
-} from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import { Clock, Bus, MapPin, Route, Search, X, ArrowRight } from "lucide-react";
+import { busStandURL } from "../constants";
 
 const WeeklyTimetable = () => {
-  const [currentDateTime, setCurrentDateTime] = useState('2025-02-13 16:27:11');
+  const [currentDateTime, setCurrentDateTime] = useState("2025-02-13 16:27:11");
   const [scheduleData, setScheduleData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [searchFrom, setSearchFrom] = useState('');
-  const [searchTo, setSearchTo] = useState('');
+  const [searchFrom, setSearchFrom] = useState("");
+  const [searchTo, setSearchTo] = useState("");
 
   const [fromSuggestions, setFromSuggestions] = useState([]);
   const [toSuggestions, setToSuggestions] = useState([]);
@@ -39,7 +32,7 @@ const WeeklyTimetable = () => {
   useEffect(() => {
     const fetchSchedule = async () => {
       try {
-        const response = await fetch('https://jsonblob.com/api/jsonBlob/1333092652136194048');
+        const response = await fetch(busStandURL);
         const data = await response.json();
         setScheduleData(data);
 
@@ -55,7 +48,7 @@ const WeeklyTimetable = () => {
         setPopularRoutes(topRoutes);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching schedule:', error);
+        console.error("Error fetching schedule:", error);
         setLoading(false);
       }
     };
@@ -64,7 +57,7 @@ const WeeklyTimetable = () => {
 
     const timer = setInterval(() => {
       const now = new Date();
-      const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
+      const formattedDate = now.toISOString().slice(0, 19).replace("T", " ");
       setCurrentDateTime(formattedDate);
     }, 1000);
 
@@ -72,7 +65,10 @@ const WeeklyTimetable = () => {
   }, []);
 
   useEffect(() => {
-    fromItemRefs.current = fromItemRefs.current.slice(0, fromSuggestions.length);
+    fromItemRefs.current = fromItemRefs.current.slice(
+      0,
+      fromSuggestions.length
+    );
   }, [fromSuggestions]);
 
   useEffect(() => {
@@ -82,8 +78,8 @@ const WeeklyTimetable = () => {
   useEffect(() => {
     if (fromHighlightIndex >= 0 && fromItemRefs.current[fromHighlightIndex]) {
       fromItemRefs.current[fromHighlightIndex].scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest'
+        behavior: "smooth",
+        block: "nearest",
       });
     }
   }, [fromHighlightIndex]);
@@ -91,29 +87,33 @@ const WeeklyTimetable = () => {
   useEffect(() => {
     if (toHighlightIndex >= 0 && toItemRefs.current[toHighlightIndex]) {
       toItemRefs.current[toHighlightIndex].scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest'
+        behavior: "smooth",
+        block: "nearest",
       });
     }
   }, [toHighlightIndex]);
 
   const updateSuggestions = (value, type) => {
-    if (type === 'from') {
+    if (type === "from") {
       const suggestions = [
         ...new Set(
           scheduleData
-            .filter(schedule => schedule.from.toLowerCase().includes(value.toLowerCase()))
-            .map(schedule => schedule.from)
-        )
+            .filter((schedule) =>
+              schedule.from.toLowerCase().includes(value.toLowerCase())
+            )
+            .map((schedule) => schedule.from)
+        ),
       ];
       setFromSuggestions(suggestions);
     } else {
       const suggestions = [
         ...new Set(
           scheduleData
-            .filter(schedule => schedule.to.toLowerCase().includes(value.toLowerCase()))
-            .map(schedule => schedule.to)
-        )
+            .filter((schedule) =>
+              schedule.to.toLowerCase().includes(value.toLowerCase())
+            )
+            .map((schedule) => schedule.to)
+        ),
       ];
       setToSuggestions(suggestions);
     }
@@ -121,19 +121,25 @@ const WeeklyTimetable = () => {
 
   const handleSearch = () => {
     if (searchFrom && searchTo) {
-      const filtered = scheduleData.filter(schedule => 
-        schedule.from.toLowerCase() === searchFrom.toLowerCase() &&
-        schedule.to.toLowerCase() === searchTo.toLowerCase()
+      const filtered = scheduleData.filter(
+        (schedule) =>
+          schedule.from.toLowerCase() === searchFrom.toLowerCase() &&
+          schedule.to.toLowerCase() === searchTo.toLowerCase()
       );
       setFilteredSchedules(filtered);
 
       const newSearch = `${searchFrom} to ${searchTo}`;
-      setRecentSearches(prev => [newSearch, ...prev.filter(search => search !== newSearch)].slice(0, 5));
+      setRecentSearches((prev) =>
+        [newSearch, ...prev.filter((search) => search !== newSearch)].slice(
+          0,
+          5
+        )
+      );
     }
   };
 
   const handleRouteSelect = (route) => {
-    const [from, to] = route.split(' to ');
+    const [from, to] = route.split(" to ");
     setSearchFrom(from);
     setSearchTo(to);
     handleSearch();
@@ -142,21 +148,25 @@ const WeeklyTimetable = () => {
   const handleFromKeyDown = (e) => {
     if (showFromSuggestions && fromSuggestions.length > 0) {
       switch (e.key) {
-        case 'ArrowDown':
+        case "ArrowDown":
           e.preventDefault();
-          setFromHighlightIndex(prev => {
+          setFromHighlightIndex((prev) => {
             const nextIndex = prev + 1;
-            return nextIndex >= fromSuggestions.slice(0, 10).length ? 0 : nextIndex;
+            return nextIndex >= fromSuggestions.slice(0, 10).length
+              ? 0
+              : nextIndex;
           });
           break;
-        case 'ArrowUp':
+        case "ArrowUp":
           e.preventDefault();
-          setFromHighlightIndex(prev => {
+          setFromHighlightIndex((prev) => {
             const nextIndex = prev - 1;
-            return nextIndex < 0 ? fromSuggestions.slice(0, 10).length - 1 : nextIndex;
+            return nextIndex < 0
+              ? fromSuggestions.slice(0, 10).length - 1
+              : nextIndex;
           });
           break;
-        case 'Enter':
+        case "Enter":
           e.preventDefault();
           if (fromHighlightIndex >= 0) {
             const selected = fromSuggestions.slice(0, 10)[fromHighlightIndex];
@@ -168,7 +178,7 @@ const WeeklyTimetable = () => {
         default:
           break;
       }
-    } else if (e.key === 'Enter') {
+    } else if (e.key === "Enter") {
       toInputRef.current.focus();
     }
   };
@@ -176,21 +186,25 @@ const WeeklyTimetable = () => {
   const handleToKeyDown = (e) => {
     if (showToSuggestions && toSuggestions.length > 0) {
       switch (e.key) {
-        case 'ArrowDown':
+        case "ArrowDown":
           e.preventDefault();
-          setToHighlightIndex(prev => {
+          setToHighlightIndex((prev) => {
             const nextIndex = prev + 1;
-            return nextIndex >= toSuggestions.slice(0, 10).length ? 0 : nextIndex;
+            return nextIndex >= toSuggestions.slice(0, 10).length
+              ? 0
+              : nextIndex;
           });
           break;
-        case 'ArrowUp':
+        case "ArrowUp":
           e.preventDefault();
-          setToHighlightIndex(prev => {
+          setToHighlightIndex((prev) => {
             const nextIndex = prev - 1;
-            return nextIndex < 0 ? toSuggestions.slice(0, 10).length - 1 : nextIndex;
+            return nextIndex < 0
+              ? toSuggestions.slice(0, 10).length - 1
+              : nextIndex;
           });
           break;
-        case 'Enter':
+        case "Enter":
           e.preventDefault();
           if (toHighlightIndex >= 0) {
             const selected = toSuggestions.slice(0, 10)[toHighlightIndex];
@@ -202,7 +216,7 @@ const WeeklyTimetable = () => {
         default:
           break;
       }
-    } else if (e.key === 'Enter') {
+    } else if (e.key === "Enter") {
       handleSearch();
     }
   };
@@ -231,7 +245,10 @@ const WeeklyTimetable = () => {
               {/* From Input */}
               <div className="relative flex-1">
                 <div className="relative">
-                  <MapPin size={20} className="absolute left-3 top-3 text-blue-600" />
+                  <MapPin
+                    size={20}
+                    className="absolute left-3 top-3 text-blue-600"
+                  />
                   <input
                     ref={fromInputRef}
                     type="text"
@@ -239,7 +256,7 @@ const WeeklyTimetable = () => {
                     value={searchFrom}
                     onChange={(e) => {
                       setSearchFrom(e.target.value);
-                      updateSuggestions(e.target.value, 'from');
+                      updateSuggestions(e.target.value, "from");
                       setShowFromSuggestions(true);
                       setFromHighlightIndex(-1);
                     }}
@@ -249,7 +266,7 @@ const WeeklyTimetable = () => {
                   {searchFrom && (
                     <button
                       onClick={() => {
-                        setSearchFrom('');
+                        setSearchFrom("");
                         setFromHighlightIndex(-1);
                       }}
                       className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
@@ -259,15 +276,13 @@ const WeeklyTimetable = () => {
                   )}
                 </div>
                 {showFromSuggestions && fromSuggestions.length > 0 && (
-                  <div 
-                    className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto"
-                  >
+                  <div className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto">
                     {fromSuggestions.slice(0, 10).map((suggestion, index) => (
                       <button
                         key={suggestion}
                         ref={(el) => (fromItemRefs.current[index] = el)}
                         className={`w-full px-4 py-2 text-left hover:bg-blue-50 first:rounded-t-xl last:rounded-b-xl ${
-                          index === fromHighlightIndex ? 'bg-blue-100' : ''
+                          index === fromHighlightIndex ? "bg-blue-100" : ""
                         }`}
                         onClick={() => {
                           setSearchFrom(suggestion);
@@ -290,7 +305,10 @@ const WeeklyTimetable = () => {
               {/* To Input */}
               <div className="relative flex-1">
                 <div className="relative">
-                  <MapPin size={20} className="absolute left-3 top-3 text-blue-600" />
+                  <MapPin
+                    size={20}
+                    className="absolute left-3 top-3 text-blue-600"
+                  />
                   <input
                     ref={toInputRef}
                     type="text"
@@ -298,7 +316,7 @@ const WeeklyTimetable = () => {
                     value={searchTo}
                     onChange={(e) => {
                       setSearchTo(e.target.value);
-                      updateSuggestions(e.target.value, 'to');
+                      updateSuggestions(e.target.value, "to");
                       setShowToSuggestions(true);
                       setToHighlightIndex(-1);
                     }}
@@ -308,7 +326,7 @@ const WeeklyTimetable = () => {
                   {searchTo && (
                     <button
                       onClick={() => {
-                        setSearchTo('');
+                        setSearchTo("");
                         setToHighlightIndex(-1);
                       }}
                       className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
@@ -318,15 +336,13 @@ const WeeklyTimetable = () => {
                   )}
                 </div>
                 {showToSuggestions && toSuggestions.length > 0 && (
-                  <div 
-                    className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto"
-                  >
+                  <div className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto">
                     {toSuggestions.slice(0, 10).map((suggestion, index) => (
                       <button
                         key={suggestion}
                         ref={(el) => (toItemRefs.current[index] = el)}
                         className={`w-full px-4 py-2 text-left hover:bg-blue-50 first:rounded-t-xl last:rounded-b-xl ${
-                          index === toHighlightIndex ? 'bg-blue-100' : ''
+                          index === toHighlightIndex ? "bg-blue-100" : ""
                         }`}
                         onClick={() => {
                           setSearchTo(suggestion);
@@ -355,7 +371,9 @@ const WeeklyTimetable = () => {
             <div className="mt-8">
               {popularRoutes.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-medium text-gray-500 mb-3">Popular Routes</h3>
+                  <h3 className="text-sm font-medium text-gray-500 mb-3">
+                    Popular Routes
+                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {popularRoutes.map((route, index) => (
                       <button
@@ -372,7 +390,9 @@ const WeeklyTimetable = () => {
 
               {recentSearches.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500 mb-3">Recent Searches</h3>
+                  <h3 className="text-sm font-medium text-gray-500 mb-3">
+                    Recent Searches
+                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {recentSearches.map((route, index) => (
                       <button
@@ -404,14 +424,15 @@ const WeeklyTimetable = () => {
                     {searchFrom} → {searchTo}
                   </h2>
                   <p className="text-gray-600">
-                    {filteredSchedules[0].Total_Distance} • {filteredSchedules.length} buses available
+                    {filteredSchedules[0].Total_Distance} •{" "}
+                    {filteredSchedules.length} buses available
                   </p>
                 </div>
 
                 {/* Grid layout to reduce vertical scrolling */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {filteredSchedules.map((schedule, index) => (
-                    <div 
+                    <div
                       key={index}
                       className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-shadow"
                     >
@@ -426,9 +447,13 @@ const WeeklyTimetable = () => {
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-gray-600 mb-2">
-                            <span className="font-medium">{schedule.Bus_Type}</span>
+                            <span className="font-medium">
+                              {schedule.Bus_Type}
+                            </span>
                             <span>•</span>
-                            <span className="text-green-600 font-medium">{schedule.Price}</span>
+                            <span className="text-green-600 font-medium">
+                              {schedule.Price}
+                            </span>
                           </div>
                           <div className="flex items-start gap-2 text-sm text-gray-500">
                             <Route size={16} className="mt-1 flex-shrink-0" />

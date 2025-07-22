@@ -1,60 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  AlertTriangle, 
-  CloudRain, 
-  Truck, 
-  Wind,
-  Zap
-} from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Wind, Zap } from "lucide-react";
+
+import { generateTrafficUpdates } from "../helpers/generateTrafficUpdate";
 
 const TrafficUpdates = () => {
   const [updates, setUpdates] = useState([]);
   const [isAnimating, setIsAnimating] = useState(true);
-
-  const generateTrafficUpdates = () => {
-    const possibleUpdates = [
-      { 
-        icon: AlertTriangle, 
-        title: 'Delhi-Chandigarh Highway', 
-        status: 'High Traffic', 
-        severity: 'warning',
-        details: 'Congestion near Karnal toll plaza',
-        gradient: 'from-orange-500 to-red-500',
-        bgGradient: 'bg-gradient-to-r from-orange-100/20 to-red-100/20'
-      },
-      { 
-        icon: CloudRain, 
-        title: 'Hisar Route', 
-        status: 'Weather Alert', 
-        severity: 'info',
-        details: 'Heavy rainfall expected',
-        gradient: 'from-blue-500 to-indigo-500',
-        bgGradient: 'bg-gradient-to-r from-blue-100/20 to-indigo-100/20'
-      },
-      { 
-        icon: Truck, 
-        title: 'Gurugram Bypass', 
-        status: 'Construction', 
-        severity: 'warning',
-        details: 'Alternate route recommended',
-        gradient: 'from-yellow-500 to-amber-500',
-        bgGradient: 'bg-gradient-to-r from-yellow-100/20 to-amber-100/20'
-      },
-      { 
-        icon: Wind, 
-        title: 'Ambala Corridor', 
-        status: 'Clear Passage', 
-        severity: 'success',
-        details: 'Smooth traffic flow',
-        gradient: 'from-green-500 to-emerald-500',
-        bgGradient: 'bg-gradient-to-r from-green-100/20 to-emerald-100/20'
-      }
-    ];
-
-    return possibleUpdates
-      .sort(() => 0.5 - Math.random())
-      .slice(0, Math.floor(Math.random() * 2) + 2);
-  };
 
   useEffect(() => {
     setUpdates(generateTrafficUpdates());
@@ -91,11 +42,15 @@ const TrafficUpdates = () => {
 
         <div className="space-y-4">
           {updates.map((update, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`
                 transform transition-all duration-700 
-                ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+                ${
+                  isAnimating
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-10"
+                }
                 rounded-xl p-4 border 
                 ${update.bgGradient}
                 border-blue-200/50 
@@ -106,11 +61,13 @@ const TrafficUpdates = () => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className={`
+                  <div
+                    className={`
                     p-2 rounded-full 
                     bg-gradient-to-br ${update.gradient} 
                     shadow-md
-                  `}>
+                  `}
+                  >
                     <update.icon className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -118,14 +75,18 @@ const TrafficUpdates = () => {
                     <p className="text-sm text-blue-700/80">{update.details}</p>
                   </div>
                 </div>
-                <div className={`
+                <div
+                  className={`
                   px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider
-                  ${update.severity === 'warning' 
-                    ? 'bg-orange-500/20 text-orange-700' 
-                    : update.severity === 'info' 
-                    ? 'bg-blue-500/20 text-blue-700' 
-                    : 'bg-green-500/20 text-green-700'}
-                `}>
+                  ${
+                    update.severity === "warning"
+                      ? "bg-orange-500/20 text-orange-700"
+                      : update.severity === "info"
+                      ? "bg-blue-500/20 text-blue-700"
+                      : "bg-green-500/20 text-green-700"
+                  }
+                `}
+                >
                   {update.status}
                 </div>
               </div>
