@@ -1,27 +1,4 @@
-import { useState, useEffect } from "react";
-import { Search, MapPin, Calendar, Info } from "lucide-react";
-import { tenthTranslationURL } from "../constants";
 
-const TravelLocations = ({ isHindi }) => {
-  const [translations, setTranslations] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-
-  // Fetch translations from the hosted JSON blob
-  useEffect(() => {
-    fetch(tenthTranslationURL)
-      .then((response) => response.json())
-      .then((data) => setTranslations(data))
-      .catch((error) => console.error("Error fetching translations:", error));
-  }, []);
-
-  // Display a loading message until translations have been fetched
-  if (!translations) {
-    return <div>Loading translations...</div>;
-  }
-
-  // Use the appropriate language based on the isHindi prop
-  const currentLanguage = isHindi ? translations.hi : translations.en;
 
   // Filter the locations based on search term and selected category
   const filteredLocations = currentLanguage.locations.filter((location) => {

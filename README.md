@@ -1,4 +1,10 @@
 <h1 align="center">HrRoadways</h1>
+<p align="center">
+  <img src="https://img.shields.io/badge/BUILD-grey?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/PASSING-brightgreen?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB&style=for-the-badge" />
+</p>
+
 <h4 align="center">
   HrRoadways is a comprehensive project designed to provide users with an intuitive platform to check bus routes, timings, and real-time updates for government bus services.
 </h4>

@@ -5,95 +5,11 @@
 }
 
 body {
-  background-color: white;
   font-family: Arial, sans-serif;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-x: hidden;
 }
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 0 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background: rgb(153, 188, 225);
-  z-index: 1000;
-  overflow: visible; /* Prevent horizontal overflow */
-}
-
-.left {
-  position: relative;
-  z-index: 1001;
-}
-
-a.nav-link:hover {
-  background-color: rgba(91, 133, 238,0);
-}
-
-.left {
-  display: flex;
-  align-items: center;
-}
-
-.left img {
-  max-height: 50px; /* Set a maximum height */
-  width: auto; /* Maintain aspect ratio */
-  margin-left: 0; /* Remove left margin */
-}
-
-.right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex: 1; /* Allow right section to take available space */
-}
-
-.right ul {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-}
-
-.lang {
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-}
-
-.right li a {
-  text-decoration: none;
-  color: white;
-  font-size: 1rem;
-  padding: 8px 12px;
-  transition: all 0.3s ease;
-}
-
-.right li a:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-}
-
-.right li button {
-  padding: 8px 16px;
-  border: none;
-  background-color: #6200ea;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.right li button:hover {
-  background-color: #4500b5;
-}
-
+/* Language Toggle Switch */
 .checkbox-wrapper-5 .check {
   --size: 30px;
   position: relative;
@@ -105,14 +21,12 @@ a.nav-link:hover {
 
 .checkbox-wrapper-5 .check input[type="checkbox"],
 .checkbox-wrapper-5 .check label,
-.checkbox-wrapper-5 .check label::before,
-.checkbox-wrapper-5 .check label::after,
 .checkbox-wrapper-5 .check {
   appearance: none;
   display: inline-block;
   border-radius: var(--size);
   border: 0;
-  transition: .35s ease-in-out;
+  transition: 0.35s ease-in-out;
   box-sizing: border-box;
   cursor: pointer;
 }
@@ -122,85 +36,54 @@ a.nav-link:hover {
   height: var(--size);
   background: #d7d7d7;
   overflow: hidden;
+  position: relative;
 }
 
 .checkbox-wrapper-5 .check input[type="checkbox"] {
   position: absolute;
   z-index: 1;
-  width: calc(.8 * var(--size));
-  height: calc(.8 * var(--size));
-  top: calc(.1 * var(--size));
-  left: calc(.1 * var(--size));
+  width: calc(0.8 * var(--size));
+  height: calc(0.8 * var(--size));
+  top: calc(0.1 * var(--size));
+  left: calc(0.1 * var(--size));
   background: linear-gradient(45deg, #dedede, #ffffff);
-  box-shadow: 0 6px 7px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 7px rgba(0, 0, 0, 0.3);
   outline: none;
   margin: 0;
 }
 
-.checkbox-wrapper-5 .check input[type="checkbox"]:checked {
-  left: calc(1.3 * var(--size));
+/* globe icon styling */
+.checkbox-wrapper-5 .check label::after {
+  content: "🌐";
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  font-size: calc(0.6 * var(--size));
+  color: #72d2ff;
+  transition: left 0.35s ease-in-out;
+}
+
+.checkbox-wrapper-5 .check input[type="checkbox"]:checked + label::after {
+  left: 75%;
 }
 
 .checkbox-wrapper-5 .check input[type="checkbox"]:checked + label {
-  background: transparent;
+  background: linear-gradient(90deg, #358cd4, #295db7);
 }
 
-.checkbox-wrapper-5 .check label::before,
-.checkbox-wrapper-5 .check label::after {
-  content: "· ·";
-  position: absolute;
-  overflow: hidden;
-  left: calc(.15 * var(--size));
-  top: calc(.5 * var(--size));
-  height: var(--size);
-  letter-spacing: calc(-0.04 * var(--size));
-  color: #9b9b9b;
-  font-family: "Times New Roman", serif;
-  z-index: 2;
-  font-size: calc(.6 * var(--size));
-  border-radius: 0;
-  transform-origin: 0 0 calc(-0.5 * var(--size));
-  backface-visibility: hidden;
-}
-
-.checkbox-wrapper-5 .check label::after {
-  content: "●";
-  top: calc(.65 * var(--size));
-  left: calc(.2 * var(--size));
-  height: calc(.1 * var(--size));
-  width: calc(.35 * var(--size));
-  font-size: calc(.2 * var(--size));
-  transform-origin: 0 0 calc(-0.4 * var(--size));
-}
-
-.checkbox-wrapper-5 .check input[type="checkbox"]:checked + label::before,
-.checkbox-wrapper-5 .check input[type="checkbox"]:checked + label::after {
-  left: calc(1.55 * var(--size));
-  top: calc(.4 * var(--size));
-  line-height: calc(.1 * var(--size));
-  transform: rotateY(360deg);
-}
-
-.checkbox-wrapper-5 .check input[type="checkbox"]:checked + label::after {
-  height: calc(.16 * var(--size));
-  top: calc(.55 * var(--size));
-  left: calc(1.6 * var(--size));
-  font-size: calc(.6 * var (--size));
-  line-height: 0;
-}
-
+/* Sidebar styles for mobile */
 .sidebar {
   position: fixed;
-  top: 0;
   right: 0;
-  width: 100%; /* Make sidebar full width on mobile screens */
+  width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 50, 0.9); /* Dark navy blue with slight transparency */
+  background-color: rgba(0, 0, 50, 0.9);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   transform: translateX(100%);
   transition: transform 0.3s;
   z-index: 1001;
-  padding-top: 60px; /* To ensure it does not overlap with the nav bar */
+  padding-top: 60px;
   color: white;
 }
 
@@ -214,8 +97,8 @@ a.nav-link:hover {
   border: none;
   cursor: pointer;
   padding: 1rem;
-  text-align: center; /* Centering the close button */
-  width: 100%; /* Making the button take full width */
+  text-align: center;
+  width: 100%;
 }
 
 .sidebar ul {
@@ -235,52 +118,17 @@ a.nav-link:hover {
   font-weight: 500;
   padding: 1rem;
   display: block;
-  transition: background-color 0.3s ease, padding-left 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .sidebar ul li a:hover {
-  background-color: rgba(255, 255, 255, 0.2);  /* Light background on hover */
-  padding-left: 1.5rem;  /* Adds a little padding shift for effect */
-  color: rgb(128, 183, 255);  /*text color */
+  background-color: rgba(255, 255, 255, 0.2);
+  padding-left: 1.5rem;
+  color: rgb(128, 183, 255);
 }
 
-/* Ensure the dropdown has a higher z-index */
-.dropdown.show {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(0);
-  z-index: 2000; /* Increase z-index */
-}
-
-/* Ensure the dropdown is properly positioned */
-.right .dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  display: none;
-  background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  z-index: 2000; /* Increase z-index */
-}
-
+/* Dropdown animation */
 .dropdown {
-  display: none;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-}
-
-.group:hover .dropdown {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.group .dropdown {
   position: absolute;
   top: 100%;
   left: 0;
@@ -293,32 +141,39 @@ a.nav-link:hover {
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-/* New styling for the Guide and Rules button */
+.dropdown.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Guide CTA Link */
 .guide-link {
-  background-color: rgba(12, 17, 81, 0.503); /* Different background color */
-  color: rgb(255, 255, 255); /* Different text color */
-  font-weight: bold; /* Bold text */
-  border-radius: 8px; /* Rounded corners */
-  padding: 8px 16px; /* Padding to make it stand out */
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: rgba(12, 17, 81, 0.503);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
 }
 
 .guide-link:hover {
-  background-color: rgba(2, 6, 90, 0.175); /* Change background color on hover */
-  color: rgb(128, 183, 255); /* Change text color on hover */
+  background-color: rgba(2, 6, 90, 0.175);
+  color: rgb(128, 183, 255);
 }
 
-/* Add hover effect to the navigation links */
+/* Navbar links */
 .nav-link {
-  text-decoration: none; /* Remove underline */
-  color: inherit; /* Use inherited color from parent */
-  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for color and transform */
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #196bae; /* Change color on hover */
-  transform: scale(1.15); /* Slightly enlarge the text */
+  color: #196bae;
+  transform: scale(1.05);
 }

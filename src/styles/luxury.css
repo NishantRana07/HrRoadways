@@ -229,7 +229,6 @@
 .destination-card:hover {
     animation: royalGlow 1.5s infinite alternate;
 }
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;700&display=swap');
 
 :root {
     --royal-blue: #1a5f7a;

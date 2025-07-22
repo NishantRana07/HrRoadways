@@ -70,7 +70,6 @@
   <!--Favicon-->
   <link rel="icon" type="image/svg+xml" href="/src/assets/LogoHR.png" />
 
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -78,11 +77,13 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Arima:wght@100..700&family=Jaro:opsz@6..72&family=Roboto+Slab:wght@100..900&display=swap"
     rel="stylesheet">
+    
+  <!-- Add basic CSS reset -->
+  <style>
+    body { margin: 0; font-family: 'Roboto Slab', sans-serif; }
+    #root { min-height: 100vh; display: flex; flex-direction: column; }
+  </style>
 </head>
-
-<script src="https://kit.fontawesome.com/f794a9dced.js" crossorigin="anonymous">
-</script>
-
 
 <body>
   <!-- NoScript Content for SEO -->
@@ -99,8 +100,52 @@
       </ul>
     </div>
   </noscript>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-</body>
 
+  <!-- React root with loading fallback -->
+  <div id="root">
+    <div style="text-align: center; padding: 2rem;">
+      <img src="/src/assets/LogoHR.png" alt="Loading" width="100" style="margin: 1rem auto;"/>
+      <p>Loading Haryana Roadways...</p>
+    </div>
+  </div>
+
+  <!-- Updated script loading with error handling -->
+  <body>
+  <!-- ... your existing noscript and root div ... -->
+
+  <!-- Fixed script loading with proper error handling -->
+  <script type="module">
+    const rootElement = document.getElementById('root');
+    
+    function showError(message) {
+      rootElement.innerHTML = `
+        <div style="color: red; padding: 2rem; text-align: center;">
+          <h2>Application Error</h2>
+          <p>${message}</p>
+          <p>Please contact support if this persists.</p>
+        </div>
+      `;
+    }
+
+    async function loadApp() {
+      try {
+        // Try both possible paths
+        await Promise.any([
+          import('/src/main.jsx'),
+          import('./src/main.jsx')
+        ]);
+      } catch (error) {
+        showError('Failed to load application files. Check:<br>' + 
+                 '1. main.jsx exists in /src/<br>' +
+                 '2. Server is running (npm run dev)');
+        console.error('Loading error:', error);
+      }
+    }
+
+    loadApp();
+  </script>
+
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/f794a9dced.js" crossorigin="anonymous"></script>
+</body>
 </html>

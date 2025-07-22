@@ -246,47 +246,78 @@
   }
   
   /* Responsive Design */
-  @media (max-width: 1024px) {
-    .trip-container {
-      flex-direction: column;
-    }
-  
-    .trip-sidebar {
-      position: static;
-      width: 100%;
-    }
+  @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.trip-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ... (keep all your existing styles until the media queries) ... */
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .trip-container {
+    flex-direction: column;
+  }
+
+  .trip-sidebar {
+    position: static;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .trip-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .hotel-grid {
+    grid-template-columns: 1fr;
   }
   
-  @media (max-width: 768px) {
-    .trip-header {
-      flex-direction: column;
-      gap: 1rem;
-    }
-  
-    .hotel-grid {
-      grid-template-columns: 1fr;
-    }
+  .nav-item {
+    white-space: nowrap;
+    font-size: 14px;
+    padding: 0 8px !important;
   }
   
-  /* Slider Custom Styles */
-  .slider {
-    margin: 1rem 0;
+  .header-right {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
   }
   
-  .rc-slider-track {
-    background-color: #2563eb;
+  .helpline-button {
+    padding: 6px 10px !important;
   }
-  
-  .rc-slider-handle {
-    border-color: #2563eb;
-    background-color: white;
-  }
-  
-  .rc-slider-handle:hover {
-    border-color: #1d4ed8;
-  }
-  
-  .rc-slider-handle:active {
-    border-color: #1d4ed8;
-    box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.2);
-  }
+}
+
+/* Slider Custom Styles */
+.slider {
+  margin: 1rem 0;
+}
+
+.rc-slider-track {
+  background-color: #2563eb;
+}
+
+.rc-slider-handle {
+  border-color: #2563eb;
+  background-color: white;
+}
+
+.rc-slider-handle:hover {
+  border-color: #1d4ed8;
+}
+
+.rc-slider-handle:active {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.2);
+}

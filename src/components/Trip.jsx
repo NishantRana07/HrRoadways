@@ -4,28 +4,145 @@ import { MapPin, Star, Moon } from "lucide-react";
 import { hotels } from "../data/hotels";
 import { defaultLanguage, eleventhTranslationURL } from "../constants";
 
-const CustomSlider = ({ min, max, value, onChange, step }) => {
-  const percentage = ((value - min) / (max - min)) * 100;
+// Enhanced Range Slider Component for Price Range
+const RangeSlider = ({ min, max, values, onChange, step, formatValue }) => {
+  const [isDragging, setIsDragging] = useState(null);
+
+  const getPercentage = (value) => ((value - min) / (max - min)) * 100;
+
+  const handleMouseDown = (index) => (e) => {
+    e.preventDefault();
+    setIsDragging(index);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(null);
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging !== null) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const percentage = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+      const value = Math.round((min + (percentage / 100) * (max - min)) / step) * step;
+      
+      const newValues = [...values];
+      newValues[isDragging] = Math.max(min, Math.min(max, value));
+      
+      // Ensure min doesn't exceed max and vice versa
+      if (isDragging === 0 && newValues[0] > newValues[1]) {
+        newValues[0] = newValues[1];
+      } else if (isDragging === 1 && newValues[1] < newValues[0]) {
+        newValues[1] = newValues[0];
+      }
+      
+      onChange(newValues);
+    }
+  };
+
+  useEffect(() => {
+    if (isDragging !== null) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging]);
+
   return (
-    <div className="relative w-full h-6 flex items-center">
+    <div className="relative w-full h-6 flex items-center" onMouseMove={handleMouseMove}>
+      {/* Track */}
       <div className="absolute w-full h-2 bg-blue-100 rounded-full">
+        {/* Active range */}
         <div
-          className="absolute h-full bg-blue-500 rounded-full"
+          className="absolute h-full bg-blue-500 rounded-full transition-all duration-150"
+          style={{
+            left: `${getPercentage(values[0])}%`,
+            width: `${getPercentage(values[1]) - getPercentage(values[0])}%`
+          }}
+        />
+      </div>
+      
+      {/* Min handle */}
+      <div
+        className={`absolute h-5 w-5 bg-white border-2 border-blue-500 rounded-full cursor-grab shadow-md transition-transform duration-150 ${
+          isDragging === 0 ? 'scale-110 cursor-grabbing' : 'hover:scale-105'
+        }`}
+        style={{ left: `${getPercentage(values[0])}%`, transform: "translateX(-50%)" }}
+        onMouseDown={handleMouseDown(0)}
+      />
+      
+      {/* Max handle */}
+      <div
+        className={`absolute h-5 w-5 bg-white border-2 border-blue-500 rounded-full cursor-grab shadow-md transition-transform duration-150 ${
+          isDragging === 1 ? 'scale-110 cursor-grabbing' : 'hover:scale-105'
+        }`}
+        style={{ left: `${getPercentage(values[1])}%`, transform: "translateX(-50%)" }}
+        onMouseDown={handleMouseDown(1)}
+      />
+    </div>
+  );
+};
+
+// Single Value Slider Component for Rating
+const SingleSlider = ({ min, max, value, onChange, step }) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const percentage = ((value - min) / (max - min)) * 100;
+
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const percentage = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+      const newValue = Math.round((min + (percentage / 100) * (max - min)) / step) * step;
+      onChange(Math.max(min, Math.min(max, newValue)));
+    }
+  };
+
+  const handleTrackClick = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+    const newValue = Math.round((min + (percentage / 100) * (max - min)) / step) * step;
+    onChange(Math.max(min, Math.min(max, newValue)));
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging]);
+
+  return (
+    <div className="relative w-full h-6 flex items-center" onMouseMove={handleMouseMove}>
+      <div 
+        className="absolute w-full h-2 bg-blue-100 rounded-full cursor-pointer"
+        onClick={handleTrackClick}
+      >
+        <div
+          className="absolute h-full bg-blue-500 rounded-full transition-all duration-150"
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
-        step={step}
-        className="absolute w-full h-2 opacity-0 cursor-pointer"
-      />
       <div
-        className="absolute h-4 w-4 bg-white border-2 border-blue-500 rounded-full cursor-pointer"
+        className={`absolute h-5 w-5 bg-white border-2 border-blue-500 rounded-full cursor-grab shadow-md transition-transform duration-150 ${
+          isDragging ? 'scale-110 cursor-grabbing' : 'hover:scale-105'
+        }`}
         style={{ left: `${percentage}%`, transform: "translateX(-50%)" }}
+        onMouseDown={handleMouseDown}
       />
     </div>
   );
@@ -39,15 +156,6 @@ const HotelCard = ({ hotel, currentLanguage }) => (
         alt={hotel.name}
         className="w-full h-48 object-cover"
       />
-      <div className="absolute bottom-0 left-0 right-0 h-4 bg-white opacity-80">
-        <div
-          className="h-full bg-repeat-x"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='16' viewBox='0 0 20 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 8L10 0L20 8L10 16L0 8Z' fill='%23ccc'/%3E%3C/svg%3E")`,
-            backgroundSize: "20px 16px",
-          }}
-        />
-      </div>
       <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full flex items-center gap-1 border-2 border-blue-500">
         <Star className="w-4 h-4 text-blue-500 fill-blue-500" />
         <span className="text-sm font-bold">{hotel.rating}</span>
@@ -90,14 +198,13 @@ const SidebarFilter = ({ filters, onFilterChange, currentLanguage }) => (
           </h4>
           <div className="flex-1 border-b-2 border-dotted border-blue-200" />
         </div>
-        <CustomSlider
+        <RangeSlider
           min={500}
           max={8000}
-          value={filters.priceRange[0]}
-          onChange={(value) =>
-            onFilterChange("priceRange", [value, filters.priceRange[1]])
-          }
+          values={filters.priceRange}
+          onChange={(value) => onFilterChange("priceRange", value)}
           step={200}
+          formatValue={currentLanguage.priceLabel}
         />
         <div className="flex justify-between text-sm font-bold text-blue-600 mt-2">
           <span>{currentLanguage.priceLabel(filters.priceRange[0])}</span>
@@ -112,7 +219,7 @@ const SidebarFilter = ({ filters, onFilterChange, currentLanguage }) => (
           </h4>
           <div className="flex-1 border-b-2 border-dotted border-blue-200" />
         </div>
-        <CustomSlider
+        <SingleSlider
           min={0}
           max={5}
           value={filters.minRating}
@@ -141,37 +248,13 @@ const SidebarFilter = ({ filters, onFilterChange, currentLanguage }) => (
   </div>
 );
 
-const Trip = ({ isHindi }) => {
-  // Use defaultLanguage as the initial state
+const Trip = ({ isHindi = false }) => {
   const [currentLanguage, setCurrentLanguage] = useState(defaultLanguage);
   const [filters, setFilters] = useState({
     priceRange: [500, 8000],
     minRating: 0,
   });
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Replace with your actual JSONBlob URL
-    fetch(eleventhTranslationURL)
-      .then((response) => response.json())
-      .then((data) => {
-        const langData = isHindi ? data.hi.trip : data.en.trip;
-        // Create the dynamic priceLabel function
-        const priceLabelFunc = new Function(
-          "price",
-          `return (${langData.priceLabelFunc})(price);`
-        );
-        setCurrentLanguage({
-          ...langData,
-          priceLabel: priceLabelFunc,
-        });
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching translations:", error);
-        setLoading(false);
-      });
-  }, [isHindi]);
 
   const handleFilterChange = (type, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [type]: value }));
@@ -185,13 +268,6 @@ const Trip = ({ isHindi }) => {
     return matchesPrice && matchesRating;
   });
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-6">
@@ -217,7 +293,7 @@ const Trip = ({ isHindi }) => {
               </span>
             </div>
             {filteredHotels.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredHotels.map((hotel) => (
                   <HotelCard
                     key={hotel.id}
