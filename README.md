@@ -28,7 +28,14 @@ HrRoadways/
   ```
     npm install
   ```
-3. Run the development server to access the site locally: 
+3. Create .env and add following:
+
+```
+VITE_WEATHER_API_KEY=a88a791860616b06b7b7b8637de9af7b
+VITE_GEMINI_API_KEY=your_gemini_api_key
+```
+
+4. Run the development server to access the site locally: 
   ```
     npm run dev
   ```
@@ -117,23 +124,30 @@ git clone https://github.com/your-username/HrRoadways.git
 git checkout -b your-branch-name
 ```
 
-#### 4. Make Your Changes:
+#### 4. Create .env and add following:
+
+```
+VITE_WEATHER_API_KEY=a88a791860616b06b7b7b8637de9af7b
+VITE_GEMINI_API_KEY=your_gemini_api_key
+```
+
+#### 5. Make Your Changes:
 Ensure that you:
 - Apply the logic for Hindi translation.
 - Compress images before uploading.
 
-#### 5. Commit Your Changes:
+#### 6. Commit Your Changes:
 ```bash
 git add .
 git commit -m "Describe your changes"
 ```
 
-#### 6. Push to the Branch:
+#### 7. Push to the Branch:
 ```bash
 git push origin your-branch-name
 ```
 
-#### 7. Create a Pull Request:
+#### 8. Create a Pull Request:
 Go to the original repository and click on "New Pull Request."
 
 ## Keeping Your Fork Updated
