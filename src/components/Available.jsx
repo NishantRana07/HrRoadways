@@ -1,21 +1,18 @@
-import React from 'react';
-import '../styles/Available.css'
-import Buses from './BusCard'
+import "../styles/Available.css";
+import Buses from "./BusCard";
 const Available = () => {
   return (
     <>
-    <div className="main">
+      <div className="main">
         <div className="heading">
-            <h3>Hey! These are the avalialble Buses</h3>
+          <h3>Hey! These are the avalialble Buses</h3>
         </div>
         <div className="cards">
-            <Buses/>
-            
-            
+          <Buses />
         </div>
-    </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
 export default Available;

@@ -1,0 +1,63 @@
+export const fleetInfo = [
+  {
+    id: 1,
+    name: "Volvo 9400 Multi-Axle",
+    features: [
+      "Fully Air Conditioned",
+      "Ergonomic Seating",
+      "Personal Entertainment Systems",
+      "USB Charging Points",
+      "GPS Tracking",
+      "CCTV Surveillance",
+    ],
+    capacity: "40 Seats",
+    age: "Average Fleet Age: 2 Years",
+    safety: [
+      "ABS",
+      "Fire Suppression System",
+      "Speed Governor",
+      "Driver Fatigue Detection",
+    ],
+    image: "https://i.ibb.co/ks7dhtV7/volvo.jpg",
+  },
+  {
+    id: 2,
+    name: "Mercedes-Benz 2441 SHD",
+    features: [
+      "Premium Interior",
+      "Push-back Seats",
+      "Individual AC Control",
+      "WiFi Connectivity",
+      "Emergency Exit",
+      "First Aid Kit",
+    ],
+    capacity: "36 Seats",
+    age: "Average Fleet Age: 1.5 Years",
+    safety: [
+      "ESP",
+      "Lane Departure Warning",
+      "Emergency Braking",
+      "24x7 Roadside Assistance",
+    ],
+    image: "https://i.ibb.co/tTWPJMc2/mercedes.jpg",
+  },
+  {
+    id: 3,
+    name: "Ashok Leyland Metrolink - Legacy",
+    features: [
+      "Onboard Entertainment",
+      "Multiple USB Ports",
+      "GPS Monitoring",
+      "Surveillance Cameras",
+    ],
+    capacity: "42 Seats",
+    age: "Phasing out till 2028",
+    safety: [
+      "Automatic Braking System",
+      "Fire Extinguishers",
+      "Speed Limiter",
+      "Driver Monitoring System",
+    ],
+    image: "https://i.ibb.co/SXnqnGkp/ashok-leyland.jpg",
+  },
+];

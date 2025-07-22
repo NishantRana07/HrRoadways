@@ -1,49 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Bus, MapPin, Clock, Globe, Facebook, Twitter, Instagram, Linkedin, Share } from 'lucide-react';
-import '../styles/footer.css'; // Import the CSS file
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Bus, MapPin, Clock, Globe, Share } from "lucide-react";
+import "../styles/footer.css"; // Import the CSS file
+
+import { translation } from "../data/translations";
 
 function Footer({ isHindi }) {
   const [currentTime, setCurrentTime] = useState(new Date());
-
-  const translations = {
-    en: {
-      company: "Company",
-      aboutUs: "About us",
-      services: "Our Services",
-      privacy: "Policy",
-      affiliate: "Affiliate Program",
-      getHelp: "Help",
-      reviews: "Reviews", // Changed from faq to reviews
-      contactUs: "Contact Us",
-      busStatus: "Bus Status",
-      paymentOptions: "Payment Options",
-      rides: "Rides",
-      trips: "Trips",
-      luxury: "Luxury Destination",
-      visitCities: "Visit Cities",
-      bestRides: "Best Rides",
-      followUs: "Follow Us",
-    },
-    hi: {
-      company: "कंपनी",
-      aboutUs: "हमारे बारे में",
-      services: "हमारी सेवाएँ",
-      privacy: "नीति",
-      affiliate: "सहबद्ध कार्यक्रम",
-      getHelp: "सहायता प्राप्त करें",
-      reviews: "समीक्षाएं", // Changed from faq to reviews
-      contactUs: "संपर्क करें",
-      busStatus: "बस स्थिति",
-      paymentOptions: "भुगतान विकल्प",
-      rides: "सवारी",
-      trips: "यात्राएँ",
-      luxury: "लग्जरी गंतव्य",
-      visitCities: "शहरों की यात्रा करें",
-      bestRides: "सर्वश्रेष्ठ सवारी",
-      followUs: "हमें फॉलो करें",
-    },
-  };
 
   useEffect(() => {
     const timeInterval = setInterval(() => {
@@ -53,7 +16,7 @@ function Footer({ isHindi }) {
     return () => clearInterval(timeInterval);
   }, []);
 
-  const t = isHindi ? translations.hi : translations.en;
+  const t = isHindi ? translation.hi : translation.en;
 
   return (
     <footer className="footer">
@@ -133,10 +96,26 @@ function Footer({ isHindi }) {
               ) : (
                 <div className="footer-social-links">
                   {[
-                    { Icon: Facebook, color: "social-facebook", href: "https://github.com/NishantRana07" },
-                    { Icon: Twitter, color: "social-twitter", href: "https://github.com/NishantRana07/" },
-                    { Icon: Instagram, color: "social-instagram", href: "https://github.com/NishantRana07/" },
-                    { Icon: Linkedin, color: "social-linkedin", href: "https://github.com/NishantRana07/" },
+                    {
+                      Icon: Facebook,
+                      color: "social-facebook",
+                      href: "https://github.com/NishantRana07",
+                    },
+                    {
+                      Icon: Twitter,
+                      color: "social-twitter",
+                      href: "https://github.com/NishantRana07/",
+                    },
+                    {
+                      Icon: Instagram,
+                      color: "social-instagram",
+                      href: "https://github.com/NishantRana07/",
+                    },
+                    {
+                      Icon: Linkedin,
+                      color: "social-linkedin",
+                      href: "https://github.com/NishantRana07/",
+                    },
                   ].map(({ Icon, color, href }, idx) => (
                     <a key={idx} href={href} className="footer-social-link">
                       <Icon className={`footer-social-icon ${color}`} />
@@ -151,7 +130,10 @@ function Footer({ isHindi }) {
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <Bus className="footer-bottom-icon" />
-            <p className="footer-bottom-text">© {new Date().getFullYear()} Haryana Roadways - Connecting Communities</p>
+            <p className="footer-bottom-text">
+              © {new Date().getFullYear()} Haryana Roadways - Connecting
+              Communities
+            </p>
             <Bus className="footer-bottom-icon" />
           </div>
         </div>

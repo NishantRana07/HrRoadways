@@ -1,6 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, ThumbsUp, Share2, Bookmark, Search, MapPin, Bus } from 'lucide-react';
-import '../styles/Blog.css';
+import { useState, useEffect } from "react";
+import {
+  Calendar,
+  Clock,
+  ThumbsUp,
+  Share2,
+  Bookmark,
+  Search,
+  MapPin,
+  Bus,
+} from "lucide-react";
+
+import { translationsUrl } from "../constants";
+import "../styles/Blog.css";
 
 const BlogPage = ({ isHindi }) => {
   // State to store fetched translations
@@ -9,26 +20,29 @@ const BlogPage = ({ isHindi }) => {
   const [currentLanguage, setCurrentLanguage] = useState(null);
   // Posts state, form state and other UI states
   const [posts, setPosts] = useState([]);
-  const [formData, setFormData] = useState({ title: '', content: '', category: '', tags: '', route: '' });
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    category: "",
+    tags: "",
+    route: "",
+  });
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [savedPosts, setSavedPosts] = useState(new Set());
-  const [sortBy, setSortBy] = useState('latest');
-
-  // Replace with your hosted JSON blob URL
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1336703432563810304';
+  const [sortBy, setSortBy] = useState("latest");
 
   // Fetch the translations when the component mounts
   useEffect(() => {
     fetch(translationsUrl)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setTranslations(data);
         // Set the current language and posts based on the isHindi prop
         setCurrentLanguage(isHindi ? data.hi : data.en);
         setPosts(isHindi ? data.hi.posts : data.en.posts);
       })
-      .catch(error => console.error('Error fetching translations:', error));
+      .catch((error) => console.error("Error fetching translations:", error));
   }, [translationsUrl, isHindi]);
 
   // Update the current language and posts when the isHindi prop changes
@@ -55,19 +69,28 @@ const BlogPage = ({ isHindi }) => {
       const newPost = {
         id: posts.length + 1,
         ...formData,
-        date: new Date().toISOString().split('T')[0],
-        tags: formData.tags.split(',').map(tag => tag.trim()),
+        date: new Date().toISOString().split("T")[0],
+        tags: formData.tags.split(",").map((tag) => tag.trim()),
         likes: 0,
-        readTime: `${Math.max(1, Math.ceil(formData.content.length / 1000))} min`,
-        author: 'Admin'
+        readTime: `${Math.max(
+          1,
+          Math.ceil(formData.content.length / 1000)
+        )} min`,
+        author: "Admin",
       };
       setPosts([newPost, ...posts]);
-      setFormData({ title: '', content: '', category: '', tags: '', route: '' });
+      setFormData({
+        title: "",
+        content: "",
+        category: "",
+        tags: "",
+        route: "",
+      });
     }
   };
 
   const toggleSave = (postId) => {
-    setSavedPosts(prev => {
+    setSavedPosts((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(postId)) {
         newSet.delete(postId);
@@ -79,21 +102,26 @@ const BlogPage = ({ isHindi }) => {
   };
 
   const handleLike = (postId) => {
-    setPosts(posts.map(post =>
-      post.id === postId ? { ...post, likes: post.likes + 1 } : post
-    ));
+    setPosts(
+      posts.map((post) =>
+        post.id === postId ? { ...post, likes: post.likes + 1 } : post
+      )
+    );
   };
 
   const filteredPosts = posts
-    .filter(post =>
-      (selectedCategory === 'all' || post.category === selectedCategory) &&
-      (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-       post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-       post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())))
+    .filter(
+      (post) =>
+        (selectedCategory === "all" || post.category === selectedCategory) &&
+        (post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          post.tags.some((tag) =>
+            tag.toLowerCase().includes(searchQuery.toLowerCase())
+          ))
     )
     .sort((a, b) => {
-      if (sortBy === 'latest') return new Date(b.date) - new Date(a.date);
-      if (sortBy === 'popular') return b.likes - a.likes;
+      if (sortBy === "latest") return new Date(b.date) - new Date(a.date);
+      if (sortBy === "popular") return b.likes - a.likes;
       return 0;
     });
 
@@ -140,18 +168,22 @@ const BlogPage = ({ isHindi }) => {
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                 >
-                  <option value="latest">{currentLanguage.sortBy.latest}</option>
-                  <option value="popular">{currentLanguage.sortBy.popular}</option>
+                  <option value="latest">
+                    {currentLanguage.sortBy.latest}
+                  </option>
+                  <option value="popular">
+                    {currentLanguage.sortBy.popular}
+                  </option>
                 </select>
               </div>
 
               <div className="category-filters">
-                {currentLanguage.categories.map(category => (
+                {currentLanguage.categories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
                     className={`category-button ${
-                      selectedCategory === category ? 'active-category' : ''
+                      selectedCategory === category ? "active-category" : ""
                     }`}
                   >
                     {category}
@@ -208,13 +240,19 @@ const BlogPage = ({ isHindi }) => {
                         </button>
                         <button
                           onClick={() => toggleSave(post.id)}
-                          className={`post-action-button ${savedPosts.has(post.id) ? 'saved' : ''}`}
+                          className={`post-action-button ${
+                            savedPosts.has(post.id) ? "saved" : ""
+                          }`}
                         >
                           <Bookmark size={18} />
-                          {savedPosts.has(post.id) ? currentLanguage.saved : currentLanguage.save}
+                          {savedPosts.has(post.id)
+                            ? currentLanguage.saved
+                            : currentLanguage.save}
                         </button>
                       </div>
-                      <span className="post-author">{currentLanguage.postBy} {post.author}</span>
+                      <span className="post-author">
+                        {currentLanguage.postBy} {post.author}
+                      </span>
                     </div>
                   </div>
                 </article>
@@ -252,10 +290,16 @@ const BlogPage = ({ isHindi }) => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="">{currentLanguage.categoryPlaceholder}</option>
-                  {currentLanguage.categories.filter(cat => cat !== 'all').map(category => (
-                    <option key={category} value={category}>{category}</option>
-                  ))}
+                  <option value="">
+                    {currentLanguage.categoryPlaceholder}
+                  </option>
+                  {currentLanguage.categories
+                    .filter((cat) => cat !== "all")
+                    .map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
                 </select>
                 <input
                   type="text"
@@ -281,7 +325,9 @@ const BlogPage = ({ isHindi }) => {
 
             {/* Popular Routes */}
             <div className="popular-routes">
-              <h3 className="popular-routes-title">{currentLanguage.popularRoutes}</h3>
+              <h3 className="popular-routes-title">
+                {currentLanguage.popularRoutes}
+              </h3>
               <ul className="popular-routes-list">
                 <li className="popular-route-item">
                   <Bus size={16} />

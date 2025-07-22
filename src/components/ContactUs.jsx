@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../styles/ContactUs.css";
+
+import { TranslationURL } from "../constants";
 
 // Custom hook to fetch translations
 const useTranslation = (isHindi) => {
   const [currentLanguage, setCurrentLanguage] = useState(null);
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338197131445592064';
 
   useEffect(() => {
-    fetch(translationsUrl)
+    fetch(TranslationURL)
       .then((response) => response.json())
       .then((data) => {
         setCurrentLanguage(isHindi ? data.hi : data.en);
       })
       .catch((error) => {
-        console.error('Error fetching translations:', error);
+        console.error("Error fetching translations:", error);
       });
   }, [isHindi]);
 
@@ -59,7 +60,9 @@ const ContactUs = ({ isHindi }) => {
               <i className="fa fa-envelope"></i>
               <div>
                 <p>{currentLanguage.contactNumbers.emailSupport}</p>
-                <a href="mailto:support@hrroadways.com">support@hrroadways.com</a>
+                <a href="mailto:support@hrroadways.com">
+                  support@hrroadways.com
+                </a>
               </div>
             </div>
           </div>
@@ -71,15 +74,18 @@ const ContactUs = ({ isHindi }) => {
           <div className="timings-details">
             <p>
               <i className="fa fa-calendar"></i>
-              {currentLanguage.officeTimings.weekdays}: <span>9:00 AM - 6:00 PM</span>
+              {currentLanguage.officeTimings.weekdays}:{" "}
+              <span>9:00 AM - 6:00 PM</span>
             </p>
             <p>
               <i className="fa fa-calendar-check"></i>
-              {currentLanguage.officeTimings.saturday}: <span>10:00 AM - 4:00 PM</span>
+              {currentLanguage.officeTimings.saturday}:{" "}
+              <span>10:00 AM - 4:00 PM</span>
             </p>
             <p>
               <i className="fa fa-ban"></i>
-              {currentLanguage.officeTimings.sunday}: <span>{currentLanguage.officeTimings.closed}</span>
+              {currentLanguage.officeTimings.sunday}:{" "}
+              <span>{currentLanguage.officeTimings.closed}</span>
             </p>
           </div>
         </div>

@@ -1,53 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/modal.css';
+import { Link } from "react-router-dom";
+import "../styles/modal.css";
 import {
-  FaMale,
-  FaFemale,
   FaChair,
   FaMapMarkerAlt,
   FaClock,
   FaRoute,
   FaRoad,
-  FaMoneyBillWave
-} from 'react-icons/fa';
+  FaMoneyBillWave,
+} from "react-icons/fa";
 
-const generateSeats = () => {
-  const seats = [];
-  for (let i = 1; i <= 60; i++) {
-    const status = Math.random(); 
-    /*
-      Example seat distribution logic:
-      - 20% filled by male
-      - 20% filled by female
-      - 60% open
-      You can adjust the logic to meet your needs
-    */
-    if (status < 0.2) {
-      seats.push({
-        id: i,
-        type: 'filled',
-        occupant: 'Male',
-        icon: <FaMale />
-      });
-    } else if (status < 0.4) {
-      seats.push({
-        id: i,
-        type: 'female',
-        occupant: 'Female',
-        icon: <FaFemale />
-      });
-    } else {
-      seats.push({
-        id: i,
-        type: 'open',
-        occupant: 'Unoccupied',
-        icon: <FaChair />
-      });
-    }
-  }
-  return seats;
-};
+import { generateSeats } from "../helpers/generateSeats";
 
 const BusDetailModal = ({ isOpen, onClose, bus }) => {
   if (!isOpen) return null;
@@ -174,8 +136,8 @@ const BusDetailModal = ({ isOpen, onClose, bus }) => {
             <div className="detail-item">
               <FaChair className="detail-icon" />
               <div className="detail-text">
-                <strong>Seats Booked:</strong>{' '}
-                {seats.filter((seat) => seat.type === 'filled').length}
+                <strong>Seats Booked:</strong>{" "}
+                {seats.filter((seat) => seat.type === "filled").length}
               </div>
             </div>
           </div>
