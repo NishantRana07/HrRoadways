@@ -377,12 +377,11 @@ body {
   left: 75%;
 }
 
-
 .checkbox-wrapper-5 .check input[type="checkbox"]:checked + label::after {
-  height: calc(.16 * var(--size));
-  top: calc(.55 * var(--size));
+  height: calc(0.16 * var(--size));
+  top: calc(0.55 * var(--size));
   left: calc(1.6 * var(--size));
-  font-size: calc(.6 * var (--size));
+  font-size: calc(0.6 * var (--size));
   line-height: 0;
 }
 
@@ -476,6 +475,7 @@ body {
 .mobile-menu-button:hover {
   background: rgba(255, 255, 255, 0.1);
 }
+
 
 .sidebar {
   position: fixed;
@@ -587,4 +587,19 @@ body {
   color: #1976d2 !important;
   border-bottom: 2px solid #1976d2;
   font-weight: bold;
+}
+
+/* Mobile sidebar enhancements for language selector */
+@media (max-width: 768px) {
+  /* Ensure mobile sidebar has proper scrolling */
+  .fixed.inset-y-0.right-0 {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Language selector positioning in mobile menu */
+  .language-selector-mobile {
+    position: relative;
+    z-index: 1;
+  }
 }

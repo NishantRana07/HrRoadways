@@ -35,6 +35,7 @@ const LanguageSelector = ({ className = "", variant = "default" }) => {
             case "navbar":
                 return {
                     button: "flex items-center space-x-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 transition-all duration-200 backdrop-blur-sm min-w-0",
+                    // Dropdown opens downward, positioned absolutely below the button, with high z-index and scrollable
                     dropdown: "absolute top-full right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-[9999] max-h-80 overflow-y-auto backdrop-blur-lg language-dropdown",
                     item: "w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100 last:border-b-0 language-item",
                     activeItem: "bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-500"
@@ -59,7 +60,7 @@ const LanguageSelector = ({ className = "", variant = "default" }) => {
     const styles = getVariantStyles();
 
     return (
-        <div className={`relative language-selector ${variant === 'mobile' ? 'language-selector-mobile' : ''} ${className}`} ref={dropdownRef}>
+        <div className={`relative language-selector ${variant === 'navbar' ? 'z-[9999]' : ''} ${variant === 'mobile' ? 'language-selector-mobile' : ''} ${className}`} ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={styles.button}
@@ -83,25 +84,27 @@ const LanguageSelector = ({ className = "", variant = "default" }) => {
                         <div className="px-4 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-700">
                             {t('common.selectLanguage', 'Select Language')}
                         </div>
-                        {availableLanguages.map((language) => (
-                            <button
-                                key={language.code}
-                                onClick={() => handleLanguageChange(language.code)}
-                                className={`${styles.item} ${currentLanguage === language.code
+                        <div className="overflow-y-auto">
+                            {availableLanguages.map((language) => (
+                                <button
+                                    key={language.code}
+                                    onClick={() => handleLanguageChange(language.code)}
+                                    className={`${styles.item} ${currentLanguage === language.code
                                         ? styles.activeItem
                                         : ''
-                                    }`}
-                                role="option"
-                                aria-selected={currentLanguage === language.code}
-                            >
-                                <div className="flex items-center justify-between">
-                                    <span className="font-medium">{language.name}</span>
-                                    {currentLanguage === language.code && (
-                                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                    )}
-                                </div>
-                            </button>
-                        ))}
+                                        }`}
+                                    role="option"
+                                    aria-selected={currentLanguage === language.code}
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-medium">{language.name}</span>
+                                        {currentLanguage === language.code && (
+                                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                        )}
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}

@@ -1,34 +1,77 @@
 /* Language Selector Responsive Styles */
 
 /* Custom scrollbar for dropdown */
-.language-dropdown::-webkit-scrollbar {
+.language-dropdown::-webkit-scrollbar,
+.language-dropdown *::-webkit-scrollbar {
   width: 6px;
 }
 
-.language-dropdown::-webkit-scrollbar-track {
+.language-dropdown::-webkit-scrollbar-track,
+.language-dropdown *::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 3px;
 }
 
-.language-dropdown::-webkit-scrollbar-thumb {
+.language-dropdown::-webkit-scrollbar-thumb,
+.language-dropdown *::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 3px;
 }
 
-.language-dropdown::-webkit-scrollbar-thumb:hover {
+.language-dropdown::-webkit-scrollbar-thumb:hover,
+.language-dropdown *::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
 
+/* Ensure scrollable container */
+
+/* Ensure desktop dropdown is scrollable */
+.language-dropdown {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: 20rem;
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+/* Dark mode Firefox scrollbar */
+.dark .language-dropdown > div {
+  scrollbar-color: #6b7280 #374151;
+}
+
+/* Mobile scrollbar - make it more visible on touch devices */
+@media (max-width: 768px) {
+  .language-dropdown::-webkit-scrollbar,
+  .language-dropdown *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .language-dropdown::-webkit-scrollbar-thumb,
+  .language-dropdown *::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 4px;
+  }
+
+  .language-dropdown::-webkit-scrollbar-thumb:active,
+  .language-dropdown *::-webkit-scrollbar-thumb:active {
+    background: #6b7280;
+  }
+}
+
 /* Dark mode scrollbar */
-.dark .language-dropdown::-webkit-scrollbar-track {
+.dark .language-dropdown::-webkit-scrollbar-track,
+.dark .language-dropdown *::-webkit-scrollbar-track {
   background: #374151;
 }
 
-.dark .language-dropdown::-webkit-scrollbar-thumb {
+.dark .language-dropdown::-webkit-scrollbar-thumb,
+.dark .language-dropdown *::-webkit-scrollbar-thumb {
   background: #6b7280;
 }
 
-.dark .language-dropdown::-webkit-scrollbar-thumb:hover {
+.dark .language-dropdown::-webkit-scrollbar-thumb:hover,
+.dark .language-dropdown *::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
 
@@ -73,10 +116,140 @@
   .language-selector-mobile .language-dropdown {
     position: static;
     width: 100%;
-    max-height: 200px;
+    max-height: 240px;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #9ca3af #f1f5f9;
     box-shadow: none;
     border: 1px solid #e5e7eb;
+    margin-top: 0.5rem;
   }
+
+  .language-selector-mobile .language-dropdown > div {
+    max-height: 240px;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Enhanced scrollbar for mobile */
+  .language-selector-mobile .language-dropdown::-webkit-scrollbar,
+  .language-selector-mobile .language-dropdown *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .language-selector-mobile .language-dropdown::-webkit-scrollbar-track,
+  .language-selector-mobile .language-dropdown *::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+  }
+
+  .language-selector-mobile .language-dropdown::-webkit-scrollbar-thumb,
+  .language-selector-mobile .language-dropdown *::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 4px;
+  }
+
+  .language-selector-mobile .language-dropdown::-webkit-scrollbar-thumb:hover,
+  .language-selector-mobile
+    .language-dropdown
+    *::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+
+  /* Dark mode scrollbar for mobile */
+  .dark .language-selector-mobile .language-dropdown::-webkit-scrollbar-track,
+  .dark
+    .language-selector-mobile
+    .language-dropdown
+    *::-webkit-scrollbar-track {
+    background: #374151;
+  }
+
+  .dark .language-selector-mobile .language-dropdown::-webkit-scrollbar-thumb,
+  .dark
+    .language-selector-mobile
+    .language-dropdown
+    *::-webkit-scrollbar-thumb {
+    background: #6b7280;
+  }
+
+  .dark
+    .language-selector-mobile
+    .language-dropdown::-webkit-scrollbar-thumb:hover,
+  .dark
+    .language-selector-mobile
+    .language-dropdown
+    *::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+
+  /* Specific adjustments for mobile sidebar */
+  .language-selector-mobile button {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+  }
+
+  .language-selector-mobile .language-dropdown {
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .language-selector-mobile .language-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    min-height: 44px; /* Ensure minimum touch target size */
+    display: flex;
+    align-items: center;
+  }
+
+  /* Fix dropdown positioning in mobile navbar */
+  .language-selector-mobile {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Ensure dropdown doesn't overflow the sidebar */
+  .language-selector-mobile .language-dropdown {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+/* Tablet responsive adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .language-selector {
+    position: relative;
+  }
+
+  .language-dropdown {
+    max-height: 300px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Additional mobile fixes */
+@media (max-width: 480px) {
+  .language-selector-mobile .language-dropdown {
+    max-height: 180px;
+  }
+
+  .language-selector-mobile .language-item {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Ensure proper z-index layering */
+.language-selector {
+  z-index: 10;
+}
+
+.language-dropdown {
+  z-index: 50;
 }
 
 /* Hover effects */
