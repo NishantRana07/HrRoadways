@@ -5,18 +5,327 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
 }
 
-/* Language Toggle Switch */
-.checkbox-wrapper-5 .check {
-  --size: 30px;
+/* Main Navigation Bar */
+.navbar {
+  background-color: #0F172A;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.navbar-scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background-color: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+}
+
+.brand-logo {
+  height: 50px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+  transform: scale(1.05);
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  transition: color 0.3s ease;
+}
+
+.brand-name:hover {
+  color: #0EA5E9;
+}
+
+/* Main Navigation Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  list-style: none;
+}
+
+.nav-item {
   position: relative;
-  background: linear-gradient(90deg, #358cd4, #295db7);
-  line-height: 0;
-  perspective: 400px;
-  font-size: var(--size);
+}
+
+.nav-link {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #0EA5E9;
+  background-color: rgba(14, 165, 233, 0.1);
+}
+
+.nav-link.active {
+  color: #0EA5E9;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  background-color: #0EA5E9;
+  border-radius: 50%;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background-color: #1E293B;
+  border-radius: 10px;
+  padding: 0.75rem 0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 1001;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-item:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  color: #F1F5F9;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(14, 165, 233, 0.1);
+  color: #0EA5E9;
+  padding-left: 1.75rem;
+}
+
+/* Language Toggle */
+.language-toggle {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: #1E293B;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-switch.active {
+  background-color: #0EA5E9;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  transition: all 0.3s ease;
+}
+
+.toggle-switch.active .toggle-slider {
+  transform: translateX(24px);
+}
+
+.toggle-label {
+  margin-left: 0.5rem;
+  color: #FFFFFF;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Helpline Button */
+.helpline-button {
+  background-color: #0EA5E9;
+  color: #FFFFFF;
+  padding: 0.6rem 1.25rem;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.helpline-button:hover {
+  background-color: #0369A1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
+}
+
+.helpline-icon {
+  font-size: 1rem;
+}
+
+/* Mobile Menu */
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.mobile-menu-button:hover {
+  color: #0EA5E9;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: #0F172A;
+  z-index: 2000;
+  padding: 2rem;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.sidebar-close:hover {
+  color: #0EA5E9;
+}
+
+.sidebar-links {
+  margin-top: 2.5rem;
+  list-style: none;
+}
+
+.sidebar-item {
+  margin-bottom: 1rem;
+}
+
+.sidebar-link {
+  color: #F1F5F9;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  display: block;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-link:hover {
+  color: #0EA5E9;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .nav-links {
+    gap: 0.75rem;
+  }
+  
+  .nav-link {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .helpline-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .mobile-menu-button {
+    display: block;
+  }
+  
+  .language-toggle {
+    margin-right: 1rem;
+  }
+  
+  .nav-container {
+    padding: 0.75rem 1rem;
+  }
+  
+  .brand-name {
+    font-size: 1.25rem;
+  }
 }
 
 .checkbox-wrapper-5 .check input[type="checkbox"],
@@ -98,10 +407,74 @@ body {
   left: 0;
   z-index: 2000;
   min-width: 200px;
+  background: linear-gradient(135deg, #000000 0%, #1f2937 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .checkbox-wrapper-5 .check input[type="checkbox"]:checked + label {
-  background: linear-gradient(90deg, #358cd4, #295db7);
+  background: linear-gradient(90deg, #3b82f6, #1e40af);
+}
+
+.checkbox-wrapper-5 .check label {
+  width: calc(2.2 * var(--size));
+  height: var(--size);
+  background: #374151;
+  overflow: hidden;
+  position: relative;
+  border-radius: 20px;
+}
+
+.checkbox-wrapper-5 .check input[type="checkbox"] {
+  position: absolute;
+  z-index: 1;
+  width: calc(0.8 * var(--size));
+  height: calc(0.8 * var(--size));
+  top: calc(0.1 * var(--size));
+  left: calc(0.1 * var(--size));
+  background: linear-gradient(45deg, #ffffff, #f3f4f6);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.helpline-button {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.helpline-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-button:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar {
@@ -109,14 +482,14 @@ body {
   right: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 50, 0.9);
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #000000 0%, #1f2937 100%);
+  backdrop-filter: blur(10px);
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
   transform: translateX(100%);
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
   z-index: 1001;
-  color: white;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  color: #ffffff;
+
 }
 
 .sidebar.open {

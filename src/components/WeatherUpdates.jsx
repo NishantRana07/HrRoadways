@@ -106,7 +106,7 @@ const WeatherUpdates = () => {
   };
 
   return (
-    <div className="relative bg-white/90 rounded-2xl shadow-2xl border border-blue-100/50 overflow-hidden">
+    <div className="relative bg-white/90 mt-4 rounded-2xl shadow-2xl border border-blue-100/50 overflow-hidden">
       {/* Animated background effect */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-100 to-blue-200 animate-pulse"></div>
