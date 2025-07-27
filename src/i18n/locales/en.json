@@ -30,6 +30,31 @@
     "ordinary": "Ordinary",
     "searchPlaceholder": "Search bus stands..."
   },
+  
+  "register": {
+    "title": "Register",
+    "namePlaceholder": "Enter your ame...",
+    "emailPlaceholder": "Enter your email...",
+    "passwordPlaceholder": "Enter your password...",
+    "button": "Register",
+    "prompt": "Already have an account?",
+    "loginLink": "Login"
+  },
+  "login": {
+    "title": "Login",
+    "emailPlaceholder": "Enter your email...",
+    "passwordPlaceholder": "Enter your password...",
+    "button": "Login",
+    "prompt": "Don't have an account?",
+    "registerLink": "Regist er",
+    "forgotPassword": "Forgot Password?"
+  },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "emailPlaceholder": "Enter your email...",
+    "button": "Reset Password",
+    "prompt": "Remembered your password?"    
+  },
   "footer": {
     "companyInfo": "Haryana Roadways",
     "description": "Connecting people across Haryana with reliable and comfortable bus services.",

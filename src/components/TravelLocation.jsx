@@ -12,6 +12,8 @@ const Kurukshetra = 'https://i.ibb.co/35jgWkDV/Kurukshetra.jpg';
 const Pinjore_Gardens = 'https://i.ibb.co/zVgjsCYC/Pinjore-Gardens.jpg';
 const Morni_Hills = 'https://i.ibb.co/DgY6Ty74/Morni-Hills.webp';
 const Panchkula = 'https://i.ibb.co/HTJnB2k6/Panchkula.jpg';
+const Panipat = 'https://i.ibb.co/4RnhhGjr/Panipat-Fort-Cover-Photo-840x425.jpg';
+const Yamunanagar = 'https://i.ibb.co/JhPyNVt/Yamuna-nagar.jpg';
 
 const TravelLocations = ({ isHindi }) => {
   // Directly use the imported data, no need for useState for translations now
