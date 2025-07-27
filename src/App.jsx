@@ -1,33 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { LanguageProvider } from './contexts/LanguageContext';
-import Navigation from './components/nav';
-import Hero from './components/hero';
-import Available from './components/Available';
-import AboutUs from './components/Aboutus';
-import Trip from './components/Trip';
-import Footer from './components/footer';
-import Reviews from './components/Review';
-import Blog from './components/Blog';
-import DonatePage from './components/DonatePage';
-import TravelLocations from './components/TravelLocation';
-import HelplinePage from './components/HelpLinepage';
-import BusTracker from './components/Track';
-import InfoPage from './components/InfoPage';
-import UnderConstruction from './components/UnderConstruction';
-import ContactUs from './components/ContactUs';
-import AffiliateProgram from './components/AffiliateProgram';
-import BusCard from './components/BusCard';
-import PaymentOptions from './components/Paymentoptions';
-import RoyalHaryanaTourism from './components/RoyalHaryanaTourism';
-import ServicesPage from './components/Services';
-import BestRides from './components/BestRides';
-import Tutorial from './components/Tutorial';
-import WeeklyTimetable from './components/Timetable';
-import RulesAndGuidelines from './components/Rules';
-import TourGuidePage from './components/TourGuidePage';
-import NotFound from './components/NotFound';
-import BookingPage from './components/BookingPage';
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
+import { LanguageProvider } from "./contexts/LanguageContext";
+import Navigation from "./components/nav";
+import Hero from "./components/hero";
+import Available from "./components/Available";
+import AboutUs from "./components/Aboutus";
+import Trip from "./components/Trip";
+import Footer from "./components/footer";
+import Reviews from "./components/Review";
+import Blog from "./components/Blog";
+import DonatePage from "./components/DonatePage";
+import TravelLocations from "./components/TravelLocation";
+import HelplinePage from "./components/HelpLinepage";
+import BusTracker from "./components/Track";
+import InfoPage from "./components/InfoPage";
+import UnderConstruction from "./components/UnderConstruction";
+import ContactUs from "./components/ContactUs";
+import AffiliateProgram from "./components/AffiliateProgram";
+import BusCard from "./components/BusCard";
+import PaymentOptions from "./components/Paymentoptions";
+import RoyalHaryanaTourism from "./components/RoyalHaryanaTourism";
+import ServicesPage from "./components/Services";
+import BestRides from "./components/BestRides";
+import Tutorial from "./components/Tutorial";
+import WeeklyTimetable from "./components/Timetable";
+import RulesAndGuidelines from "./components/Rules";
+import TourGuidePage from "./components/TourGuidePage";
+import NotFound from "./components/NotFound";
+import BookingPage from "./components/BookingPage";
+import ScrollToTop from "./components/ScrollTop";
 
 function BookingPageWrapper() {
   const location = useLocation();
@@ -43,20 +50,21 @@ function App() {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 100);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
   return (
     <LanguageProvider>
       <Router>
+        <ScrollToTop />
         <Navigation />
 
         <Routes>
@@ -68,7 +76,10 @@ function App() {
           <Route path="/policy" element={<InfoPage />} />
           <Route path="/rules" element={<RulesAndGuidelines />} />
           <Route path="/under-construction" element={<UnderConstruction />} />
-          <Route path="/contactUs" element={<Navigate to="/contact" replace />} />
+          <Route
+            path="/contactUs"
+            element={<Navigate to="/contact" replace />}
+          />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/payment" element={<PaymentOptions />} />
@@ -97,19 +108,20 @@ function App() {
             onMouseLeave={() => setHovered(false)}
             className="back-to-top-btn"
             style={{
-              position: 'fixed',
-              bottom: '20px',
-              right: '20px',
-              backgroundColor: hovered ? '#1E90FF' : '#007BFF',
-              color: '#fff',
-              padding: '10px 15px',
-              borderRadius: '50px',
-              fontSize: '18px',
-              cursor: 'pointer',
-              zIndex: '1000',
-              border: 'none',
-              boxShadow: hovered ? '0px 4px 6px rgba(0, 0, 0, 0.2)' : 'none',
-              transition: 'background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease',
+              position: "fixed",
+              bottom: "20px",
+              right: "20px",
+              backgroundColor: hovered ? "#1E90FF" : "#007BFF",
+              color: "#fff",
+              padding: "10px 15px",
+              borderRadius: "50px",
+              fontSize: "18px",
+              cursor: "pointer",
+              zIndex: "1000",
+              border: "none",
+              boxShadow: hovered ? "0px 4px 6px rgba(0, 0, 0, 0.2)" : "none",
+              transition:
+                "background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease",
             }}
           >
             <i className="fa fa-arrow-up fa-lg"></i>
