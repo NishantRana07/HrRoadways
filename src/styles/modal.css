@@ -178,25 +178,6 @@
     border-radius: 3px;
   }
   
-  .book-button {
-    display: block;
-    width: 100%;
-    background: #023047;
-    color: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    font-weight: bold;
-    font-size: 1.125rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-    cursor: pointer;
-    margin-top: 1rem;
-  }
-  
-  .book-button:hover {
-    background: #03506f;
-  }
-  
   .modal-overlay.closing, .modal-content.closing {
     animation: fadeOut 0.3s ease-in-out;
   }

@@ -60,45 +60,6 @@
   text-align: center;
 }
 
-/* Input fields for forms */
-.form-input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  transition: all 0.3s ease-in-out;
-}
-
-.form-input::placeholder {
-  color: #aaa;
-  transition: all 0.3s ease-in-out;
-}
-
-.form-input:hover {
-  border-color: #007BFF;
-  background-color: #f0f8ff;
-  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-  transform: scale(1.02);
-  cursor: pointer;
-}
-
-.form-input:hover::placeholder {
-  color: #007BFF;
-  opacity: 0.7;
-  font-weight: bold;
-}
-
-.form-input:focus {
-  border-color: #0056b3;
-  background-color: #e6f2ff;
-  outline: none;
-}
-
-.form-input:focus::placeholder {
-  opacity: 0;
-}
-
 /* Feature items */
 .feature-item {
   display: flex;
@@ -144,24 +105,6 @@
   border: 1px solid #bee3f8;
 }
 
-.form-card {
-  padding: 2rem;
-  background: #ffffff;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #bee3f8;
-}
-
-.form {
-  display: grid;
-  gap: 1.5rem;
-}
-
-/* Suggestions dropdown */
-.form-group {
-  position: relative;
-}
-
 .suggestions-dropdown {
   position: absolute;
   top: 100%;
@@ -189,12 +132,6 @@
 .suggestion-item:hover,
 .suggestion-item.active {
   background-color: #f0f8ff;
-}
-
-/* Ensure dropdown opens upwards if not enough space */
-.form-group[data-dropdown-up="true"] .suggestions-dropdown {
-  top: auto;
-  bottom: 100%;
 }
 
 /* Search button styles */

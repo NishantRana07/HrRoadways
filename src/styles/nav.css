@@ -182,40 +182,27 @@ body {
   visibility: visible;
   transform: translateY(0);
 }
-
-/* Guide CTA Link */
-.guide-link {
-  background-color: rgba(12, 17, 81, 0.503);
-  color: rgb(255, 255, 255);
-  font-weight: bold;
-  border-radius: 8px;
-  padding: 8px 16px;
-  transition: all 0.3s ease;
+.nav-strip {
+  position: relative;
+  padding-bottom: 4px; /* for spacing from underline */
+  transition: color 0.3s ease;
 }
 
-.guide-link:hover {
-  background-color: rgba(2, 6, 90, 0.175);
-  color: rgb(128, 183, 255);
+.nav-strip::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: currentColor;
+  transition: width 0.3s ease;
 }
 
-/* Navbar links */
-.nav-link {
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.3s ease;
+.nav-strip:hover::before {
+  width: 100%; /* or 100% if you want full underline */
 }
 
-.nav-link:hover {
-  color: #196bae;
-  transform: scale(1.05);
-}
-/* Highlight the active nav link */
-.nav-link.active,
-.active {
-  color: #1976d2 !important;
-  border-bottom: 2px solid #1976d2;
-  font-weight: bold;
-}
 
 /* Mobile sidebar enhancements for language selector */
 @media (max-width: 768px) {

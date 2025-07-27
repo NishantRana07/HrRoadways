@@ -74,7 +74,7 @@ const PopularRoutes = ({ onRouteClick }) => {
   }, []);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-lg h-full overflow-hidden">
       <div className="bg-blue-600 text-white p-4 flex items-center justify-between">
         <h3 className="text-xl font-bold">{t('popularRoutes')}</h3>
         <Map className="w-6 h-6" />

@@ -106,29 +106,29 @@ const WeatherUpdates = () => {
   };
 
   return (
-    <div className="relative bg-white/90 rounded-2xl shadow-2xl border border-blue-100/50 overflow-hidden">
+    <div className=" mt-7 relative bg-white/90 h-full rounded-2xl shadow-2xl border border-blue-100/50 overflow-hidden">
       {/* Animated background effect */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-100 to-blue-200 animate-pulse"></div>
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-blue-900 flex items-center gap-3">
-            <Sun className="w-7 h-7 text-yellow-500 animate-pulse" />
-            {t('liveWeatherUpdates')}
-          </h2>
-          <div className="text-sm text-blue-700/70 font-medium">
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div className="bg-blue-600 text-white p-4 flex items-center justify-between">
+        <h3 className="text-xl font-bold">{t('liveWeatherUpdates')}</h3>
+        <div className="text-sm text-white font-medium">
             {new Date().toLocaleTimeString()}
           </div>
-        </div>
+      </div>
+
+    
 
         <div className="space-y-4">
           {updates.slice(currentIndex, currentIndex + 3).map((update, index) => (
             <div
               key={index}
               className={`
+                
                 transform transition-all duration-700 
                 ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
                 rounded-xl p-4 border 
