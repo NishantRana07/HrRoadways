@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { MapPin, Star, Moon } from "lucide-react";
+import React, {useState} from "react";
+import {MapPin, Star, Moon} from "lucide-react";
 import SidebarFilter from "./SidebarFilter";
 
 const defaultLanguage = {
@@ -21,7 +21,8 @@ const hotels = [
     rating: 4.2,
     type: "Premium",
     image: "https://r1imghtlak.mmtcdn.com/09c7c7e648bf11ea81fd0242ac110002.jpg",
-    bookingLink: "https://www.makemytrip.com/hotels/hotel-details/?hotelId=201409241303552966&_uCurrency=INR&checkin=date_2&checkout=date_3&city=CTXVT&cmp=SEM%7CD%7CDH%7CB%7CHname%7CDomestic_HName_RLSA_Exact_11%7C201409241303552966%7CRSA%7C&country=IN&lat=29.97464&lng=76.87196&locusId=CTXVT&locusType=city&msclkid=862c670674b615cd01220f8539c67404&rank=1&reference=hotel&roomStayQualifier=2e0e&searchText=Kurukshetra&topHtlId=201409241303552966&type=city&mtkeys=undefined&isPropSearch=T",
+    bookingLink:
+      "https://www.makemytrip.com/hotels/hotel-details/?hotelId=201409241303552966&_uCurrency=INR&checkin=date_2&checkout=date_3&city=CTXVT&cmp=SEM%7CD%7CDH%7CB%7CHname%7CDomestic_HName_RLSA_Exact_11%7C201409241303552966%7CRSA%7C&country=IN&lat=29.97464&lng=76.87196&locusId=CTXVT&locusType=city&msclkid=862c670674b615cd01220f8539c67404&rank=1&reference=hotel&roomStayQualifier=2e0e&searchText=Kurukshetra&topHtlId=201409241303552966&type=city&mtkeys=undefined&isPropSearch=T",
   },
   {
     id: 2,
@@ -30,8 +31,10 @@ const hotels = [
     priceRange: [1400, 1800],
     rating: 3.8,
     type: "Budget",
-    image: "https://r1imghtlak.mmtcdn.com/8a95a5f4bb4411eeb4fa0a58a9feac02.jpeg?&downsize=520:350&crop=520:350;0,85&output-format=webp&downsize=480:336&crop=480:336",
-    bookingLink: "https://www.makemytrip.com/hotels/address-of-hotel_9th_planet-details-kurukshetra.html",
+    image:
+      "https://r1imghtlak.mmtcdn.com/8a95a5f4bb4411eeb4fa0a58a9feac02.jpeg?&downsize=520:350&crop=520:350;0,85&output-format=webp&downsize=480:336&crop=480:336",
+    bookingLink:
+      "https://www.makemytrip.com/hotels/address-of-hotel_9th_planet-details-kurukshetra.html",
   },
   {
     id: 3,
@@ -40,8 +43,10 @@ const hotels = [
     priceRange: [2500, 3000],
     rating: 4.4,
     type: "Luxury",
-    image: "https://pix8.agoda.net/hotelImages/228847/0/89dad00180168f8fca698caa5bbbb223.jpeg?s=1024x",
-    bookingLink: "https://www.makemytrip.com/hotels/hotel_pearl_marc-details-kurukshetra.html",
+    image:
+      "https://pix8.agoda.net/hotelImages/228847/0/89dad00180168f8fca698caa5bbbb223.jpeg?s=1024x",
+    bookingLink:
+      "https://www.makemytrip.com/hotels/hotel_pearl_marc-details-kurukshetra.html",
   },
   {
     id: 4,
@@ -50,8 +55,10 @@ const hotels = [
     priceRange: [2800, 3500],
     rating: 4.5,
     type: "Luxury",
-    image: "https://images.getaroom-cdn.com/image/upload/s---LyXwCWp--/c_limit,e_improve,fl_lossy.immutable_cache,h_940,q_auto:good,w_940/v1743786542/bf496c34140a06f88fe770636affd62520043c7d?_a=BACAEuDL&atc=e7cd1cfa",
-    bookingLink: "https://www.makemytrip.com/hotels/hotel-details/?hotelId=201808171453277910&_uCurrency=INR&checkin=date_2&checkout=date_3&city=CTXVT&cmp=SEM%7CD%7CDH%7CB%7CHname%7CDomestic_HName_RLSA_Exact_11%7C201808171453277910%7CRSA%7C&country=IN&lat=29.97527&lng=76.86694&locusId=CTXVT&locusType=city&msclkid=f799946b969211366aecfce8dae88563&rank=1&reference=hotel&roomStayQualifier=2e0e&searchText=Kurukshetra&topHtlId=201808171453277910&type=city&mtkeys=undefined&isPropSearch=T",
+    image:
+      "https://images.getaroom-cdn.com/image/upload/s---LyXwCWp--/c_limit,e_improve,fl_lossy.immutable_cache,h_940,q_auto:good,w_940/v1743786542/bf496c34140a06f88fe770636affd62520043c7d?_a=BACAEuDL&atc=e7cd1cfa",
+    bookingLink:
+      "https://www.makemytrip.com/hotels/hotel-details/?hotelId=201808171453277910&_uCurrency=INR&checkin=date_2&checkout=date_3&city=CTXVT&cmp=SEM%7CD%7CDH%7CB%7CHname%7CDomestic_HName_RLSA_Exact_11%7C201808171453277910%7CRSA%7C&country=IN&lat=29.97527&lng=76.86694&locusId=CTXVT&locusType=city&msclkid=f799946b969211366aecfce8dae88563&rank=1&reference=hotel&roomStayQualifier=2e0e&searchText=Kurukshetra&topHtlId=201808171453277910&type=city&mtkeys=undefined&isPropSearch=T",
   },
   {
     id: 5,
@@ -60,13 +67,14 @@ const hotels = [
     priceRange: [1700, 2000],
     rating: 3.9,
     type: "Budget",
-    image: "https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/671648265.jpg?k=6000fe5f72777b885acd7e1b67dd717a3802305370a05fc5590afef4bf1b75f6&o=&s=375x",
-    bookingLink: "https://www.booking.com/searchresults.html?aid=357028&label=bin859jc-1DCAsobEIFdmVsZ2FIM1gDaGyIAQGYATG4ARfIAQzYAQPoAQH4AQKIAgGoAgO4AtOZjcQGwAIB0gIkZjEzZTM4YmYtZDllNy00ZjM2LWJiYWQtYzI4MzJiNzk0Yzgx2AIE4AIB&highlighted_hotels=13956451&checkin=2025-07-27&redirected=1&city=900059969&hlrd=user_sh&source=hotel&checkout=2025-07-28&keep_landing=1&sid=14a040bd03e7ea30ddf362acc337333d",
+    image:
+      "https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/671648265.jpg?k=6000fe5f72777b885acd7e1b67dd717a3802305370a05fc5590afef4bf1b75f6&o=&s=375x",
+    bookingLink:
+      "https://www.booking.com/searchresults.html?aid=357028&label=bin859jc-1DCAsobEIFdmVsZ2FIM1gDaGyIAQGYATG4ARfIAQzYAQPoAQH4AQKIAgGoAgO4AtOZjcQGwAIB0gIkZjEzZTM4YmYtZDllNy00ZjM2LWJiYWQtYzI4MzJiNzk0Yzgx2AIE4AIB&highlighted_hotels=13956451&checkin=2025-07-27&redirected=1&city=900059969&hlrd=user_sh&source=hotel&checkout=2025-07-28&keep_landing=1&sid=14a040bd03e7ea30ddf362acc337333d",
   },
-  
 ];
 
-const HotelCard = ({ hotel, currentLanguage }) => (
+const HotelCard = ({hotel, currentLanguage}) => (
   <div className="bg-white rounded-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border-2 border-blue-100 flex flex-col">
     <div className="relative">
       <img
@@ -104,7 +112,9 @@ const HotelCard = ({ hotel, currentLanguage }) => (
 
         <div className="flex items-center gap-1">
           <Moon className="w-4 h-4 text-blue-500" />
-          <span className="text-sm text-gray-600">{currentLanguage.perNight}</span>
+          <span className="text-sm text-gray-600">
+            {currentLanguage.perNight}
+          </span>
         </div>
       </div>
 
@@ -141,7 +151,7 @@ const HotelCard = ({ hotel, currentLanguage }) => (
   </div>
 );
 
-const Trip = ({ isHindi = false }) => {
+const Trip = ({isHindi = false}) => {
   const [currentLanguage] = useState(defaultLanguage);
   const [filters, setFilters] = useState({
     priceRange: [500, 8000],
@@ -150,7 +160,7 @@ const Trip = ({ isHindi = false }) => {
   });
 
   const handleFilterChange = (type, value) => {
-    setFilters((prev) => ({ ...prev, [type]: value }));
+    setFilters((prev) => ({...prev, [type]: value}));
   };
 
   const handleReset = () => {
@@ -163,12 +173,16 @@ const Trip = ({ isHindi = false }) => {
 
   const filteredHotels = hotels.filter((hotel) => {
     const [minPrice, maxPrice] = hotel.priceRange;
-    return (
-      minPrice >= filters.priceRange[0] &&
-      maxPrice <= filters.priceRange[1] &&
-      hotel.rating >= filters.minRating &&
-      (filters.hotelTypes.length === 0 || filters.hotelTypes.includes(hotel.type))
-    );
+    const [selectedMin, selectedMax] = filters.priceRange;
+
+    const isPriceOverlapping =
+      maxPrice >= selectedMin && minPrice <= selectedMax;
+    const isRatingOk = hotel.rating >= filters.minRating;
+    const isTypeOk =
+      filters.hotelTypes.length === 0 ||
+      filters.hotelTypes.includes(hotel.type);
+
+    return isPriceOverlapping && isRatingOk && isTypeOk;
   });
 
   return (
@@ -187,7 +201,9 @@ const Trip = ({ isHindi = false }) => {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-8 bg-blue-500 rounded-full" />
-                <h2 className="text-2xl font-bold text-gray-900">{currentLanguage.hotels}</h2>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {currentLanguage.hotels}
+                </h2>
               </div>
               <span className="text-sm font-bold text-blue-600 bg-blue-50 px-4 py-2 rounded-full">
                 {filteredHotels.length} {currentLanguage.hotels}
@@ -196,12 +212,18 @@ const Trip = ({ isHindi = false }) => {
             {filteredHotels.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredHotels.map((hotel) => (
-                  <HotelCard key={hotel.id} hotel={hotel} currentLanguage={currentLanguage} />
+                  <HotelCard
+                    key={hotel.id}
+                    hotel={hotel}
+                    currentLanguage={currentLanguage}
+                  />
                 ))}
               </div>
             ) : (
               <div className="text-center py-12 bg-white rounded-lg border-2 border-blue-100">
-                <p className="text-gray-600 font-medium">{currentLanguage.noHotels}</p>
+                <p className="text-gray-600 font-medium">
+                  {currentLanguage.noHotels}
+                </p>
               </div>
             )}
           </div>

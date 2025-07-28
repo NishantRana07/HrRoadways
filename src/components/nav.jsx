@@ -4,6 +4,10 @@ import { useTranslation } from 'react-i18next';
 import '../styles/nav.css';
 import { Menu, X, ChevronDown, Phone } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
+import Register from './Register';
+import { useAuthStore, useModalStore } from '../store/store';
+import Login from './Login';
+import ForgotPassword from './ForgotPassword';
 
 const Logo = 'https://i.ibb.co/kg3RQQ1S/LogoHR.png';
 
@@ -14,6 +18,13 @@ const Navigation = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const servicesTimer = useRef(null);
 
+
+  // Using zustand store for modal state
+  // Using zustand store for authentication state
+
+  const { modalType,openModal  } = useModalStore();
+   const { user } = useAuthStore();
+ 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
@@ -38,7 +49,7 @@ const Navigation = () => {
   ];
 
   const toggleSidebar = () => setIsMobileMenuOpen(x => !x);
-
+ 
   return (
     <>
       {/* Top Bar */}
@@ -109,6 +120,36 @@ const Navigation = () => {
                 <Phone className="w-4 h-4 mr-1" />
                 {t('nav.helpline')}
               </NavLink>
+             {user ? (
+        <>
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+            onClick={() => {
+              // Navigate to profile or bookings page
+              window.location.href = "/mybookings";
+            }}
+          >
+            My Profile
+          </button>
+        </>
+      ) : (
+        <>
+        {/*  Conditionally render Login/Register buttons if user is not logged in */}
+          <button
+            onClick={() => openModal("login")}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+          >
+            Login
+          </button>
+          <button
+            onClick={() => openModal("register")}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+          >
+            Register
+          </button>
+        </>
+      )}
+             
             </div>
 
             {/* Mobile Menu Button */}
@@ -171,9 +212,30 @@ const Navigation = () => {
             <li><NavLink to="/blog" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.blog')}</NavLink></li>
             <li><NavLink to="/donate" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.donate')}</NavLink></li>
             <li><NavLink to="/helpline" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.helpline')}</NavLink></li>
+            <li>
+              <button
+              onClick={() => openModal('register')}
+              className="bg-blue-500 hover:bg-blue-600 px-4 py-2.5 rounded-lg text-white font-semibold transition ml-4 w-[80%]"
+            >
+              Register
+            </button>
+            </li>
+            <li>
+              <button
+              onClick={() => openModal('login')}
+              className="bg-blue-500 hover:bg-blue-600 px-4 py-2.5 rounded-lg text-white font-semibold transition ml-4 w-[80%]"
+            >
+              Login
+            </button>
+            </li>
           </ul>
         </div>
+        
       </div>
+            {/* Conditionally Render Modals */}
+            {modalType === 'register' && <Register />}
+            {modalType === 'login' && <Login />}
+            {modalType === 'forgotPassword' && <ForgotPassword />}
     </>
   );
 };
