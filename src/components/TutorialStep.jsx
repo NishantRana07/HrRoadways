@@ -39,7 +39,7 @@ const TutorialStep = ({ icon: Icon, title, description, videoUrl, stepNumber, to
         {/* Completion message on the last step */}
         {stepNumber === totalSteps && (
           <div className="mt-4 text-sm text-green-600">
-            🎉 You've reached the end of this section!
+            🎉 You&apos;ve reached the end of this section!
           </div>
         )}
       </div>

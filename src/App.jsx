@@ -2,7 +2,6 @@
 import NotFound from './components/NotFound';
 import ScrollButton from './components/ScrollButton';
 
-import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Navigation from './components/nav';
@@ -16,7 +15,7 @@ import Blog from './components/Blog';
 import DonatePage from './components/DonatePage';
 import TravelLocations from './components/TravelLocation';
 import HelplinePage from './components/HelpLinepage';
-// import BusTracker from './components/Track';npm run dev
+// import BusTracker from './components/Track';
 import BusTracker from "./components/Track";
 import InfoPage from './components/InfoPage';
 import UnderConstruction from './components/UnderConstruction';
