@@ -6,7 +6,8 @@ import {
   Route,
   Search,
   X,
-  ArrowRight
+  ArrowRight,
+  Navigation
 } from 'lucide-react';
 
 const WeeklyTimetable = () => {
@@ -136,7 +137,20 @@ const WeeklyTimetable = () => {
     const [from, to] = route.split(' to ');
     setSearchFrom(from);
     setSearchTo(to);
-    handleSearch();
+    
+    // Trigger search immediately after setting values
+    setTimeout(() => {
+      if (from && to) {
+        const filtered = scheduleData.filter(schedule => 
+          schedule.from.toLowerCase() === from.toLowerCase() &&
+          schedule.to.toLowerCase() === to.toLowerCase()
+        );
+        setFilteredSchedules(filtered);
+
+        const newSearch = `${from} to ${to}`;
+        setRecentSearches(prev => [newSearch, ...prev.filter(search => search !== newSearch)].slice(0, 5));
+      }
+    }, 0);
   };
 
   const handleFromKeyDown = (e) => {
@@ -208,30 +222,44 @@ const WeeklyTimetable = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header with Time */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 mb-6 flex justify-end items-center">
-          <div className="flex items-center gap-2">
-            <div className="bg-blue-100 p-2 rounded-lg">
-              <Clock size={20} className="text-blue-600" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-700 dark:via-slate-800 dark:to-gray-900 text-gray-900 dark:text-gray-100">
+      {/* Header */}
+      <div className="sticky top-0 z-40 bg-white/95 dark:bg-gray-900 backdrop-blur-md border-b border-gray-200/50">
+        <div className="max-w-6xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="font-semibold text-gray-900 dark:text-gray-100">BusRoute</span>
             </div>
-            <span className="font-medium">{currentDateTime}</span>
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Clock className="w-4 h-4" />
+              <span className="font-medium dark:text-gray-100">{currentDateTime}</span>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Main Search Section */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 mb-8 text-black">
-          <h1 className="text-4xl font-bold text-center mb-8">
-            <span className="text-blue-600">Find Your Bus Route</span>
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-800 dark:from-neutral-500 dark:via-blue-500 dark:to-indigo-800 bg-clip-text text-transparent mb-4">
+            Find Your Bus Route
           </h1>
+          <p className="text-xl dark:text-gray-300 text-gray-600 max-w-2xl mx-auto">
+            Discover the fastest and most convenient bus routes to your destination
+          </p>
+        </div>
 
-          <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-4 mb-6">
+        {/* Search Card */}
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl shadow-gray-200/50 dark:shadow-gray-900 p-8 mb-8 border border-gray-100 dark:border-gray-900">
+          <div className="max-w-4xl mx-auto">
+            {/* Search Inputs */}
+            <div className="grid md:grid-cols-[1fr_auto_1fr] gap-4 items-center mb-8">
               {/* From Input */}
-              <div className="relative flex-1">
-                <div className="relative">
-                  <MapPin size={20} className="absolute left-3 top-3 text-blue-600" />
+              <div className="relative">
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <MapPin className="w-5 h-5 text-blue-500 group-focus-within:text-blue-600 transition-colors" />
+                  </div>
                   <input
                     ref={fromInputRef}
                     type="text"
@@ -244,30 +272,31 @@ const WeeklyTimetable = () => {
                       setFromHighlightIndex(-1);
                     }}
                     onKeyDown={handleFromKeyDown}
-                    className="w-full pl-10 pr-4 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full h-14 pl-12 pr-12 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-200 text-lg font-medium placeholder-gray-400"
                   />
                   {searchFrom && (
                     <button
                       onClick={() => {
                         setSearchFrom('');
                         setFromHighlightIndex(-1);
+                        setShowFromSuggestions(false);
                       }}
-                      className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
                     >
-                      <X size={16} />
+                      <X className="w-5 h-5" />
                     </button>
                   )}
                 </div>
+                
+                {/* From Suggestions */}
                 {showFromSuggestions && fromSuggestions.length > 0 && (
-                  <div 
-                    className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto"
-                  >
+                  <div className="absolute z-50 w-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
                     {fromSuggestions.slice(0, 10).map((suggestion, index) => (
                       <button
                         key={suggestion}
                         ref={(el) => (fromItemRefs.current[index] = el)}
-                        className={`w-full px-4 py-2 text-left hover:bg-blue-50 first:rounded-t-xl last:rounded-b-xl ${
-                          index === fromHighlightIndex ? 'bg-blue-100' : ''
+                        className={`w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors ${
+                          index === fromHighlightIndex ? 'bg-blue-50 text-blue-700' : 'text-gray-700'
                         }`}
                         onClick={() => {
                           setSearchFrom(suggestion);
@@ -276,21 +305,29 @@ const WeeklyTimetable = () => {
                           toInputRef.current.focus();
                         }}
                       >
-                        {suggestion}
+                        <div className="flex items-center gap-3">
+                          <MapPin className="w-4 h-4 text-gray-400" />
+                          <span className="font-medium">{suggestion}</span>
+                        </div>
                       </button>
                     ))}
                   </div>
                 )}
               </div>
 
-              <div className="flex items-center justify-center">
-                <ArrowRight size={24} className="text-blue-600" />
+              {/* Arrow */}
+              <div className="flex justify-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-lg">
+                  <ArrowRight className="w-6 h-6 text-white" />
+                </div>
               </div>
 
               {/* To Input */}
-              <div className="relative flex-1">
-                <div className="relative">
-                  <MapPin size={20} className="absolute left-3 top-3 text-blue-600" />
+              <div className="relative">
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <MapPin className="w-5 h-5 text-indigo-500 group-focus-within:text-indigo-600 transition-colors" />
+                  </div>
                   <input
                     ref={toInputRef}
                     type="text"
@@ -303,30 +340,31 @@ const WeeklyTimetable = () => {
                       setToHighlightIndex(-1);
                     }}
                     onKeyDown={handleToKeyDown}
-                    className="w-full pl-10 pr-4 py-2 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full h-14 pl-12 pr-12 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-lg font-medium placeholder-gray-400"
                   />
                   {searchTo && (
                     <button
                       onClick={() => {
                         setSearchTo('');
                         setToHighlightIndex(-1);
+                        setShowToSuggestions(false);
                       }}
-                      className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
                     >
-                      <X size={16} />
+                      <X className="w-5 h-5" />
                     </button>
                   )}
                 </div>
+                
+                {/* To Suggestions */}
                 {showToSuggestions && toSuggestions.length > 0 && (
-                  <div 
-                    className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto"
-                  >
+                  <div className="absolute z-50 w-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
                     {toSuggestions.slice(0, 10).map((suggestion, index) => (
                       <button
                         key={suggestion}
                         ref={(el) => (toItemRefs.current[index] = el)}
-                        className={`w-full px-4 py-2 text-left hover:bg-blue-50 first:rounded-t-xl last:rounded-b-xl ${
-                          index === toHighlightIndex ? 'bg-blue-100' : ''
+                        className={`w-full px-4 py-3 text-left hover:bg-indigo-50 transition-colors ${
+                          index === toHighlightIndex ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
                         }`}
                         onClick={() => {
                           setSearchTo(suggestion);
@@ -335,7 +373,10 @@ const WeeklyTimetable = () => {
                           handleSearch();
                         }}
                       >
-                        {suggestion}
+                        <div className="flex items-center gap-3">
+                          <MapPin className="w-4 h-4 text-gray-400" />
+                          <span className="font-medium">{suggestion}</span>
+                        </div>
                       </button>
                     ))}
                   </div>
@@ -343,115 +384,148 @@ const WeeklyTimetable = () => {
               </div>
             </div>
 
+            {/* Search Button */}
             <button
               onClick={handleSearch}
-              className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+              disabled={!searchFrom || !searchTo}
+              className="w-full h-14 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-400 text-white font-semibold rounded-2xl transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
             >
-              <Search size={20} />
+              <Search className="w-5 h-5" />
               Find Buses
             </button>
-
-            {/* Quick Links */}
-            <div className="mt-8">
-              {popularRoutes.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-sm font-medium text-gray-500 mb-3">Popular Routes</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {popularRoutes.map((route, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleRouteSelect(route)}
-                        className="px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
-                      >
-                        {route}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {recentSearches.length > 0 && (
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500 mb-3">Recent Searches</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {recentSearches.map((route, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleRouteSelect(route)}
-                        className="px-4 py-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
-                      >
-                        {route}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
         </div>
 
-        {/* Results Section */}
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          </div>
-        ) : (
-          <>
-            {filteredSchedules.length > 0 && (
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6">
-                <div className="mb-6">
-                  <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-                    {searchFrom} → {searchTo}
-                  </h2>
-                  <p className="text-gray-600">
-                    {filteredSchedules[0].Total_Distance} • {filteredSchedules.length} buses available
-                  </p>
-                </div>
+        {/* Quick Access */}
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
+          {/* Popular Routes */}
+          {popularRoutes.length > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-900">
+              <h3 className="text-lg font-semibold dark:text-gray-100 text-gray-900 mb-4 flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                Popular Routes
+              </h3>
+              <div className="space-y-2">
+                {popularRoutes.map((route, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleRouteSelect(route)}
+                    className="w-full text-left px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 text-gray-700 dark:text-gray-100 font-medium"
+                  >
+                    {route}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
-                {/* Grid layout to reduce vertical scrolling */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredSchedules.map((schedule, index) => (
-                    <div 
-                      key={index}
-                      className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-shadow"
-                    >
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className="bg-blue-100 p-2 rounded-lg">
-                              <Bus size={20} className="text-blue-600" />
-                            </div>
-                            <span className="font-semibold text-lg">
-                              {schedule.Departure_Time}
+          {/* Recent Searches */}
+          {recentSearches.length > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-900">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
+                <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                Recent Searches
+              </h3>
+              <div className="space-y-2">
+                {recentSearches.map((route, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleRouteSelect(route)}
+                    className="w-full text-left px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-200 text-gray-700 font-medium dark:text-gray-100"
+                  >
+                    {route}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Loading State */}
+        {loading && (
+          <div className="bg-white rounded-2xl p-12 shadow-lg border border-gray-100">
+            <div className="flex flex-col items-center justify-center">
+              <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+              <p className="text-gray-600 font-medium">Loading bus schedules...</p>
+            </div>
+          </div>
+        )}
+
+        {/* Results */}
+        {!loading && filteredSchedules.length > 0 && (
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+            {/* Results Header */}
+            <div className="bg-gradient-to-r from-gray-50 to-blue-50 px-8 py-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                {searchFrom} → {searchTo}
+              </h2>
+              <div className="flex items-center gap-4 text-gray-600">
+                <span className="flex items-center gap-2">
+                  <Route className="w-4 h-4" />
+                  {filteredSchedules[0]?.Total_Distance || 'Distance info'}
+                </span>
+                <span className="flex items-center gap-2">
+                  <Bus className="w-4 h-4" />
+                  {filteredSchedules.length} buses available
+                </span>
+              </div>
+            </div>
+
+            {/* Bus Cards */}
+            <div className="p-6">
+              <div className="grid gap-4">
+                {filteredSchedules.map((schedule, index) => (
+                  <div 
+                    key={index}
+                    className="group p-6 border border-gray-200 rounded-2xl hover:border-blue-300 hover:shadow-lg transition-all duration-200 bg-gradient-to-r from-white to-gray-50/50"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-6">
+                        <div className="flex flex-col items-center">
+                          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center mb-2">
+                            <Bus className="w-6 h-6 text-white" />
+                          </div>
+                          <span className="text-2xl font-bold text-gray-900">
+                            {schedule.Departure_Time}
+                          </span>
+                        </div>
+                        
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="font-semibold text-lg text-gray-900">
+                              {schedule.Bus_Type}
+                            </span>
+                            <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                            <span className="text-lg font-bold text-green-600">
+                              {schedule.Price}
                             </span>
                           </div>
-                          <div className="flex items-center gap-2 text-gray-600 mb-2">
-                            <span className="font-medium">{schedule.Bus_Type}</span>
-                            <span>•</span>
-                            <span className="text-green-600 font-medium">{schedule.Price}</span>
-                          </div>
-                          <div className="flex items-start gap-2 text-sm text-gray-500">
-                            <Route size={16} className="mt-1 flex-shrink-0" />
-                            <span>Via: {schedule.Via}</span>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-blue-600 font-medium mb-1">
-                            {schedule.Bus_Route}
+                          <div className="flex items-center gap-2 text-gray-600 mb-1">
+                            <Route className="w-4 h-4" />
+                            <span className="text-sm">Via: {schedule.Via}</span>
                           </div>
                           {schedule.Contact && (
-                            <div className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500">
                               Contact: {schedule.Contact}
-                            </div>
+                            </p>
                           )}
                         </div>
                       </div>
+
+                      <div className="text-right">
+                        <div className="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg font-semibold text-sm mb-2">
+                          {schedule.Bus_Route}
+                        </div>
+                        <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-medium">
+                          Book Now
+                        </button>
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            )}
-          </>
+            </div>
+          </div>
         )}
       </div>
     </div>
