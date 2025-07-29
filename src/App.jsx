@@ -81,6 +81,7 @@ function App() {
           <Route path='/register' element={<Login/>} />
           <Route path='forgot-password' element={<ForgotPassword/>} />
           <Route path='/mybookings' element={<MyBookings/>} />
+          <Route path='/yash' element={<h1>Yash's Page</h1>} />
         </Routes>
 
         <Footer />

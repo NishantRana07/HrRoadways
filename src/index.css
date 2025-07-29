@@ -31,6 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
+
 p, span, div, a {
     color: inherit;
 }
@@ -38,6 +39,7 @@ p, span, div, a {
 .header-brand-name, .hr-roadways-title {
     color: var(--primary-black);
     font-weight: 700;
+
 }
 
 .input-label-text {
@@ -421,6 +423,7 @@ input::placeholder {
 }
 
 .rc-slider-handle:active {
+
     border-color: #1d4ed8;
     box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.2);
 }
