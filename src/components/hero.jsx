@@ -654,7 +654,7 @@ const FormInput = ({
 const FormCheckbox = ({ label, name, checked, onChange }) => (
   <div className="form-group">
     <label className="form-label">
-      <Repeat className="form-icon" />
+      <Repeat className="form-icon mb-3" />
       {label}
     </label>
     <input
@@ -662,7 +662,7 @@ const FormCheckbox = ({ label, name, checked, onChange }) => (
       name={name}
       checked={checked}
       onChange={onChange}
-      className="form-checkbox"
+      className="form-checkbox ml-2"
     />
   </div>
 );
