@@ -7,6 +7,8 @@ import BusDetailModal from './BusDetailModal';
 import WeatherUpdates from './WeatherUpdates';
 import '../styles/hero.css';
 import '../styles/modal.css';
+import { Link } from 'react-router-dom';
+import Loading from './Loading';
 
 // CustomAlert Component to display info and warning alerts
 const CustomAlert = ({ type, children }) => (
@@ -46,6 +48,9 @@ const Hero = () => {
   const [selectedBus, setSelectedBus] = useState(null);
   const [activeSrcSuggestionIndex, setActiveSrcSuggestionIndex] = useState(-1);
   const [activeDestSuggestionIndex, setActiveDestSuggestionIndex] = useState(-1);
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const inputRefs = useRef([]);
   const containerRef = useRef(null);
@@ -97,6 +102,21 @@ const Hero = () => {
   // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    const errors = {};
+    if(!formData.src.trim()) errors.src = 'Please enter a departure location.';
+    if(!formData.dest.trim()) errors.dest = 'Please enter a destination.';
+    const selectedDate = new Date(formData.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); 
+    if(selectedDate < today) errors.date = 'Please select a future date.';
+    if(formData.passengers < 1) errors.passengers = 'Number of passengers must be at least 1.';
+    if(Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+    setErrors({});
+    setHasSearched(true);
+    setLoading(true);
     fetch('https://jsonblob.com/api/jsonBlob/1333092652136194048')
       .then(response => response.json())
       .then(data => {
@@ -108,7 +128,9 @@ const Hero = () => {
           return isExactRoute || isReverseRoute || isViaRoute || isViaReverseRoute;
         });
         setBuses(filteredBuses);
-      });
+      }).finally(() => {
+        setLoading(false);
+      })
   };
 
   // Handle bus card click to open modal
@@ -170,12 +192,12 @@ const Hero = () => {
         <div className="content-grid">
           <CustomCard className="form-card">
             <form className="form text-slate-950" onSubmit={handleSubmit}>
-              <FormInput placeholder="Departure location" label={t('hero.departure')} name="src" value={formData.src} onChange={handleChange} suggestions={srcSuggestions} showSuggestions={showSrcSuggestions} setShowSuggestions={setShowSrcSuggestions} activeSuggestionIndex={activeSrcSuggestionIndex} setActiveSuggestionIndex={setActiveSrcSuggestionIndex} />
-              <FormInput placeholder="Destination city or address" label={t('hero.arrival')} name="dest" value={formData.dest} onChange={handleChange} suggestions={destSuggestions} showSuggestions={showDestSuggestions} setShowSuggestions={setShowDestSuggestions} activeSuggestionIndex={activeDestSuggestionIndex} setActiveSuggestionIndex={setActiveDestSuggestionIndex} disabled={!formData.src} />
-              <FormInput label={t('schedule.departure')} name="date" type="date" value={formData.date} onChange={handleChange} />
-              <FormInput label={t('trip.passengers')} name="passengers" type="number" value={formData.passengers} onChange={handleChange} min="1" />
+              <FormInput placeholder="Departure location" label={t('hero.departure')} name="src" value={formData.src} onChange={handleChange} suggestions={srcSuggestions} showSuggestions={showSrcSuggestions} setShowSuggestions={setShowSrcSuggestions} activeSuggestionIndex={activeSrcSuggestionIndex} setActiveSuggestionIndex={setActiveSrcSuggestionIndex} required={true} error = {errors.src} />
+              <FormInput placeholder="Destination city or address" label={t('hero.arrival')} name="dest" value={formData.dest} onChange={handleChange} suggestions={destSuggestions} showSuggestions={showDestSuggestions} setShowSuggestions={setShowDestSuggestions} activeSuggestionIndex={activeDestSuggestionIndex} setActiveSuggestionIndex={setActiveDestSuggestionIndex} disabled={!formData.src} required={true} error = {errors.dest}/>
+              <FormInput label={t('schedule.departure')} name="date" type="date" value={formData.date} onChange={handleChange} error={errors.date} min={new Date().toISOString().split("T")[0]} />
+              <FormInput label={t('trip.passengers')} name="passengers" type="number" value={formData.passengers} onChange={handleChange} min="1" error={errors.passengers} />
               <FormCheckbox label={t('trip.roundTrip')} name="roundTrip" checked={formData.roundTrip} onChange={() => setFormData({ ...formData, roundTrip: !formData.roundTrip })} />
-              <button type="submit" className="search-button">{t('hero.button')}</button>
+              <button type="submit" className="search-button">{loading? <Loading />: t('hero.button')}</button>
             </form>
           </CustomCard>
 
@@ -184,17 +206,29 @@ const Hero = () => {
             <WeatherUpdates />
           </div>
         </div>
-
-        {buses.length > 0 && (
-          <div className="bus-results">
-            <h3 className="bus-results-heading">{t('hero.allBuses')}</h3>
+        {!loading && (
+            buses.length > 0 ? (
+             <div className="bus-results">
+                <h3 className="bus-results-heading">{t('hero.allBuses')}</h3>
             <div className="bus-grid">
-              {buses.map((bus, index) => (
-                <BusCard key={index} bus={bus} onClick={() => handleBusCardClick(bus)} />
-              ))}
+                {buses.slice(0, 5).map((bus, index) => (
+                  <BusCard key={index} bus={bus} onClick={() => handleBusCardClick(bus)} />
+                ))}
             </div>
-          </div>
-        )}
+            {buses.length > 5 && (
+              <div className="see-more-button mt-3">
+                <a href="/schedule" className="text-blue-600 underline hover:text-blue-800 inline-block">
+                  View more buses &rarr;
+                </a>
+              </div>
+            )}
+        </div>
+    ) : (
+        <div className="bus-results">
+            <h3 className="bus-results-heading">No buses found for the selected route.</h3>
+        </div>
+        )
+    )}
       </div>
       <BusDetailModal isOpen={isModalOpen} onClose={closeModal} bus={selectedBus} />
     </div>
@@ -202,7 +236,7 @@ const Hero = () => {
 };
 
 // FormInput Component - Reusable input field with suggestions
-const FormInput = ({ placeholder , label, name, value, onChange, suggestions = [], showSuggestions, setShowSuggestions, type = 'text', disabled = false, min, activeSuggestionIndex, setActiveSuggestionIndex }) => {
+const FormInput = ({ placeholder , label, name, value, onChange, suggestions = [], showSuggestions, setShowSuggestions, type = 'text', disabled = false, min, activeSuggestionIndex, setActiveSuggestionIndex, required = false, error }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -260,7 +294,9 @@ const FormInput = ({ placeholder , label, name, value, onChange, suggestions = [
         min={min}
         ref={inputRef}
         onKeyDown={handleKeyDown}
+      required={required}
       />
+       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
       {showSuggestions && (
         <div className={`suggestions-dropdown ${suggestions.length ? 'show' : ''}`}>
           {suggestions.map((suggestion, index) => (
@@ -280,9 +316,9 @@ const FormInput = ({ placeholder , label, name, value, onChange, suggestions = [
 
 // FormCheckbox Component - Reusable checkbox input
 const FormCheckbox = ({ label, name, checked, onChange }) => (
-  <div className="form-group">
-    <label className="form-label">
-      <Repeat className="form-icon mb-3" />
+  <div className="form-group flex items-center gap-2">
+    <Repeat className="form-icon" />
+    <label className="form-label m-0">
       {label}
     </label>
     <input
