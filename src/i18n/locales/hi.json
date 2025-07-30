@@ -17,6 +17,33 @@
     "changeLanguage": "भाषा बदलें",
     "bestrides": "सर्वोत्तम यात्राएं"
   },
+
+  "register": {
+    "title": "रजिस्टर करें",
+    "namePlaceholder": "अपना नाम दर्ज करें...",
+    "emailPlaceholder": "अपना ईमेल दर्ज करें...",
+    "passwordPlaceholder": "अपना पासवर्ड दर्ज करें...",
+    "button": "रजिस्टर करें",
+    "prompt": "क्या आपके पास पहले से एक खाता है?",
+    "loginLink": "लॉगिन"
+  },
+
+  "login": {
+    "title": "लॉगिन करें",
+    "emailPlaceholder": "अपना ईमेल दर्ज करें...",
+    "passwordPlaceholder": "अपना पासवर्ड दर्ज करें...",
+    "button": "लॉगिन करें",
+    "prompt": "क्या आपके पास खाता नहीं है?",
+    "registerLink": "रजिस्टर करें",
+    "forgotPassword": "पासवर्ड भूल गए?"
+  },
+  "forgot": {
+    "title": "पासवर्ड भूल गए",
+    "emailPlaceholder": "अपना ईमेल दर्ज करें...",
+    "button": "रीसेट लिंक भेजें",
+    "prompt": "क्या आपको याद आ गया है?",
+    "backToLogin": "लॉगिन करें"
+  },    
   "hero": {
     "heading": "हरियाणा रोडवेज - आपकी अपनी बस सेवा",
     "subheading": "आपकी यात्रा, हमारा गौरव",

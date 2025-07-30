@@ -47,7 +47,7 @@ function BusCard({ isHindi = false }) {
       </div>
 
       {/* Passenger Details */}
-      <div className="my-4">
+      <div className="my-4 text-black">
         <h2 className="text-xl font-semibold text-gray-800 mb-2">Passenger Details</h2>
         {passengers && passengers.length > 0 ? (
           <div className="space-y-2">

@@ -124,7 +124,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="hero-container" ref={containerRef}>
+    <div className="hero-container text-black" ref={containerRef}>
       <div className="hero-header">
         <div className="hero-header-overlay" />
         <div className="hero-header-content">
@@ -282,7 +282,7 @@ const FormInput = ({ placeholder , label, name, value, onChange, suggestions = [
 const FormCheckbox = ({ label, name, checked, onChange }) => (
   <div className="form-group">
     <label className="form-label">
-      <Repeat className="form-icon" />
+      <Repeat className="form-icon mb-3" />
       {label}
     </label>
     <input
@@ -290,7 +290,7 @@ const FormCheckbox = ({ label, name, checked, onChange }) => (
       name={name}
       checked={checked}
       onChange={onChange}
-      className="form-checkbox"
+      className="form-checkbox ml-2"
     />
   </div>
 );

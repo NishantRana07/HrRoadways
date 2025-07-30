@@ -131,7 +131,7 @@ const BlogPage = ({ isHindi }) => {
   if (loading || !currentLanguage) return <Loading />;
 
   return (
-    <div className="blog-page-container">
+    <div className="blog-page-container text-black">
       {/* Header */}
       <header className="blog-header">
         <div className="header-content">
@@ -193,7 +193,7 @@ const BlogPage = ({ isHindi }) => {
             </div>
 
             {/* Blog Posts */}
-            <div className="blog-posts">
+            <div className="blog-posts ">
               {filteredPosts.length === 0 ? (
                 <div className="no-posts">
                   <p>{isHindi ? 'कोई पोस्ट नहीं मिली' : 'No posts found'}</p>

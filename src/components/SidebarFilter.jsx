@@ -20,7 +20,7 @@ const SidebarFilter = ({ filters, onFilterChange, currentLanguage, onReset }) =>
 
       {/* Price Range */}
       <div className="mb-6">
-        <label className="block text-gray-800 font-semibold mb-2 flex items-center gap-2">
+        <label className="text-gray-800 font-semibold mb-2 flex items-center gap-2">
           <IndianRupee size={18} />
           {currentLanguage.priceRange}
         </label>
@@ -43,7 +43,7 @@ const SidebarFilter = ({ filters, onFilterChange, currentLanguage, onReset }) =>
 
       {/* Minimum Rating */}
       <div className="mb-6">
-        <label className="block text-gray-800 font-semibold mb-2 flex items-center gap-2">
+        <label className="text-gray-800 font-semibold mb-2 flex items-center gap-2">
           <Star size={18} className="text-yellow-500" />
           {currentLanguage.minRating}
         </label>

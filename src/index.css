@@ -13,13 +13,26 @@ body {
     background-color: #1a202c;
     color: #f7fafc;
   }
+  input {
+    color: black;
+}
 }
 
-h1, h2, h3, h4, h5, h6, p, span, div, a {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+a {
   color: inherit;
 }
 
-.header-brand-name, .hr-roadways-title {
+.header-brand-name,
+.hr-roadways-title {
   color: var(--body-text-color, #1a202c);
 }
 
@@ -362,11 +375,126 @@ input::placeholder {
   z-index: 1000;
   border: none;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .button-hover-effect:hover {
   background-color: #1d4ed8;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
+}
+
+/* Blog page font issue  */
+/* General Text */
+.blog-post,
+.blog-page-container,
+.main-content-left {
+  color: #333333;
+}
+
+/* Post title */
+.post-title {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* Post description */
+.post-description {
+  color: #555555;
+}
+
+/* Meta Info (date, time, location) */
+.post-meta {
+  color: #666666;
+}
+
+/* Tags */
+.post-tag {
+  background-color: #e6f0ff;
+  color: #007bff;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin-right: 5px;
+}
+
+/* Author Text */
+.post-author {
+  color: #888888;
+  font-size: 14px;
+}
+
+/* Like, Share, Save button */
+.post-action-button {
+  color: #333333;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.post-action-button:hover {
+  color: #0056b3;
+}
+
+/* Saved State */
+.post-action-button.saved {
+  color: #007bff;
+}
+
+/* Filter Buttons */
+.category-button {
+  color: #444444;
+  background-color: #f0f0f0;
+  padding: 8px 14px;
+  border-radius: 18px;
+  margin-right: 10px;
+  font-weight: 500;
+}
+.category-button:hover,
+.category-button.active-category {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+/* Search Bar Placeholder */
+.search-input::placeholder {
+  color: #999999;
+}
+
+/* Sort Dropdown */
+.sort-select {
+  color: #333333;
+}
+
+/* Date and Route Info */
+.post-meta-item {
+  margin-right: 15px;
+  font-size: 14px;
+  color: #666666;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Popular Routes */
+.popular-route-item {
+  color: #333333;
+  font-weight: 500;
+  padding: 5px 0;
+}
+
+/* Form Fields */
+.form-input,
+.form-textarea,
+.form-select {
+  color: #333333;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* Post Not Found */
+.no-posts p {
+  color: #888;
 }

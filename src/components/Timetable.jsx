@@ -221,9 +221,9 @@ const WeeklyTimetable = () => {
         </div>
 
         {/* Main Search Section */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 mb-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 mb-8 text-black">
           <h1 className="text-4xl font-bold text-center mb-8">
-            Find Your <span className="text-blue-600">Bus Route</span>
+            <span className="text-blue-600">Find Your Bus Route</span>
           </h1>
 
           <div className="max-w-3xl mx-auto">

@@ -308,10 +308,10 @@ const BestRides = () => {
         </div>
       )}
 
-      <div className="relative h-96 bg-blue-900 overflow-hidden">
+      <div className="relative h-96 bg-blue-900 overflow-hidden text-black">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center pb-8"> {/* Added padding-bottom */}
-          <div className="text-white">
+          <div className="text-black">
             <h1 className="text-5xl font-bold mb-4">
               Experience Premium Travel
             </h1>
