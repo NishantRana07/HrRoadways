@@ -255,6 +255,6 @@ const PaymentOptions = ({ isHindi }) => {
       </div>
     </div>
   );
-};
+}
 
 export default PaymentOptions;

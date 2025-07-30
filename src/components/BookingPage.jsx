@@ -204,7 +204,7 @@ const BookingPage = ({ selectedBus }) => {
   const seatCost = selectedBus?.Price ? parseSeatCost(selectedBus.Price) : 900;
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-200 p-6">
+    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-200 p-6 ">
       {/* Header */}
       <header className="mb-8">
         <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-2">Haryana Roadways</h1>

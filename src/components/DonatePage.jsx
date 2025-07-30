@@ -58,7 +58,7 @@ const Donate = ({isHindi}) => {
         {/* Form */}
         <form
           onSubmit={handleDonate}
-          className="bg-white shadow-md rounded-2xl p-6 space-y-4"
+          className="bg-white shadow-md rounded-2xl p-6 space-y-4 text-black"
         >
           <div>
             <label className="block font-semibold text-gray-700 mb-1">
@@ -157,7 +157,7 @@ const Donate = ({isHindi}) => {
       </div>
 
       {/* Impact + Support */}
-      <div className="mt-10 grid sm:grid-cols-3 gap-6 text-center">
+      <div className="mt-10 grid sm:grid-cols-3 gap-6 text-center ">
         <div>
           <Bus className="mx-auto text-blue-600" size={32} />
           <p className="text-lg font-semibold mt-2">{t("maintainedMonthly")}</p>

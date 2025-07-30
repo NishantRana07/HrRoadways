@@ -275,7 +275,7 @@ const RoyalHaryanaTourism = ({ isHindi }) => {
       </section>
 
       {/* Search Section */}
-      <section className="search-section">
+      <section className="search-section text-black">
         <div className="search-container">
           <input 
             type="text" 

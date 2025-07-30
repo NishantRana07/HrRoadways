@@ -124,7 +124,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="hero-container" ref={containerRef}>
+    <div className="hero-container text-black" ref={containerRef}>
       <div className="hero-header">
         <div className="hero-header-overlay" />
         <div className="hero-header-content">

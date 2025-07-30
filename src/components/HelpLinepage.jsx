@@ -123,7 +123,7 @@ const HelplinePage = ({ isHindi }) => {
           </p>
           
           {/* Search Bar */}
-          <div className="mt-8 relative max-w-2xl mx-auto animate-fade-in-up delay-300">
+          <div className="mt-8 relative max-w-2xl mx-auto animate-fade-in-up delay-300 text-black">
             <input 
               type="text" 
               placeholder={currentLanguage.searchPlaceholder} 
