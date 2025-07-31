@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../styles/ContactUs.css";
+import Loading from './Loading';
 
 // Custom hook to fetch translations
 const useTranslation = (isHindi) => {
   const [currentLanguage, setCurrentLanguage] = useState(null);
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338197131445592064';
+  const translationsUrl =
+    "https://jsonblob.com/api/jsonBlob/1398992308015390720";
 
   useEffect(() => {
     fetch(translationsUrl)
@@ -24,7 +26,7 @@ const ContactUs = ({ isHindi }) => {
   const currentLanguage = useTranslation(isHindi);
 
   if (!currentLanguage) {
-    return <div>Loading translations...</div>;
+    return <Loading />;
   }
 
   return (

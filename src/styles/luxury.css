@@ -45,7 +45,7 @@
 
 .royal-header {
     position: relative;
-    height: 75vh;
+    min-height: 75vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,11 +59,12 @@
 }
 
 .header-content {
+    max-width: 75vw;
     text-align: center;
     color: white;
     padding: 2rem;
-    border-left: 10px solid var(--royal-gold);
-    border-right: 10px solid var(--royal-gold);
+    border-top: 10px solid var(--royal-gold);
+    border-bottom: 10px solid var(--royal-gold);
     transform: perspective(500px) rotateX(-10deg);
     transition: all 0.5s ease;
 }
@@ -74,7 +75,7 @@
 
 .royal-title {
     font-family: 'Cinzel', serif;
-    font-size: 4.5rem;
+    font-size: 3rem;
     font-weight: 900;
     letter-spacing: -2px;
     text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
@@ -82,13 +83,42 @@
 }
 
 .royal-subtitle {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     opacity: 0.9;
     font-style: italic;
 }
 
+/* Styles for filter section */
+.filter-container {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.royal-select {
+    padding: 8px 10px;
+    background: var(--royal-blue);
+    color: white;
+    border: none;
+    border-radius: 60px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.royal-select:focus {
+    outline: none;
+    border-color: var(--royal-gold);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
 .royal-features {
     display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
     justify-content: space-around;
     padding: 4rem 2rem;
     background: linear-gradient(
@@ -101,7 +131,7 @@
 
 .feature-card {
     text-align: center;
-    max-width: 250px;
+    width: 250px;
     padding: 1.5rem;
     border-radius: 15px;
     transition: all 0.5s ease;
@@ -137,14 +167,17 @@
 
 .search-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 1rem;
     position: relative;
+    padding: 0 2.5rem;
 }
 
 .royal-search-input {
     padding: 1.2rem 2.5rem;
-    width: 500px;
+    min-width: fit-content;
     border: 3px solid var(--royal-gold);
     border-radius: 60px;
     font-size: 1.1rem;
@@ -169,55 +202,13 @@
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: fit-content;
 }
 
 .royal-search-button:hover {
     background: var(--royal-blue);
     color: white;
     transform: translateY(-5px);
-}
-
-.destinations-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2.5rem;
-    padding: 4rem;
-    background: linear-gradient(
-        to bottom right, 
-        var(--royal-cream), 
-        #f0f8ff
-    );
-}
-
-.destination-card {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    padding: 2.5rem;
-    cursor: pointer;
-    border-left: 10px solid var(--royal-blue);
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.destination-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(
-        to right, 
-        var(--royal-blue), 
-        var(--royal-gold)
-    );
-}
-
-.destination-card:hover {
-    transform: scale(1.05) translateY(-15px);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
 }
 
 /* Additional Royal Animations */
@@ -229,7 +220,6 @@
 .destination-card:hover {
     animation: royalGlow 1.5s infinite alternate;
 }
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;700&display=swap');
 
 :root {
     --royal-blue: #1a5f7a;
@@ -244,9 +234,9 @@
 /* Enhanced Destination Cards */
 .destinations-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 3rem;
-    padding: 4rem 6rem;
+    padding: 4rem 2.5rem;
     background: linear-gradient(
         to bottom right, 
         var(--royal-cream), 
@@ -375,17 +365,22 @@
 .destination-modal {
     background: rgba(26, 95, 122, 0.8);
     backdrop-filter: blur(10px);
+    padding: 4rem 2.5rem;
 }
 
 .modal-content {
+    padding: 0;
     background: white;
     border-radius: 30px;
     box-shadow: 
         0 40px 80px rgba(0,0,0,0.2),
         0 20px 40px rgba(0,0,0,0.1);
+    width: fit-content;
     max-width: 700px;
     position: relative;
     overflow: hidden;
+    display: block;
+    margin: auto;
 }
 
 .modal-content::before {
@@ -420,7 +415,7 @@
 }
 
 .modal-header {
-    padding: 2.5rem 3rem;
+    padding: 1.5rem 2rem;
     background: linear-gradient(
         to right, 
         var(--royal-cream), 
@@ -430,14 +425,15 @@
 
 .modal-header h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     margin-bottom: 1rem;
     color: var(--royal-navy);
 }
 
 .modal-meta {
     display: flex;
-    gap: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1.2rem;
     opacity: 0.7;
 }
 
@@ -453,9 +449,12 @@
 
 .modal-sections {
     display: flex;
-    padding: 2rem 3rem;
+    flex-wrap: wrap;
+    padding: 1.5rem 2rem;
     gap: 2rem;
     background: #f9f9f9;
+    max-height: 40vh;
+    overflow-y: scroll;
 }
 
 .modal-section {
@@ -483,9 +482,12 @@
 }
 
 .modal-actions {
+    padding: 1.5rem 2rem;
     display: flex;
-    justify-content: space-between;
-    padding: 2rem 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
     background: white;
     border-top: 1px solid rgba(0,0,0,0.1);
 }
@@ -520,4 +522,32 @@
     background: var(--royal-blue);
     color: white;
     transform: translateY(-5px);
+}
+
+
+/* Apply for medium and larger screens */
+@media (width >= 48rem) {
+    .royal-title {
+        font-size: 4.5rem;
+    }
+
+    .royal-subtitle {
+        font-size: 1.8rem;
+    }
+
+    .royal-select {
+        padding: 1.2rem 2.5rem;
+    }
+
+    .search-container {
+        flex-direction: row;
+    }
+
+    .royal-search-input {
+        width: 500px;
+    }
+
+    .destinations-grid {
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    }
 }

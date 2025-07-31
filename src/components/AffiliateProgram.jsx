@@ -12,12 +12,13 @@ import {
   Zap
 } from 'lucide-react';
 import '../styles/AffiliateProgram.css'; // Import the CSS file
+import Loading from './Loading'
 
 // Custom hook to fetch translations
 const useTranslation = (isHindi) => {
   const [currentLanguage, setCurrentLanguage] = useState(null);
   // Replace with your hosted JSON blob URL that contains the translation data
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338188829663879168';
+  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1398316101938634752';
 
   useEffect(() => {
     fetch(translationsUrl)
@@ -56,7 +57,7 @@ const AffiliateProgram = ({ isHindi = false }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="grid md:grid-cols-3 gap-6"
+        className="grid gap-6 md:grid-cols-3"
       >
         {t.benefits.map((benefit, index) => (
           <motion.div 
@@ -64,10 +65,10 @@ const AffiliateProgram = ({ isHindi = false }) => {
             whileHover={{ scale: 1.05 }}
             className={`p-6 rounded-xl shadow-lg text-center ${benefit.color}`}
           >
-            <div className="mb-4 flex items-center justify-center">
+            <div className="flex items-center justify-center mb-4">
               <benefit.icon className="w-12 h-12" />
             </div>
-            <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
+            <h3 className="mb-2 text-xl font-bold">{benefit.title}</h3>
             <p className="text-sm">{benefit.description}</p>
           </motion.div>
         ))}
@@ -97,8 +98,8 @@ const AffiliateProgram = ({ isHindi = false }) => {
             icon: DollarSign
           }
         ].map((step, index) => (
-          <div key={index} className="flex items-center space-x-6 bg-blue-50 p-4 rounded-xl">
-            <div className="bg-blue-100 p-3 rounded-full">
+          <div key={index} className="flex items-center p-4 space-x-6 bg-blue-50 rounded-xl">
+            <div className="p-3 bg-blue-100 rounded-full">
               <step.icon className="w-8 h-8 text-blue-600" />
             </div>
             <div>
@@ -114,7 +115,7 @@ const AffiliateProgram = ({ isHindi = false }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="grid md:grid-cols-3 gap-6"
+        className="grid gap-6 md:grid-cols-3"
       >
         {[
           { 
@@ -135,9 +136,9 @@ const AffiliateProgram = ({ isHindi = false }) => {
         ].map((stat, index) => (
           <div 
             key={index} 
-            className="bg-white border-2 border-blue-100 p-6 rounded-xl text-center hover:shadow-lg transition"
+            className="p-6 text-center transition bg-white border-2 border-blue-100 rounded-xl hover:shadow-lg"
           >
-            <div className="mb-4 flex items-center justify-center">
+            <div className="flex items-center justify-center mb-4">
               <stat.icon className="w-12 h-12 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-blue-800">{stat.title}</h3>
@@ -149,12 +150,12 @@ const AffiliateProgram = ({ isHindi = false }) => {
   } : {};
 
   if (!t) {
-    return <div>Loading translations...</div>;
+    return <Loading />;
   }
 
   return (
     <div className="affiliate-program-container">
-      <div className="container mx-auto px-4">
+      <div className="container px-4 mx-auto">
         <motion.header 
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}

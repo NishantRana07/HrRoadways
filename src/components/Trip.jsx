@@ -1,383 +1,322 @@
-import React, { useState, useEffect } from "react";
-import { MapPin, Star, Moon } from "lucide-react";
+import React, { useState } from "react";
+import { MapPin, Star, Moon, Eye } from "lucide-react";
+import SidebarFilter from "./SidebarFilter";
 
-// Default translations (fallback) in English
 const defaultLanguage = {
   filters: "Filters",
-  priceRange: "Price Range",
+  priceRange: "Price Range (₹)",
   minRating: "Minimum Rating",
   perNight: "per night",
   hotels: "Hotels",
   noHotels: "No hotels found",
   priceLabel: (price) => `₹${price}`,
+  bookNow: "Book Now",
 };
 
 const hotels = [
   {
     id: 1,
-    name: "Heritage Haveli",
+    name: "Hotel Saffron",
     location: "Kurukshetra, Haryana",
-    pricePerNight: 3500,
-    rating: 4.5,
-    image: "https://i.ibb.co/LdPxbQLf/Hotel01.jpg",
+    address:
+      "Sector 20, MAIT Complex, Near Railway Station, Kurukshetra, Haryana 136118",
+    priceRange: [1900, 2300],
+    rating: 4.2,
+    numberOfReviews: 320, // ADDED: numberOfReviews for popularity logic
+    type: "Premium",
+    facilities: ["Free Wifi", "Parking", "Restaurant", "Room Service"],
+    image: "https://r1imghtlak.mmtcdn.com/09c7c7e648bf11ea81fd0242ac110002.jpg",
+    bookingLink: "https://www.makemytrip.com/hotels/hotel-details/",
   },
   {
     id: 2,
-    name: "City Comfort Inn",
-    location: "Panipat, Haryana",
-    pricePerNight: 2200,
-    rating: 4.2,
-    image: "https://i.ibb.co/xKcssCVD/Hotel02.jpg",
+    name: "Hotel 9th Planet",
+    location: "Kurukshetra, Haryana",
+    address:
+      "Plot No. 45, Sector 12, Industrial Area, Kurukshetra, Haryana 136118",
+    priceRange: [1400, 1800],
+    rating: 3.8,
+    numberOfReviews: 180, // ADDED: numberOfReviews
+    type: "Budget",
+    facilities: ["Free Wifi", "AC", "Elevator", "24/7 Front Desk"],
+    image:
+      "https://r1imghtlak.mmtcdn.com/8a95a5f4bb4411eeb4fa0a58a9feac02.jpeg",
+    bookingLink: "https://www.makemytrip.com/hotels/hotel-details/",
   },
   {
     id: 3,
-    name: "Luxury Stay",
-    location: "Gurugram, Haryana",
-    pricePerNight: 5000,
-    rating: 4.8,
-    image: "https://i.ibb.co/Xr99bS34/Hotel03.jpg",
+    name: "Hotel Pearl Marc",
+    location: "Kurukshetra, Haryana",
+    address: "Main Road, Near Bus Stand, Kurukshetra, Haryana 136118",
+    priceRange: [2500, 3000],
+    rating: 4.4,
+    numberOfReviews: 450, // ADDED: numberOfReviews
+    type: "Luxury",
+    facilities: ["Free Wifi", "Swimming Pool", "Spa", "Restaurant"],
+    image:
+      "https://pix8.agoda.net/hotelImages/228847/0/89dad00180168f8fca698caa5bbbb223.jpeg",
+    bookingLink: "https://www.makemytrip.com/hotels/hotel-details/",
   },
   {
     id: 4,
-    name: "Desert Resort",
-    location: "Hisar, Haryana",
-    pricePerNight: 4000,
-    rating: 4.4,
-    image: "https://i.ibb.co/yFRPSmXn/Hotel04.jpg",
+    name: "Divine Clarks Inn",
+    location: "Kurukshetra, Haryana",
+    address: "Civil Lines, Near Railway Station, Kurukshetra, Haryana 136118",
+    priceRange: [2800, 3500],
+    rating: 4.5,
+    numberOfReviews: 510, // ADDED: numberOfReviews
+    type: "Luxury",
+    facilities: ["Free Wifi", "Gym", "Restaurant", "Business Center"],
+    image:
+      "https://images.getaroom-cdn.com/image/upload/s---LyXwCWp--/c_limit,e_improve,fl_lossy.immutable_cache,h_940,q_auto:good,w_940/v1743786542/bf496c34140a06f88fe770636affd62520043c7d",
+    bookingLink: "https://www.makemytrip.com/hotels/hotel-details/",
   },
   {
     id: 5,
-    name: "Hilltop Paradise",
-    location: "Panchkula, Haryana",
-    pricePerNight: 4500,
-    rating: 4.7,
-    image: "https://i.ibb.co/LdPxbQLf/Hotel01.jpg",
-  },
-  {
-    id: 6,
-    name: "Urban Retreat",
-    location: "Faridabad, Haryana",
-    pricePerNight: 3000,
-    rating: 4.3,
-    image: "https://i.ibb.co/xKcssCVD/Hotel02.jpg",
-  },
-  {
-    id: 7,
-    name: "Green Valley Inn",
-    location: "Karnal, Haryana",
-    pricePerNight: 2500,
-    rating: 4.1,
-    image: "https://i.ibb.co/Xr99bS34/Hotel03.jpg",
-  },
-  {
-    id: 8,
-    name: "Lakeview Lodge",
-    location: "Rohtak, Haryana",
-    pricePerNight: 3800,
-    rating: 4.6,
-    image: "https://i.ibb.co/yFRPSmXn/Hotel04.jpg",
+    name: "Hotel Velga",
+    location: "Kurukshetra, Haryana",
+    address: "Near Police Station, Main Market, Kurukshetra, Haryana 136118",
+    priceRange: [1700, 2000],
+    rating: 3.9,
+    numberOfReviews: 250, // ADDED: numberOfReviews
+    type: "Budget",
+    facilities: ["Free Wifi", "Restaurant", "Parking", "Room Service"],
+    image:
+      "https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/671648265.jpg",
+    bookingLink: "https://www.booking.com/searchresults.html",
   },
 ];
 
-// Enhanced Range Slider Component for Price Range
-const RangeSlider = ({ min, max, values, onChange, step, formatValue }) => {
-  const [isDragging, setIsDragging] = useState(null);
-
-  const getPercentage = (value) => ((value - min) / (max - min)) * 100;
-
-  const handleMouseDown = (index) => (e) => {
-    e.preventDefault();
-    setIsDragging(index);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(null);
-  };
-
-  const handleMouseMove = (e) => {
-    if (isDragging !== null) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const percentage = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
-      const value = Math.round((min + (percentage / 100) * (max - min)) / step) * step;
-      
-      const newValues = [...values];
-      newValues[isDragging] = Math.max(min, Math.min(max, value));
-      
-      // Ensure min doesn't exceed max and vice versa
-      if (isDragging === 0 && newValues[0] > newValues[1]) {
-        newValues[0] = newValues[1];
-      } else if (isDragging === 1 && newValues[1] < newValues[0]) {
-        newValues[1] = newValues[0];
-      }
-      
-      onChange(newValues);
+const HotelCard = ({ hotel, currentLanguage }) => {
+  const getTypeColorClasses = (type) => {
+    switch (type.toLowerCase()) {
+      case "premium":
+        return "bg-purple-100 text-purple-700 border-purple-200";
+      case "budget":
+        return "bg-green-100 text-green-700 border-green-200";
+      case "luxury":
+        return "bg-blue-200 text-blue-700 border-blue-200";
+      case "resort":
+        return "bg-cyan-100 text-cyan-700 border-cyan-200";
+      case "hostel":
+        return "bg-orange-100 text-orange-700 border-orange-200";
+      default:
+        return "bg-blue-100 text-blue-700 border-blue-200";
     }
   };
-
-  useEffect(() => {
-    if (isDragging !== null) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-      };
-    }
-  }, [isDragging]);
 
   return (
-    <div className="relative w-full h-6 flex items-center" onMouseMove={handleMouseMove}>
-      {/* Track */}
-      <div className="absolute w-full h-2 bg-blue-100 rounded-full">
-        {/* Active range */}
-        <div
-          className="absolute h-full bg-blue-500 rounded-full transition-all duration-150"
-          style={{
-            left: `${getPercentage(values[0])}%`,
-            width: `${getPercentage(values[1]) - getPercentage(values[0])}%`
-          }}
-        />
-      </div>
-      
-      {/* Min handle */}
-      <div
-        className={`absolute h-5 w-5 bg-white border-2 border-blue-500 rounded-full cursor-grab shadow-md transition-transform duration-150 ${
-          isDragging === 0 ? 'scale-110 cursor-grabbing' : 'hover:scale-105'
-        }`}
-        style={{ left: `${getPercentage(values[0])}%`, transform: "translateX(-50%)" }}
-        onMouseDown={handleMouseDown(0)}
-      />
-      
-      {/* Max handle */}
-      <div
-        className={`absolute h-5 w-5 bg-white border-2 border-blue-500 rounded-full cursor-grab shadow-md transition-transform duration-150 ${
-          isDragging === 1 ? 'scale-110 cursor-grabbing' : 'hover:scale-105'
-        }`}
-        style={{ left: `${getPercentage(values[1])}%`, transform: "translateX(-50%)" }}
-        onMouseDown={handleMouseDown(1)}
-      />
-    </div>
-  );
-};
-
-// Single Value Slider Component for Rating
-const SingleSlider = ({ min, max, value, onChange, step }) => {
-  const [isDragging, setIsDragging] = useState(false);
-  const percentage = ((value - min) / (max - min)) * 100;
-
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e) => {
-    if (isDragging) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const percentage = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
-      const newValue = Math.round((min + (percentage / 100) * (max - min)) / step) * step;
-      onChange(Math.max(min, Math.min(max, newValue)));
-    }
-  };
-
-  const handleTrackClick = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const percentage = ((e.clientX - rect.left) / rect.width) * 100;
-    const newValue = Math.round((min + (percentage / 100) * (max - min)) / step) * step;
-    onChange(Math.max(min, Math.min(max, newValue)));
-  };
-
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-      };
-    }
-  }, [isDragging]);
-
-  return (
-    <div className="relative w-full h-6 flex items-center" onMouseMove={handleMouseMove}>
-      <div 
-        className="absolute w-full h-2 bg-blue-100 rounded-full cursor-pointer"
-        onClick={handleTrackClick}
-      >
-        <div
-          className="absolute h-full bg-blue-500 rounded-full transition-all duration-150"
-          style={{ width: `${percentage}%` }}
-        />
-      </div>
-      <div
-        className={`absolute h-5 w-5 bg-white border-2 border-blue-500 rounded-full cursor-grab shadow-md transition-transform duration-150 ${
-          isDragging ? 'scale-110 cursor-grabbing' : 'hover:scale-105'
-        }`}
-        style={{ left: `${percentage}%`, transform: "translateX(-50%)" }}
-        onMouseDown={handleMouseDown}
-      />
-    </div>
-  );
-};
-
-const HotelCard = ({ hotel, currentLanguage }) => (
-  <div className="bg-white rounded-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border-2 border-blue-100">
-    <div className="relative">
-      <img
-        src={hotel.image}
-        alt={hotel.name}
-        className="w-full h-48 object-cover"
-      />
-      <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full flex items-center gap-1 border-2 border-blue-500">
-        <Star className="w-4 h-4 text-blue-500 fill-blue-500" />
-        <span className="text-sm font-bold">{hotel.rating}</span>
-      </div>
-    </div>
-    <div className="p-4">
-      <h3 className="text-lg font-bold text-gray-900 mb-2">{hotel.name}</h3>
-      <div className="flex items-center gap-2 text-gray-600 mb-3">
-        <MapPin className="w-4 h-4 text-blue-500" />
-        <span className="text-sm">{hotel.location}</span>
-      </div>
-      <div className="flex items-center justify-between mt-4 border-t border-blue-100 pt-4">
-        <div className="flex items-center gap-1">
-          <Moon className="w-4 h-4 text-blue-500" />
-          <span className="text-sm text-gray-600">{currentLanguage.perNight}</span>
+    <div className="bg-white  overflow-hidden border-b border-gray-200 mb-4">
+      <div className="flex">
+        <div className="relative w-64 h-56 flex-shrink-0">
+          <img
+            src={hotel.image}
+            alt={`Image of ${hotel.name}`}
+            className="w-full h-full object-cover"
+          />
         </div>
-        <div className="text-blue-600 font-bold text-lg">
-          {currentLanguage.priceLabel(hotel.pricePerNight)}
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
-const SidebarFilter = ({ filters, onFilterChange, currentLanguage }) => (
-  <div className="bg-white p-6 rounded-lg border-2 border-blue-100">
-    <div className="flex items-center gap-2 mb-6">
-      <div className="w-2 h-8 bg-blue-500 rounded-full" />
-      <h3 className="text-xl font-bold text-gray-900">
-        {currentLanguage.filters}
-      </h3>
-    </div>
-    <div className="space-y-8">
-      <div className="filter-section">
-        <div className="flex items-center gap-2 mb-4">
-          <h4 className="text-sm font-bold text-gray-700">
-            {currentLanguage.priceRange}
-          </h4>
-          <div className="flex-1 border-b-2 border-dotted border-blue-200" />
-        </div>
-        <RangeSlider
-          min={500}
-          max={8000}
-          values={filters.priceRange}
-          onChange={(value) => onFilterChange("priceRange", value)}
-          step={200}
-          formatValue={currentLanguage.priceLabel}
-        />
-        <div className="flex justify-between text-sm font-bold text-blue-600 mt-2">
-          <span>{currentLanguage.priceLabel(filters.priceRange[0])}</span>
-          <span>{currentLanguage.priceLabel(filters.priceRange[1])}</span>
-        </div>
-      </div>
+        <div className="flex-1 p-6 flex flex-col justify-between">
+          <div>
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-1">
+                  {hotel.name}
+                </h3>
+                <div className="flex items-center gap-3 mb-2">
+                  <span
+                    className={`text-sm px-3 py-1 rounded-full font-medium border ${getTypeColorClasses(
+                      hotel.type
+                    )}`}
+                  >
+                    {hotel.type}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                    <span className="text-sm font-semibold text-gray-700">
+                      {hotel.rating}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      ({hotel.numberOfReviews} reviews) {/* CHANGED: Use hotel.numberOfReviews */}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      <div className="filter-section">
-        <div className="flex items-center gap-2 mb-4">
-          <h4 className="text-sm font-bold text-gray-700">
-            {currentLanguage.minRating}
-          </h4>
-          <div className="flex-1 border-b-2 border-dotted border-blue-200" />
-        </div>
-        <SingleSlider
-          min={0}
-          max={5}
-          value={filters.minRating}
-          onChange={(value) => onFilterChange("minRating", value)}
-          step={0.1}
-        />
-        <div className="flex items-center justify-center gap-2 mt-2">
-          <div className="flex items-center">
-            {[...Array(5)].map((_, index) => (
-              <Star
-                key={index}
-                className={`w-4 h-4 ${
-                  index < Math.floor(filters.minRating)
-                    ? "text-blue-500 fill-blue-500"
-                    : "text-gray-300"
-                }`}
-              />
-            ))}
+            <div className="flex items-start gap-2 text-gray-600 mb-3">
+              <MapPin className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0" />
+              <span className="text-sm leading-relaxed">{hotel.address}</span>
+            </div>
+
+            <div className="mb-4">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <span className="font-medium">Facilities:</span>
+                <div className="flex flex-wrap gap-1">
+                  {hotel.facilities.map((facility, index) => (
+                    <span key={index} className="text-gray-600">
+                      {facility}
+                      {index < hotel.facilities.length - 1 ? ", " : ""}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          <span className="text-sm font-bold text-blue-600">
-            {filters.minRating.toFixed(1)}
-          </span>
+
+          <div className="flex items-end justify-between">
+            <div>
+              <div className="flex items-center gap-1 ">
+                <Moon className="w-4 h-4 text-blue-500" />
+                <span className="text-sm text-gray-600 pb-1">
+                  {currentLanguage.perNight}
+                </span>
+              </div>
+              <div className="text-2xl font-bold text-blue-600">
+                {currentLanguage.priceLabel(hotel.priceRange[0])} -{" "}
+                {currentLanguage.priceLabel(hotel.priceRange[1])}
+              </div>
+            </div>
+
+            <div className="flex gap-3 mb-1">
+              <a
+                href={hotel.bookingLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
+              >
+                Book Now
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
+// Keep the component name as Trip as requested
 const Trip = ({ isHindi = false }) => {
-  const [currentLanguage, setCurrentLanguage] = useState(defaultLanguage);
+  const [currentLanguage] = useState(defaultLanguage);
   const [filters, setFilters] = useState({
-    priceRange: [500, 8000],
+    priceRange: [0, 8000],
     minRating: 0,
+    hotelTypes: [],
   });
+  const [sortBy, setSortBy] = useState("popularity");
 
   const handleFilterChange = (type, value) => {
-    setFilters((prevFilters) => ({ ...prevFilters, [type]: value }));
+    setFilters((prev) => ({ ...prev, [type]: value }));
+  };
+
+  const handleReset = () => {
+    setFilters({
+      priceRange: [0, 8000],
+      minRating: 0,
+      hotelTypes: [],
+    });
   };
 
   const filteredHotels = hotels.filter((hotel) => {
-    const matchesPrice =
-      hotel.pricePerNight >= filters.priceRange[0] &&
-      hotel.pricePerNight <= filters.priceRange[1];
-    const matchesRating = hotel.rating >= filters.minRating;
-    return matchesPrice && matchesRating;
+    const [minPrice, maxPrice] = hotel.priceRange;
+    const [selectedMin, selectedMax] = filters.priceRange;
+
+    const isPriceOverlapping =
+      maxPrice >= selectedMin && minPrice <= selectedMax;
+    const isRatingOk = hotel.rating >= filters.minRating;
+    const isTypeOk =
+      filters.hotelTypes.length === 0 ||
+      filters.hotelTypes.includes(hotel.type);
+
+    return isPriceOverlapping && isRatingOk && isTypeOk;
+  });
+
+  const sortedHotels = [...filteredHotels].sort((a, b) => {
+    switch (sortBy) {
+      case "priceLowToHigh":
+        return a.priceRange[0] - b.priceRange[0];
+      case "priceHighToLow":
+        return b.priceRange[0] - a.priceRange[0];
+      case "rating":
+        return b.rating - a.rating;
+      case "popularity":
+        // FIXED LOGIC for popularity: Sort by numberOfReviews (desc), then by rating (desc) as tie-breaker
+        if (b.numberOfReviews !== a.numberOfReviews) {
+          return b.numberOfReviews - a.numberOfReviews;
+        }
+        return b.rating - a.rating; // Tie-breaker for same number of reviews
+      default:
+        // Default case for sortBy, e.g., if 'popularity' is not selected, fallback to rating
+        return b.rating - a.rating;
+    }
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="w-full md:w-80 flex-shrink-0">
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex h-screen">
+        <div className="w-80 bg-white border-r border-gray-200 flex-shrink-0 overflow-y-auto shadow-lg">
+          <div className="p-6">
             <SidebarFilter
               filters={filters}
               onFilterChange={handleFilterChange}
               currentLanguage={currentLanguage}
+              onReset={handleReset}
             />
           </div>
-          <div className="flex-1">
-            <div className="flex items-center justify-between mb-6">
+        </div>
+
+        <div className="flex-1 overflow-y-auto bg-white border border-gray-100 m- ml-0">
+          <div className="p-6">
+            <div className="flex items-center justify-between bg-gradient-to-r pb-4 bg-white overflow-hidden border-b border-gray-200 mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-1 h-8 bg-blue-500 rounded-full" />
-                <h2 className="text-2xl font-bold text-gray-900">
-                  {currentLanguage.hotels}
+                <h2 className="text-2xl font-bold text-gray-900 ">
+                  {sortedHotels.length} Hotels in paharganj
                 </h2>
               </div>
-              <span className="text-sm font-bold text-blue-600 bg-blue-50 px-4 py-2 rounded-full">
-                {filteredHotels.length} {currentLanguage.hotels}
-              </span>
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-gray-600 font-medium">
+                    Sort By
+                  </span>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="border border-gray-300 rounded-lg px-4 py-2 text-sm text-zinc-900 bg-white hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all shadow-sm"
+                  >
+                    <option value="popularity">Popularity</option>
+                    <option value="priceLowToHigh">Price: Low to High</option>
+                    <option value="priceHighToLow">Price: High to Low</option>
+                    <option value="rating">Rating</option>
+                  </select>
+                </div>
+              </div>
             </div>
-            {filteredHotels.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredHotels.map((hotel) => (
+            {/* THIS IS THE CORRECTED SECTION */}
+            <div className="space-y-1"> {/* This div was present in the original correct code block */}
+              {sortedHotels.length > 0 ? (
+                sortedHotels.map((hotel) => (
                   <HotelCard
                     key={hotel.id}
                     hotel={hotel}
                     currentLanguage={currentLanguage}
                   />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12 bg-white rounded-lg border-2 border-blue-100">
-                <p className="text-gray-600 font-medium">{currentLanguage.noHotels}</p>
-              </div>
-            )}
+                ))
+              ) : (
+                <div className="text-center py-16 bg-gradient-to-b from-gray-50 to-white rounded-2xl border border-gray-200">
+                  <div className="mb-4">
+                    <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto flex items-center justify-center">
+                      <Star className="w-8 h-8 text-gray-400" />
+                    </div>
+                  </div>
+                  <p className="text-gray-600 font-medium text-lg mb-2">
+                    {currentLanguage.noHotels}
+                  </p>
+                  <p className="text-gray-500">
+                    Try adjusting your filters to see more results
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -385,4 +324,6 @@ const Trip = ({ isHindi = false }) => {
   );
 };
 
+// No export statement added, as requested.
+// export default Trip; // Moved export to the very end as it was in your original snippet
 export default Trip;

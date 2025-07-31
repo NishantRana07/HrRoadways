@@ -1,0 +1,317 @@
+/* Language Selector Responsive Styles */
+
+/* Custom scrollbar for dropdown */
+.language-dropdown::-webkit-scrollbar,
+.language-dropdown *::-webkit-scrollbar {
+  width: 6px;
+}
+
+.language-dropdown::-webkit-scrollbar-track,
+.language-dropdown *::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.language-dropdown::-webkit-scrollbar-thumb,
+.language-dropdown *::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.language-dropdown::-webkit-scrollbar-thumb:hover,
+.language-dropdown *::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Ensure scrollable container */
+
+/* Ensure desktop dropdown is scrollable */
+.language-dropdown {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: 20rem;
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+/* Dark mode Firefox scrollbar */
+.dark .language-dropdown > div {
+  scrollbar-color: #6b7280 #374151;
+}
+
+/* Mobile scrollbar - make it more visible on touch devices */
+@media (max-width: 768px) {
+  .language-dropdown::-webkit-scrollbar,
+  .language-dropdown *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .language-dropdown::-webkit-scrollbar-thumb,
+  .language-dropdown *::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 4px;
+  }
+
+  .language-dropdown::-webkit-scrollbar-thumb:active,
+  .language-dropdown *::-webkit-scrollbar-thumb:active {
+    background: #6b7280;
+  }
+}
+
+/* Dark mode scrollbar */
+.dark .language-dropdown::-webkit-scrollbar-track,
+.dark .language-dropdown *::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark .language-dropdown::-webkit-scrollbar-thumb,
+.dark .language-dropdown *::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.dark .language-dropdown::-webkit-scrollbar-thumb:hover,
+.dark .language-dropdown *::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Animation for dropdown */
+@keyframes languageDropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes languageDropdownSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.language-dropdown {
+  animation: languageDropdownSlide 0.2s ease-out;
+}
+
+/* Special animation for navbar variant (dropdown opens upward) */
+.language-selector .language-dropdown[class*="bottom-full"] {
+  animation: languageDropdownSlideUp 0.2s ease-out;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .language-selector-mobile {
+    width: 100%;
+  }
+
+  .language-selector-mobile .language-dropdown {
+    position: static;
+    width: 100%;
+    max-height: 240px;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #9ca3af #f1f5f9;
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+    margin-top: 0.5rem;
+  }
+
+  .language-selector-mobile .language-dropdown > div {
+    max-height: 240px;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Enhanced scrollbar for mobile */
+  .language-selector-mobile .language-dropdown::-webkit-scrollbar,
+  .language-selector-mobile .language-dropdown *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .language-selector-mobile .language-dropdown::-webkit-scrollbar-track,
+  .language-selector-mobile .language-dropdown *::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+  }
+
+  .language-selector-mobile .language-dropdown::-webkit-scrollbar-thumb,
+  .language-selector-mobile .language-dropdown *::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 4px;
+  }
+
+  .language-selector-mobile .language-dropdown::-webkit-scrollbar-thumb:hover,
+  .language-selector-mobile
+    .language-dropdown
+    *::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+
+  /* Dark mode scrollbar for mobile */
+  .dark .language-selector-mobile .language-dropdown::-webkit-scrollbar-track,
+  .dark
+    .language-selector-mobile
+    .language-dropdown
+    *::-webkit-scrollbar-track {
+    background: #374151;
+  }
+
+  .dark .language-selector-mobile .language-dropdown::-webkit-scrollbar-thumb,
+  .dark
+    .language-selector-mobile
+    .language-dropdown
+    *::-webkit-scrollbar-thumb {
+    background: #6b7280;
+  }
+
+  .dark
+    .language-selector-mobile
+    .language-dropdown::-webkit-scrollbar-thumb:hover,
+  .dark
+    .language-selector-mobile
+    .language-dropdown
+    *::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+
+  /* Specific adjustments for mobile sidebar */
+  .language-selector-mobile button {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+  }
+
+  .language-selector-mobile .language-dropdown {
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .language-selector-mobile .language-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    min-height: 44px; /* Ensure minimum touch target size */
+    display: flex;
+    align-items: center;
+  }
+
+  /* Fix dropdown positioning in mobile navbar */
+  .language-selector-mobile {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Ensure dropdown doesn't overflow the sidebar */
+  .language-selector-mobile .language-dropdown {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+/* Tablet responsive adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .language-selector {
+    position: relative;
+  }
+
+  .language-dropdown {
+    max-height: 300px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Additional mobile fixes */
+@media (max-width: 480px) {
+  .language-selector-mobile .language-dropdown {
+    max-height: 180px;
+  }
+
+  .language-selector-mobile .language-item {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Ensure proper z-index layering */
+.language-selector {
+  z-index: 10;
+}
+
+.language-dropdown {
+  z-index: 50;
+}
+
+/* Hover effects */
+.language-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.language-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.language-item:hover::before {
+  left: 100%;
+}
+
+/* Focus styles for accessibility */
+.language-selector button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.language-item:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .language-selector button {
+    border: 2px solid currentColor;
+  }
+
+  .language-item {
+    border-bottom: 1px solid currentColor;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .language-dropdown {
+    animation: none;
+  }
+
+  .language-item::before {
+    transition: none;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

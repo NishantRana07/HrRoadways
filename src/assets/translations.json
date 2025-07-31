@@ -1,5 +1,63 @@
 {
   "en": {
+    "headerTitle": "Support Haryana Roadways",
+    "headerSubtitle": "Your contribution helps maintain public transport.",
+    "supportMission": "Support Our Mission",
+    "selectAmount": "Select Donation Amount",
+    "customAmount": "Enter custom amount",
+    "oneTime": "One-Time",
+    "monthly": "Monthly",
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "phoneNumber": "Phone Number",
+    "panCard": "PAN Card Number",
+    "message": "Message",
+    "shareMessage": "Share a message (optional)",
+    "paymentMethod": "Select Payment Method",
+    "card": "Card",
+    "upi": "UPI",
+    "netBanking": "Net Banking",
+    "cardNumber": "Card Number",
+    "expiryDate": "Expiry Date (MM/YY)",
+    "cvv": "CVV",
+    "upiId": "UPI ID",
+    "bankName": "Bank Name",
+    "accountNumber": "Account Number",
+    "completeDonation": "Complete Donation",
+    "thankYou": "Thank You for Your Support!",
+    "thankYouMessage": "We've sent a confirmation email to",
+    "makeAnotherDonation": "Make Another Donation",
+    "yourImpact": "Your Impact",
+    "maintainedMonthly": "Buses maintained every month",
+    "servedDaily": "Passengers served daily",
+    "roundTheClock": "Service available around the clock",
+    "recentSupporters": "Recent Supporters",
+    "taxBenefits": "Tax Benefits",
+    "taxBenefitsMessage": "Your donation is eligible for tax exemption under Section 80G.",
+    "description": "Your support helps us serve better.",
+    "donateButton": "Donate Now",
+
+    "trackerTitle": "Live Bus Tracker",
+    "trackerSubtitle": "Track your buses in real-time",
+    "trackerLoading": "Loading buses...",
+    "trackerActiveBuses": "Active Buses",
+    "trackerMinutes": "minutes",
+    "trackerKmh": "km/h",
+    "trackerRoutes": {
+      "Delhi-Chandigarh Express": "Delhi-Chandigarh Express",
+      "Gurgaon-Sonipat Express": "Gurgaon-Sonipat Express",
+      "Panipat": "Panipat",
+      "Rohini": "Rohini"
+    },
+    "busInfo": {
+      "speed": "Speed",
+      "nextStop": "Next Stop",
+      "eta": "ETA",
+      "passengers": "Passengers",
+      "driver": "Driver",
+      "contact": "Contact"
+    },
+
     "title": "Explore Haryana",
     "subtitle": "Discover the vibrant culture and scenic beauty of Haryana.",
     "searchPlaceholder": "Search by name or description...",
@@ -8,11 +66,11 @@
     "localSpecialties": "Local Specialties",
     "noLocationsFound": "No locations found matching your criteria.",
     "categories": [
-      { "id": "all", "label": "All" },
-      { "id": "historical", "label": "Historical" },
-      { "id": "nature", "label": "Nature" },
-      { "id": "religious", "label": "Religious" },
-      { "id": "adventure", "label": "Adventure" }
+      {"id": "all", "label": "All"},
+      {"id": "historical", "label": "Historical"},
+      {"id": "nature", "label": "Nature"},
+      {"id": "religious", "label": "Religious"},
+      {"id": "adventure", "label": "Adventure"}
     ],
     "locations": [
       {
@@ -55,7 +113,11 @@
         "bestTime": "October to March",
         "culturalEvents": ["Kurukshetra Mahotsav"],
         "localCuisine": ["Paneer dishes"],
-        "activities": ["Visiting Temples", "Historical Tours", "Boating in Brahma Sarovar"],
+        "activities": [
+          "Visiting Temples",
+          "Historical Tours",
+          "Boating in Brahma Sarovar"
+        ],
         "category": "religious",
         "image": "https://i.ibb.co/35jgWkDV/Kurukshetra.jpg"
       },
@@ -99,9 +161,12 @@
         "bestTime": "October to March",
         "culturalEvents": ["Panipat Handloom Fair"],
         "localCuisine": ["Panipat Ki Mithai"],
-        "activities": ["Visiting historical battlefields", "Shopping for handloom products"],
+        "activities": [
+          "Visiting historical battlefields",
+          "Shopping for handloom products"
+        ],
         "category": "historical",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Panipat_Battlefield.jpg/1280px-Panipat_Battlefield.jpg"
+        "image": "https://i.ibb.co/4RnhhGjr/Panipat-Fort-Cover-Photo-840x425.jpg"
       },
       {
         "id": "yamunanagar",
@@ -112,12 +177,68 @@
         "localCuisine": ["Sweets and Savories"],
         "activities": ["Visit Kalesar National Park", "Religious sites"],
         "category": "industrial",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Yamunanagar_City.jpg"
+        "image": "https://i.ibb.co/JhPyNVt/Yamuna-nagar.jpg"
       }
-
     ]
   },
   "hi": {
+    "trackerTitle": "लाइव बस ट्रैकर",
+    "trackerSubtitle": "अपनी बसों को रीयल टाइम में ट्रैक करें",
+    "trackerLoading": "बसें लोड हो रही हैं...",
+    "trackerActiveBuses": "सक्रिय बसें",
+    "trackerMinutes": "मिनट",
+    "trackerKmh": "कि.मी./घंटा",
+    "trackerRoutes": {
+      "Delhi-Chandigarh Express": "दिल्ली-चंडीगढ़ एक्सप्रेस",
+      "Gurgaon-Sonipat Express": "गुड़गांव-सोनीपत एक्सप्रेस",
+      "Panipat": "पानीपत",
+      "Rohini": "रोहिणी"
+    },
+    "busInfo": {
+      "speed": "गति",
+      "nextStop": "अगला पड़ाव",
+      "eta": "पहुंचने का समय",
+      "passengers": "यात्रियों की संख्या",
+      "driver": "चालक",
+      "contact": "संपर्क"
+    },
+    "headerTitle": "हरियाणा रोडवेज का समर्थन करें",
+    "headerSubtitle": "आपका योगदान सार्वजनिक परिवहन को बनाए रखने में मदद करता है।",
+    "supportMission": "हमारे मिशन का समर्थन करें",
+    "selectAmount": "दान की राशि चुनें",
+    "customAmount": "मनचाही राशि दर्ज करें",
+    "oneTime": "एक बार",
+    "monthly": "मासिक",
+    "fullName": "पूरा नाम",
+    "email": "ईमेल पता",
+    "phoneNumber": "फ़ोन नंबर",
+    "panCard": "पैन कार्ड नंबर",
+    "message": "संदेश",
+    "shareMessage": "एक संदेश साझा करें (वैकल्पिक)",
+    "paymentMethod": "भुगतान का तरीका चुनें",
+    "card": "कार्ड",
+    "upi": "यूपीआई",
+    "netBanking": "नेट बैंकिंग",
+    "cardNumber": "कार्ड नंबर",
+    "expiryDate": "समाप्ति तिथि (माह/वर्ष)",
+    "cvv": "सीवीवी",
+    "upiId": "यूपीआई आईडी",
+    "bankName": "बैंक का नाम",
+    "accountNumber": "खाता संख्या",
+    "completeDonation": "दान पूरा करें",
+    "thankYou": "आपके समर्थन के लिए धन्यवाद!",
+    "thankYouMessage": "हमने पुष्टि ईमेल भेजा है:",
+    "makeAnotherDonation": "एक और दान करें",
+    "yourImpact": "आपका प्रभाव",
+    "maintainedMonthly": "हर महीने रखरखाव की गई बसें",
+    "servedDaily": "हर दिन सेवा किए गए यात्री",
+    "roundTheClock": "24x7 सेवा उपलब्ध",
+    "recentSupporters": "हाल के समर्थक",
+    "taxBenefits": "कर लाभ",
+    "taxBenefitsMessage": "आपका दान धारा 80G के तहत कर छूट के योग्य है।",
+    "description": "आपका समर्थन हमें बेहतर सेवा देने में मदद करता है।",
+    "donateButton": "अभी दान करें",
+
     "title": "हरियाणा का अन्वेषण करें",
     "subtitle": "हरियाणा की जीवंत संस्कृति और प्राकृतिक सुंदरता का अन्वेषण करें।",
     "searchPlaceholder": "नाम या विवरण से खोजें...",
@@ -126,11 +247,11 @@
     "localSpecialties": "स्थानीय विशेषताएँ",
     "noLocationsFound": "आपके मानदंड से मेल खाते कोई स्थान नहीं मिले।",
     "categories": [
-      { "id": "all", "label": "सभी" },
-      { "id": "historical", "label": "ऐतिहासिक" },
-      { "id": "nature", "label": "प्रकृति" },
-      { "id": "religious", "label": "धार्मिक" },
-      { "id": "adventure", "label": "साहसिक" }
+      {"id": "all", "label": "सभी"},
+      {"id": "historical", "label": "ऐतिहासिक"},
+      {"id": "nature", "label": "प्रकृति"},
+      {"id": "religious", "label": "धार्मिक"},
+      {"id": "adventure", "label": "साहसिक"}
     ],
     "locations": [
       {
@@ -173,7 +294,11 @@
         "bestTime": "अक्टूबर से मार्च",
         "culturalEvents": ["कुरुक्षेत्र महोत्सव"],
         "localCuisine": ["पनीर व्यंजन"],
-        "activities": ["मंदिरों का दौरा", "ऐतिहासिक यात्रा", "ब्रह्म सरोवर में नौका विहार"],
+        "activities": [
+          "मंदिरों का दौरा",
+          "ऐतिहासिक यात्रा",
+          "ब्रह्म सरोवर में नौका विहार"
+        ],
         "category": "religious",
         "image": "https://i.ibb.co/35jgWkDV/Kurukshetra.jpg"
       },
@@ -217,9 +342,12 @@
         "bestTime": "अक्टूबर से मार्च",
         "culturalEvents": ["पानीपत हथकरघा मेला"],
         "localCuisine": ["पानीपत की मिठाई"],
-        "activities": ["ऐतिहासिक युद्धक्षेत्रों का दौरा", "हथकरघा उत्पादों की खरीदारी"],
+        "activities": [
+          "ऐतिहासिक युद्धक्षेत्रों का दौरा",
+          "हथकरघा उत्पादों की खरीदारी"
+        ],
         "category": "historical",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Panipat_Battlefield.jpg/1280px-Panipat_Battlefield.jpg"
+        "image": "https://i.ibb.co/4RnhhGjr/Panipat-Fort-Cover-Photo-840x425.jpg"
       },
       {
         "id": "yamunanagar",
@@ -230,7 +358,7 @@
         "localCuisine": ["मिठाइयाँ और नमकीन"],
         "activities": ["कलेसर राष्ट्रीय उद्यान का दौरा", "धार्मिक स्थल"],
         "category": "industrial",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Yamunanagar_City.jpg"
+        "image": "https://i.ibb.co/JhPyNVt/Yamuna-nagar.jpg"
       }
     ]
   }

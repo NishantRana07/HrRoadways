@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { CreditCard, CreditCardIcon, Wallet, ShieldCheck, QrCode, CheckCircle } from 'lucide-react';
+import Loading from './Loading';
 
 // Custom hook to fetch translations
 const useTranslation = (isHindi) => {
   const [currentLanguage, setCurrentLanguage] = useState(null);
-  const translationsUrl = 'https://jsonblob.com/api/jsonBlob/1338200675141738496';
+  const translationsUrl =
+    "https://jsonblob.com/api/jsonBlob/1398993915750834176";
 
   useEffect(() => {
     fetch(translationsUrl)
@@ -81,8 +83,8 @@ const PaymentOptions = ({ isHindi }) => {
       case 'credit':
       case 'debit':
         return (
-          <div className="payment-form bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">
+          <div className="p-6 bg-white rounded-lg shadow-md payment-form">
+            <h3 className="mb-4 text-xl font-semibold text-gray-800">
               {currentLanguage.cardDetails}
             </h3>
             <div className="space-y-4">
@@ -94,7 +96,7 @@ const PaymentOptions = ({ isHindi }) => {
                   value={cardDetails.cardNumber}
                   onChange={handleCardDetailsChange}
                   placeholder="1234 5678 9012 3456"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
@@ -105,7 +107,7 @@ const PaymentOptions = ({ isHindi }) => {
                   value={cardDetails.cardName}
                   onChange={handleCardDetailsChange}
                   placeholder="John Doe"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -117,7 +119,7 @@ const PaymentOptions = ({ isHindi }) => {
                     value={cardDetails.expiryDate}
                     onChange={handleCardDetailsChange}
                     placeholder="MM/YY"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"
+                    className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
@@ -128,7 +130,7 @@ const PaymentOptions = ({ isHindi }) => {
                     value={cardDetails.cvv}
                     onChange={handleCardDetailsChange}
                     placeholder="123"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"
+                    className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -137,8 +139,8 @@ const PaymentOptions = ({ isHindi }) => {
         );
       case 'upi':
         return (
-          <div className="payment-form bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">
+          <div className="p-6 bg-white rounded-lg shadow-md payment-form">
+            <h3 className="mb-4 text-xl font-semibold text-gray-800">
               {currentLanguage.upiPayment}
             </h3>
             <div className="space-y-4">
@@ -147,7 +149,7 @@ const PaymentOptions = ({ isHindi }) => {
                 <input
                   type="text"
                   placeholder="yourname@upi"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div className="flex items-center text-sm text-gray-600">
@@ -159,15 +161,15 @@ const PaymentOptions = ({ isHindi }) => {
         );
       case 'wallet':
         return (
-          <div className="payment-form bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">
+          <div className="p-6 bg-white rounded-lg shadow-md payment-form">
+            <h3 className="mb-4 text-xl font-semibold text-gray-800">
               {currentLanguage.digitalWallets}
             </h3>
             <div className="grid grid-cols-2 gap-4">
               {['Paytm', 'PhonePe', 'Google Pay', 'Amazon Pay'].map((wallet) => (
                 <div 
                   key={wallet} 
-                  className="wallet-option border rounded-lg p-4 text-center hover:bg-gray-50 cursor-pointer transition"
+                  className="p-4 text-center transition border rounded-lg cursor-pointer wallet-option hover:bg-gray-50"
                 >
                   {wallet}
                 </div>
@@ -181,16 +183,16 @@ const PaymentOptions = ({ isHindi }) => {
   };
 
   if (!currentLanguage) {
-    return <div>Loading translations...</div>;
+    return <Loading />;
   }
 
   return (
-    <div className="payment-container bg-gray-100 min-h-screen py-12 px-4">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+    <div className="min-h-screen px-4 py-12 bg-gray-100 payment-container">
+      <div className="max-w-4xl mx-auto overflow-hidden bg-white shadow-lg rounded-xl">
         <div className="md:flex">
           {/* Payment methods sidebar */}
-          <div className="md:w-1/3 bg-gray-50 p-6 border-r">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">
+          <div className="p-6 border-r md:w-1/3 bg-gray-50">
+            <h2 className="mb-6 text-2xl font-bold text-gray-800">
               {currentLanguage.paymentMethods}
             </h2>
             <div className="space-y-4">
@@ -219,23 +221,23 @@ const PaymentOptions = ({ isHindi }) => {
           </div>
 
           {/* Payment form area */}
-          <div className="md:w-2/3 p-8">
+          <div className="p-8 md:w-2/3">
             {selectedPaymentMethod ? (
               renderPaymentForm()
             ) : (
-              <div className="text-center py-12 text-gray-500">
+              <div className="py-12 text-center text-gray-500">
                 <ShieldCheck className="mx-auto mb-4 text-blue-500" size={48} />
                 <p>{currentLanguage.selectPaymentMethod}</p>
               </div>
             )}
 
             {selectedPaymentMethod && (
-              <div className="mt-6 flex justify-between items-center">
+              <div className="flex items-center justify-between mt-6">
                 <div className="text-xl font-bold text-gray-800">
                   {currentLanguage.totalPayable}: ₹2,500
                 </div>
                 <button 
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition flex items-center"
+                  className="flex items-center px-6 py-3 text-white transition bg-blue-600 rounded-lg hover:bg-blue-700"
                 >
                   <CheckCircle className="mr-2" size={20} />
                   {currentLanguage.confirmPayment}
@@ -246,13 +248,13 @@ const PaymentOptions = ({ isHindi }) => {
         </div>
 
         {/* Security footer */}
-        <div className="bg-blue-50 p-4 flex items-center justify-center text-blue-800">
+        <div className="flex items-center justify-center p-4 text-blue-800 bg-blue-50">
           <ShieldCheck className="mr-2" size={20} />
           <span>{currentLanguage.safeSecure}</span>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default PaymentOptions;

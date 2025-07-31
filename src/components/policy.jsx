@@ -20,6 +20,7 @@ import {
   ChevronUp,
   CheckCircle2
 } from 'lucide-react';
+import Loading from './Loading';
 
 // Custom hook to fetch translations
 const useTranslation = (initialLanguage) => {
@@ -88,7 +89,7 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
   }, [activeSection]);
 
   if (!currentTranslation) {
-    return <div>Loading translations...</div>;
+    return <Loading />;
   }
 
   return (

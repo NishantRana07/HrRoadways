@@ -3,14 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, Map, Clock, DollarSign, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaRupeeSign } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 const popularRoutes = [
-  { 
+  {
     id: 1,
-    src: 'Chandigarh', 
-    dest: 'Delhi', 
-    time: '2h 30m', 
-    fare: '₹450', 
+    src: 'Chandigarh',
+    dest: 'Delhi',
+    time: '2h 30m',
+    fare: '₹450',
     frequency: 'Every 30 mins',
     details: {
       distance: '250 km',
@@ -18,12 +19,12 @@ const popularRoutes = [
       busTypes: ['AC', 'Non-AC', 'Sleeper']
     }
   },
-  { 
+  {
     id: 2,
-    src: 'Gurugram', 
-    dest: 'Panipat', 
-    time: '1h 45m', 
-    fare: '₹250', 
+    src: 'Gurugram',
+    dest: 'Panipat',
+    time: '1h 45m',
+    fare: '₹250',
     frequency: 'Every 45 mins',
     details: {
       distance: '120 km',
@@ -31,12 +32,12 @@ const popularRoutes = [
       busTypes: ['Express', 'Ordinary']
     }
   },
-  { 
+  {
     id: 3,
-    src: 'Faridabad', 
-    dest: 'Hisar', 
-    time: '3h', 
-    fare: '₹500', 
+    src: 'Faridabad',
+    dest: 'Hisar',
+    time: '3h',
+    fare: '₹500',
     frequency: 'Every hour',
     details: {
       distance: '300 km',
@@ -44,12 +45,12 @@ const popularRoutes = [
       busTypes: ['Super Deluxe', 'AC']
     }
   },
-  { 
+  {
     id: 4,
-    src: 'Rohtak', 
-    dest: 'Ambala', 
-    time: '2h 15m', 
-    fare: '₹350', 
+    src: 'Rohtak',
+    dest: 'Ambala',
+    time: '2h 15m',
+    fare: '₹350',
     frequency: 'Every hour',
     details: {
       distance: '180 km',
@@ -60,6 +61,7 @@ const popularRoutes = [
 ];
 
 const PopularRoutes = ({ onRouteClick }) => {
+  const { t } = useTranslation();
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [activeRouteIndex, setActiveRouteIndex] = useState(0);
 
@@ -72,9 +74,9 @@ const PopularRoutes = ({ onRouteClick }) => {
   }, []);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-5">
       <div className="bg-blue-600 text-white p-4 flex items-center justify-between">
-        <h3 className="text-xl font-bold">Popular Routes</h3>
+        <h3 className="text-xl font-bold">{t('popularRoutes')}</h3>
         <Map className="w-6 h-6" />
       </div>
 
@@ -90,9 +92,9 @@ const PopularRoutes = ({ onRouteClick }) => {
                 transition={{ duration: 0.5 }}
                 className="space-y-4"
               >
-                <div 
+                <div
                   className="flex items-center justify-between bg-blue-50 p-4 rounded-lg cursor-pointer hover:bg-blue-100 transition"
-                  onClick={() => { 
+                  onClick={() => {
                     setSelectedRoute(route);
                     onRouteClick(route);
                   }}  // Call the function passed via props
@@ -131,20 +133,20 @@ const PopularRoutes = ({ onRouteClick }) => {
             transition={{ duration: 0.3 }}
             className="mt-4 bg-blue-50 p-4 rounded-lg"
           >
-            <h4 className="text-lg font-semibold mb-3 text-blue-800">Route Details</h4>
+            <h4 className="text-lg font-semibold mb-3 text-blue-800">{t('routeDetails')}</h4>
             <div className="grid grid-cols-2 gap-2 text-gray-700">
               <div>
-                <strong>Distance:</strong> {selectedRoute.details.distance}
+                <strong>{t('distance')}:</strong> {selectedRoute.details.distance}
               </div>
               <div>
-                <strong>Route Type:</strong> {selectedRoute.details.type}
+                <strong>{t('routeType')}:</strong> {selectedRoute.details.type}
               </div>
               <div>
-                <strong>Available Bus Types:</strong>
+                <strong>{t('availableBusTypes')}:</strong>
                 <div className="flex space-x-2 mt-1">
                   {selectedRoute.details.busTypes.map((type) => (
-                    <span 
-                      key={type} 
+                    <span
+                      key={type}
                       className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
                     >
                       {type}

@@ -12,6 +12,8 @@ const Kurukshetra = 'https://i.ibb.co/35jgWkDV/Kurukshetra.jpg';
 const Pinjore_Gardens = 'https://i.ibb.co/zVgjsCYC/Pinjore-Gardens.jpg';
 const Morni_Hills = 'https://i.ibb.co/DgY6Ty74/Morni-Hills.webp';
 const Panchkula = 'https://i.ibb.co/HTJnB2k6/Panchkula.jpg';
+const Panipat = 'https://i.ibb.co/4RnhhGjr/Panipat-Fort-Cover-Photo-840x425.jpg';
+const Yamunanagar = 'https://i.ibb.co/JhPyNVt/Yamuna-nagar.jpg';
 
 const TravelLocations = ({ isHindi }) => {
   // Directly use the imported data, no need for useState for translations now
@@ -48,7 +50,7 @@ const TravelLocations = ({ isHindi }) => {
         </div>
 
         {/* Search bar and category filters */}
-        <div className="mb-6 flex flex-col sm:flex-row gap-4">
+        <div className="mb-6 flex flex-col sm:flex-row gap-4 text-black">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <input
@@ -77,7 +79,7 @@ const TravelLocations = ({ isHindi }) => {
         </div>
 
         {/* Locations grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-black">
           {filteredLocations.map((location, index) => (
             <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105">
               <div className="relative h-48">
