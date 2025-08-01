@@ -99,6 +99,21 @@
   opacity: 0;
 }
 
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #023047;
+}
+
+.form-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #023047;
+}
+
 /* Feature items */
 .feature-item {
   display: flex;
