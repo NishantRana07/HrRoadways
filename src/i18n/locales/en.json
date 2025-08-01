@@ -33,7 +33,7 @@
   
   "register": {
     "title": "Register",
-    "namePlaceholder": "Enter your ame...",
+    "namePlaceholder": "Enter your name...",
     "emailPlaceholder": "Enter your email...",
     "passwordPlaceholder": "Enter your password...",
     "button": "Register",
@@ -46,7 +46,7 @@
     "passwordPlaceholder": "Enter your password...",
     "button": "Login",
     "prompt": "Don't have an account?",
-    "registerLink": "Regist er",
+    "registerLink": "Register",
     "forgotPassword": "Forgot Password?"
   },
   "forgotPassword": {

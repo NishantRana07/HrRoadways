@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useModalStore,useAuthStore } from "../store/store";
-
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useModalStore, useAuthStore } from "../store/store";
 import { useTranslation } from "react-i18next";
 
 function Login() {
@@ -9,23 +9,15 @@ function Login() {
   const { t } = useTranslation();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); // In real app, validate securely
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // <-- NEW
 
   if (modalType !== "login") return null;
 
   const handleLogin = (e) => {
     e.preventDefault();
-
-    // Simulated login
-    login({
-      name: "John Doe", // You can replace this with form input or mock API later
-      email: email,
-    });
-
-    closeModal(); // Close modal on success
-
-    // Optionally redirect to dashboard if routing is enabled
-    // navigate("/my-bookings");
+    login({ name: "John Doe", email });
+    closeModal();
   };
 
   return (
@@ -51,13 +43,22 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <input
-            type="password"
-            placeholder={t("login.passwordPlaceholder")}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-neutral-300 placeholder:font-medium text-lg text-neutral-600"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          {/* Password field with toggle */}
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder={t("login.passwordPlaceholder")}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-neutral-300 placeholder:font-medium text-lg text-neutral-600"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <span
+              className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <AiOutlineEyeInvisible size={22}/> : <AiOutlineEye size={22}/>}
+            </span>
+          </div>
 
           <div className="text-right">
             <span
@@ -69,7 +70,6 @@ function Login() {
           </div>
 
           <button
-          // add backend logic for login here
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
           >
