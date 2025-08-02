@@ -8,7 +8,7 @@ import Register from './Register';
 import { useAuthStore, useModalStore } from '../store/store';
 import Login from './Login';
 import ForgotPassword from './ForgotPassword';
-
+import DarkModeToggle from "../components/DarkModeToggle";
 const Logo = 'https://i.ibb.co/kg3RQQ1S/LogoHR.png';
 
 const Navigation = () => {
@@ -82,7 +82,7 @@ const Navigation = () => {
             </NavLink>
 
             {/* Desktop Links */}
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center gap-4">
               <NavLink to="/" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">
                 {t('nav.home')}
               </NavLink>
@@ -116,6 +116,7 @@ const Navigation = () => {
               <NavLink to="/about" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.about')}</NavLink>
               <NavLink to="/blog" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.blog')}</NavLink>
               <NavLink to="/donate" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.donate')}</NavLink>
+                <DarkModeToggle />
               <NavLink to="/helpline" className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center text-base font-semibold ml-4 dark:bg-blue-600 dark:hover:bg-blue-500">
                 <Phone className="w-4 h-4 mr-1" />
                 {t('nav.helpline')}
