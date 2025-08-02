@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Clock, 
+import {
+  Clock,
   Bus,
   MapPin,
   Route,
@@ -16,6 +16,9 @@ const WeeklyTimetable = () => {
 
   const [searchFrom, setSearchFrom] = useState('');
   const [searchTo, setSearchTo] = useState('');
+
+  const [insightsLoading, setInsightsLoading] = useState(false);
+  const [aiInsights, setAiInsights] = useState([]);
 
   const [fromSuggestions, setFromSuggestions] = useState([]);
   const [toSuggestions, setToSuggestions] = useState([]);
@@ -121,16 +124,76 @@ const WeeklyTimetable = () => {
 
   const handleSearch = () => {
     if (searchFrom && searchTo) {
-      const filtered = scheduleData.filter(schedule => 
+      const filtered = scheduleData.filter(schedule =>
         schedule.from.toLowerCase() === searchFrom.toLowerCase() &&
         schedule.to.toLowerCase() === searchTo.toLowerCase()
       );
       setFilteredSchedules(filtered);
+      handleFetchAiInsights(searchFrom, searchTo);
 
       const newSearch = `${searchFrom} to ${searchTo}`;
       setRecentSearches(prev => [newSearch, ...prev.filter(search => search !== newSearch)].slice(0, 5));
     }
   };
+
+  // Utitlity function to clean and parse AI insights JSON array
+  const cleanJsonArray = (text) => {
+  try {
+    // Extract array using regex (grab only JSON-like portion)
+    const match = text.match(/\[.*?\]/s);
+    const jsonOnly = match?.[0] || "[]";
+    const parsed = JSON.parse(jsonOnly);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (err) {
+    console.error("Failed to parse AI insight array:", err);
+    return [];
+  }
+};
+
+
+  // Function to fetch AI insights using Gemini API
+  const handleFetchAiInsights = async (from, to) => {
+    try {
+      setInsightsLoading(true);
+      setAiInsights([]); // Clear previous insights
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-4b-it:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: `Provide exactly 2 actionable travel insights in simple language (each under 40 words) for the Indian bus route from ${from} to ${to}. Format strictly as a JSON array:
+["Insight 1", "Insight 2"]
+Return only the array. Do not include markdown, explanation, or code block wrappers.`
+                  }
+                ]
+              }
+            ]
+          })
+        }
+      );
+
+      const data = await response.json();
+      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
+      const insights = cleanJsonArray(rawText);
+      setAiInsights(insights);
+    } catch (error) {
+      setAiInsightsLoading(false);
+      console.error("Error fetching AI insights:", error);
+      setAiInsights([
+        "Failed to parse insights—please check AI response format.",
+      ]);
+    }
+    finally {
+      setInsightsLoading(false);
+    }
+  };
+
+
 
   const handleRouteSelect = (route) => {
     const [from, to] = route.split(' to ');
@@ -259,16 +322,15 @@ const WeeklyTimetable = () => {
                   )}
                 </div>
                 {showFromSuggestions && fromSuggestions.length > 0 && (
-                  <div 
+                  <div
                     className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto"
                   >
                     {fromSuggestions.slice(0, 10).map((suggestion, index) => (
                       <button
                         key={suggestion}
                         ref={(el) => (fromItemRefs.current[index] = el)}
-                        className={`w-full px-4 py-2 text-left hover:bg-blue-50 first:rounded-t-xl last:rounded-b-xl ${
-                          index === fromHighlightIndex ? 'bg-blue-100' : ''
-                        }`}
+                        className={`w-full px-4 py-2 text-left hover:bg-blue-50 first:rounded-t-xl last:rounded-b-xl ${index === fromHighlightIndex ? 'bg-blue-100' : ''
+                          }`}
                         onClick={() => {
                           setSearchFrom(suggestion);
                           setShowFromSuggestions(false);
@@ -318,16 +380,15 @@ const WeeklyTimetable = () => {
                   )}
                 </div>
                 {showToSuggestions && toSuggestions.length > 0 && (
-                  <div 
+                  <div
                     className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto"
                   >
                     {toSuggestions.slice(0, 10).map((suggestion, index) => (
                       <button
                         key={suggestion}
                         ref={(el) => (toItemRefs.current[index] = el)}
-                        className={`w-full px-4 py-2 text-left hover:bg-blue-50 first:rounded-t-xl last:rounded-b-xl ${
-                          index === toHighlightIndex ? 'bg-blue-100' : ''
-                        }`}
+                        className={`w-full px-4 py-2 text-left hover:bg-blue-50 first:rounded-t-xl last:rounded-b-xl ${index === toHighlightIndex ? 'bg-blue-100' : ''
+                          }`}
                         onClick={() => {
                           setSearchTo(suggestion);
                           setShowToSuggestions(false);
@@ -390,6 +451,36 @@ const WeeklyTimetable = () => {
           </div>
         </div>
 
+        {/* AI Insights Section */}
+        {
+          aiInsights.length === 0 && insightsLoading && (
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 mb-8">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                Fetching smart Insights...
+              </h2>
+              </div>
+          )
+        }
+        {
+          aiInsights.length > 0 && (
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 mb-8">
+              <h2 className="text-2xl flex gap-1 items-center font-semibold text-gray-800 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
+                  <path d="M10 7L9.48415 8.39405C8.80774 10.222 8.46953 11.136 7.80278 11.8028C7.13603 12.4695 6.22204 12.8077 4.39405 13.4842L3 14L4.39405 14.5158C6.22204 15.1923 7.13603 15.5305 7.80278 16.1972C8.46953 16.864 8.80774 17.778 9.48415 19.6059L10 21L10.5158 19.6059C11.1923 17.778 11.5305 16.864 12.1972 16.1972C12.864 15.5305 13.778 15.1923 15.6059 14.5158L17 14L15.6059 13.4842C13.778 12.8077 12.864 12.4695 12.1972 11.8028C11.5305 11.136 11.1923 10.222 10.5158 8.39405L10 7Z" stroke="#141B34" strokeWidth="1.5" strokeLinejoin="round" />
+                  <path d="M18 3L17.7789 3.59745C17.489 4.38087 17.3441 4.77259 17.0583 5.05833C16.7726 5.34408 16.3809 5.48903 15.5975 5.77892L15 6L15.5975 6.22108C16.3809 6.51097 16.7726 6.65592 17.0583 6.94167C17.3441 7.22741 17.489 7.61913 17.7789 8.40255L18 9L18.2211 8.40255C18.511 7.61913 18.6559 7.22741 18.9417 6.94166C19.2274 6.65592 19.6191 6.51097 20.4025 6.22108L21 6L20.4025 5.77892C19.6191 5.48903 19.2274 5.34408 18.9417 5.05833C18.6559 4.77259 18.511 4.38087 18.2211 3.59745L18 3Z" stroke="#141B34" strokeWidth="1.5" strokeLinejoin="round" />
+                </svg> AI Insights
+              </h2>
+              <div className="flex flex-wrap sm:flex-nowrap">
+                {aiInsights.map((insight, index) => (
+                  <div
+                    key={index}
+                    className="bg-blue-100 text-gray-700 w-full sm:w-2/4 mx-1 my-2 sm:my-0 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  >{insight}</div>
+                ))}
+              </div>
+            </div>
+          )
+        }
         {/* Results Section */}
         {loading ? (
           <div className="flex justify-center items-center h-64">
@@ -411,7 +502,7 @@ const WeeklyTimetable = () => {
                 {/* Grid layout to reduce vertical scrolling */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {filteredSchedules.map((schedule, index) => (
-                    <div 
+                    <div
                       key={index}
                       className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-shadow"
                     >
