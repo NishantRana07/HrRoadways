@@ -8,10 +8,11 @@
 
 .services-title {
     @apply mb-4 text-4xl font-extrabold text-gray-900;
+    letter-spacing: -0.02em;
 }
 
 .services-subtitle {
-    @apply text-xl text-gray-600;
+    @apply text-xl text-gray-700;
 }
 
 .services-grid {
@@ -20,6 +21,7 @@
 
 .service-card {
     @apply relative p-6 overflow-hidden text-center transition-transform duration-300 transform bg-white shadow-lg rounded-xl hover:scale-105 hover:shadow-xl;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .service-icon {
@@ -28,10 +30,12 @@
 
 .service-title {
     @apply mb-2 text-xl font-semibold text-gray-800;
+    letter-spacing: -0.02em;
 }
 
 .service-description {
-    @apply text-gray-600;
+    @apply text-gray-700;
+    line-height: 1.6;
 }
 
 .service-hover-effect {
@@ -48,22 +52,51 @@
 
 .category-tabs {
     @apply flex justify-center mb-8 space-x-4;
+    background: transparent;
 }
 
 .category-tab {
-    @apply flex items-center gap-2 px-4 py-2 text-gray-900 transition-all duration-200 rounded-md hover:bg-blue-50;
+    @apply flex items-center gap-2 px-4 py-2 text-gray-800 bg-white border border-gray-200 rounded-md transition-all duration-200;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.category-tab:hover {
+    @apply bg-blue-100;
+    transform: scale(1.03);
 }
 
 .category-tab.active {
-    @apply text-white bg-blue-200;
+    @apply font-semibold;
+    background-color: #1e3a8a;
+    color: #ffffff;
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.category-tab:focus {
+    @apply outline-none ring-2 ring-blue-300;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 
 .category-content {
     @apply p-8 bg-white rounded-lg shadow-md;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .category-service-item {
     @apply flex items-center gap-4 p-4 mb-4 transition-transform duration-300 rounded-lg bg-gray-50 hover:shadow-lg;
+}
+
+.service-item-title {
+    @apply text-gray-800;
+}
+
+.service-item-description {
+    @apply text-gray-700;
+    line-height: 1.6;
 }
 
 .service-check-icon {
@@ -84,10 +117,11 @@
 
 .stat-value {
     @apply mb-2 text-4xl font-bold text-blue-600;
+    letter-spacing: -0.02em;
 }
 
 .stat-label {
-    @apply text-gray-600;
+    @apply text-gray-700;
 }
 
 .additional-services {
@@ -95,7 +129,7 @@
 }
 
 .section-title {
-    @apply text-2xl text-center font-bold mb-5
+    @apply text-2xl text-center font-bold mb-5;
 }
 
 .support-grid {
@@ -104,8 +138,18 @@
 
 .support-card {
     @apply p-8 text-center transition-all duration-300 transform rounded-lg bg-gray-50 hover:shadow-xl hover:scale-105;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .support-icon {
     @apply w-12 h-12 mx-auto mb-4 text-blue-600 transition-transform duration-300 hover:scale-110;
 }
+
+.support-card p {
+    @apply text-gray-700;
+    line-height: 1.6;
+}
+.section-title {
+    @apply text-2xl text-center font-bold mb-5 text-gray-900;
+}
+
