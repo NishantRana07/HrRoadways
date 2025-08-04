@@ -26,6 +26,7 @@ import WeeklyTimetable from './components/Timetable';
 import RulesAndGuidelines from './components/Rules';
 import TourGuidePage from './components/TourGuidePage';
 import { getStoredLanguage, setStoredLanguage } from '../libs/languageStorage';
+import TravelPackagesPage from './components/TravelPackagesPage'; // <-- 1. IMPORT YOUR NEW COMPONENT
 
 
 // Make sure you have a BookingPage component in your project.
@@ -97,7 +98,10 @@ function App() {
         <Route path="/contact" element={<ContactUs isHindi={isHindi} />} />
         <Route path="/card" element={<BusCard isHindi={isHindi} />} />
         <Route path="/guide" element={<Tutorial isHindi={isHindi} />} />
-        <Route path="/tour-guide" element={<TourGuidePage />} /> {/* Add new route */}
+        <Route path="/tour-guide" element={<TourGuidePage />} />
+        
+        {/* ADD THE ROUTE FOR YOUR NEW PAGE HERE */}
+        <Route path="/travel-packages" element={<TravelPackagesPage isHindi={isHindi} />} /> {/* <-- 2. ADD THE NEW ROUTE */}
 
         {/* New booking route to apply same navbar & footer */}
         <Route path="/booking" element={<BookingPageWrapper />} />

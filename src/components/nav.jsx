@@ -8,7 +8,7 @@ const Logo = 'https://i.ibb.co/kg3RQQ1S/LogoHR.png';
 const Navigation = ({ isHindi, onToggleLanguage }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);  
+  const [isServicesOpen, setIsServicesOpen] = useState(false); 
 
   const translations = {
     en: {
@@ -20,7 +20,8 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
       services: "Services",
       track: "Track Bus",
       schedule: "Time Table",
-      tourGuide: "Tour Guide", // Add new translation
+      tourGuide: "Tour Guide",
+      travelPackages: "Travel Packages", // <-- 1. Add new translation
       helpline: "24x7 Helpline",
       blog: "Blog",
       quickLinks: "Quick Links",
@@ -36,7 +37,8 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
       services: "सेवाएं",
       track: "बस ट्रैक करें",
       schedule: "समय सारणी",
-      tourGuide: "मार्गदर्शिका", // Add new translation
+      tourGuide: "मार्गदर्शिका",
+      travelPackages: "यात्रा पैकेज", // <-- 2. Add new translation
       helpline: "24x7 हेल्पलाइन",
       blog: "ब्लॉग",
       quickLinks: "त्वरित लिंक",
@@ -63,7 +65,8 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
   const servicesDropdown = [
     { title: currentLanguage.track, path: '/track' },
     { title: currentLanguage.schedule, path: '/schedule' },
-    { title: currentLanguage.tourGuide, path: '/tour-guide' }, // Add this line
+    { title: currentLanguage.tourGuide, path: '/tour-guide' },
+    { title: currentLanguage.travelPackages, path: '/travel-packages' }, // <-- 3. Add new item to dropdown array
   ];
 
   const toggleSidebar = () => {
@@ -183,16 +186,16 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
               {currentLanguage.home}
             </Link>
           </li>
-          <li>
-            <Link to="/donate" onClick={toggleSidebar}>
-              {currentLanguage.donate}
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" onClick={toggleSidebar}>
-              {currentLanguage.about}
-            </Link>
-          </li>
+          {/* 4. Add Service links to mobile menu for better UX */}
+          <li className="sidebar-subtitle">{currentLanguage.services}</li>
+            {servicesDropdown.map((item, index) => (
+                <li key={`mobile-${index}`} className="sidebar-subitem">
+                    <Link to={item.path} onClick={toggleSidebar}>
+                        {item.title}
+                    </Link>
+                </li>
+            ))}
+          <li className="sidebar-divider"></li>
           <li>
             <Link to="/trip" onClick={toggleSidebar}>
               {currentLanguage.trip}
@@ -208,17 +211,27 @@ const Navigation = ({ isHindi, onToggleLanguage }) => {
               {currentLanguage.blog}
             </Link>
           </li>
+          <li>
+            <Link to="/about" onClick={toggleSidebar}>
+              {currentLanguage.about}
+            </Link>
+          </li>
+          <li>
+            <Link to="/donate" onClick={toggleSidebar}>
+              {currentLanguage.donate}
+            </Link>
+          </li>
           <li className="lang">
             EN
             <div className="checkbox-wrapper-5">
               <div className="check">
                 <input
-                  id="check-5"
+                  id="check-5-mobile" // Use a different ID for the mobile checkbox
                   type="checkbox"
                   checked={isHindi}
                   onChange={onToggleLanguage}
                 />
-                <label htmlFor="check-5" />
+                <label htmlFor="check-5-mobile" />
               </div>
             </div>
             HI
