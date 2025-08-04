@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useUser, SignOutButton } from "@clerk/clerk-react";
 import '../styles/nav.css';
 import { Menu, X, ChevronDown, Phone } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
-import Register from './Register';
-import { useAuthStore, useModalStore } from '../store/store';
+import { useModalStore } from '../store/store';
 import Login from './Login';
-import ForgotPassword from './ForgotPassword';
+import SignUpModal from './SignUp';
 
 const Logo = 'https://i.ibb.co/kg3RQQ1S/LogoHR.png';
 
@@ -20,10 +20,10 @@ const Navigation = () => {
 
 
   // Using zustand store for modal state
-  // Using zustand store for authentication state
+  // Using Clerk for authentication state
 
-  const { modalType,openModal  } = useModalStore();
-   const { user } = useAuthStore();
+  const { modalType, openModal } = useModalStore();
+  const { isSignedIn, user } = useUser();
  
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -120,7 +120,7 @@ const Navigation = () => {
                 <Phone className="w-4 h-4 mr-1" />
                 {t('nav.helpline')}
               </NavLink>
-             {user ? (
+             {isSignedIn ? (
         <>
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
@@ -129,21 +129,21 @@ const Navigation = () => {
               window.location.href = "/mybookings";
             }}
           >
-            My Profile
+            {user?.firstName || "My Profile"}
           </button>
         </>
       ) : (
         <>
-        {/*  Conditionally render Login/Register buttons if user is not logged in */}
+        {/*  Conditionally render Login/SignUp buttons if user is not logged in */}
           <button
             onClick={() => openModal("login")}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition mr-2"
           >
             Login
           </button>
           <button
-            onClick={() => openModal("register")}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+            onClick={() => openModal("signup")}
+            className="bg-blue-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg transition"
           >
             Register
           </button>
@@ -184,9 +184,9 @@ const Navigation = () => {
               </div>
               <LanguageSelector variant="mobile" />
             </li>
-            <li><NavLink to="/" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.home')}</NavLink></li>
+            <li><NavLink to="/" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.home')}</NavLink></li>
             <li className="relative">
-              <button onClick={() => setIsServicesOpen(!isServicesOpen)} className="flex py-2 hover:text-blue-600 items-center justify-between w-full dark:text-gray-200 dark:hover:text-blue-400">
+              <button onClick={() => setIsServicesOpen(!isServicesOpen)} className="flex py-2 text-gray-700 hover:text-blue-600 items-center justify-between w-full dark:text-gray-200 dark:hover:text-blue-400">
                 {t('nav.services')}
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''} dark:text-gray-200`} />
               </button>
@@ -206,36 +206,48 @@ const Navigation = () => {
                 </ul>
               )}
             </li>
-            <li><NavLink to="/trip" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.trip')}</NavLink></li>
-            <li><NavLink to="/travellocations" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.travellocations')}</NavLink></li>
-            <li><NavLink to="/about" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.about')}</NavLink></li>
-            <li><NavLink to="/blog" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.blog')}</NavLink></li>
-            <li><NavLink to="/donate" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.donate')}</NavLink></li>
-            <li><NavLink to="/helpline" onClick={toggleSidebar} className="block py-2 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.helpline')}</NavLink></li>
-            <li>
-              <button
-              onClick={() => openModal('register')}
-              className="bg-blue-500 hover:bg-blue-600 px-4 py-2.5 rounded-lg text-white font-semibold transition ml-4 w-[80%]"
-            >
-              Register
-            </button>
-            </li>
-            <li>
-              <button
-              onClick={() => openModal('login')}
-              className="bg-blue-500 hover:bg-blue-600 px-4 py-2.5 rounded-lg text-white font-semibold transition ml-4 w-[80%]"
-            >
-              Login
-            </button>
-            </li>
+            <li><NavLink to="/trip" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.trip')}</NavLink></li>
+            <li><NavLink to="/travellocations" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.travellocations')}</NavLink></li>
+            <li><NavLink to="/about" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.about')}</NavLink></li>
+            <li><NavLink to="/blog" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.blog')}</NavLink></li>
+            <li><NavLink to="/donate" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.donate')}</NavLink></li>
+            <li><NavLink to="/helpline" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.helpline')}</NavLink></li>
+            {!isSignedIn && (
+              <>
+                <li>
+                  <button
+                  onClick={() => openModal('login')}
+                  className="bg-blue-500 hover:bg-blue-600 px-4 py-2.5 rounded-lg text-white font-semibold transition ml-4 w-[80%] mb-2"
+                >
+                  Login
+                </button>
+                </li>
+                <li>
+                  <button
+                  onClick={() => openModal('signup')}
+                  className="bg-blue-500 hover:bg-green-600 px-4 py-2.5 rounded-lg text-white font-semibold transition ml-4 w-[80%]"
+                >
+                  Sign Up
+                </button>
+                </li>
+              </>
+            )}
+            {isSignedIn && (
+              <li>
+                <SignOutButton>
+                  <button className="bg-red-500 hover:bg-red-600 px-4 py-2.5 rounded-lg text-white font-semibold transition ml-4 w-[80%]">
+                    Sign Out
+                  </button>
+                </SignOutButton>
+              </li>
+            )}
           </ul>
         </div>
         
       </div>
             {/* Conditionally Render Modals */}
-            {modalType === 'register' && <Register />}
             {modalType === 'login' && <Login />}
-            {modalType === 'forgotPassword' && <ForgotPassword />}
+            {modalType === 'signup' && <SignUpModal />}
     </>
   );
 };

@@ -1,6 +1,6 @@
 // pages/MyBookings.js
 import React from "react";
-import { useAuthStore } from "../store/store"; // use correct path
+import { useUser, SignOutButton } from "@clerk/clerk-react";
 
 const mockBookings = [
   { id: 1, title: "Trip to Manali", date: "2025-08-10" },
@@ -8,9 +8,17 @@ const mockBookings = [
 ];
 
 const MyBookings = () => {
-  const { user, logout } = useAuthStore();
+  const { isSignedIn, user, isLoaded } = useUser();
 
-  if (!user) {
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (!isSignedIn) {
     return (
       <div className="min-h-screen flex items-center justify-center text-xl text-red-500">
         Unauthorized. Please log in.
@@ -22,7 +30,7 @@ const MyBookings = () => {
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-xl mx-auto bg-white rounded-xl p-6 shadow-md">
         <h1 className="text-2xl font-bold mb-4 text-neutral-800">My Bookings</h1>
-        <p className="text-neutral-600 mb-6">Welcome, {user.name} 👋</p>
+        <p className="text-neutral-600 mb-6">Welcome, {user?.firstName || user?.emailAddresses?.[0]?.emailAddress} 👋</p>
 
         {/* Display your bookings below: */}
 
@@ -39,12 +47,11 @@ const MyBookings = () => {
           <p className="text-neutral-500">No bookings found.</p>
         )}
 
-        <button
-          className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg"
-          onClick={logout}
-        >
-          Log Out
-        </button>
+        <SignOutButton>
+          <button className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg">
+            Log Out
+          </button>
+        </SignOutButton>
       </div>
     </div>
   );

@@ -33,9 +33,7 @@ import TourGuidePage from './components/TourGuidePage';
 // import NotFound from './components/NotFound';
 import BookingPage from './components/BookingPage';
 import ScrollToTop from './components/ScrollToTop';
-import Register from './components/Register';
 import Login from './components/Login';
-import ForgotPassword from './components/ForgotPassword';
 import MyBookings from './components/Userprofile';
 
 function BookingPageWrapper() {
@@ -78,9 +76,6 @@ function App() {
           <Route path="/tour-guide" element={<TourGuidePage />} />
           <Route path="/booking" element={<BookingPageWrapper />} />
           <Route path="*" element={<NotFound />} />
-          <Route path='/login' element={<Register/>} />
-          <Route path='/register' element={<Login/>} />
-          <Route path='forgot-password' element={<ForgotPassword/>} />
           <Route path='/mybookings' element={<MyBookings/>} />
           <Route path='/yash' element={<h1>Yash&apos;s Page</h1>} />
         </Routes>

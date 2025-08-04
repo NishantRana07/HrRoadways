@@ -1,13 +1,13 @@
 import React from "react";
-import { SignIn } from "@clerk/clerk-react";
+import { SignUp } from "@clerk/clerk-react";
 import { useModalStore } from "../store/store";
 import { useTranslation } from "react-i18next";
 
-function Login() {
+function SignUpModal() {
   const { modalType, openModal, closeModal } = useModalStore();
   const { t } = useTranslation();
 
-  if (modalType !== "login") return null;
+  if (modalType !== "signup") return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -19,8 +19,8 @@ function Login() {
           &times;
         </button>
         <div className="flex items-center justify-center">
-          <SignIn 
-            afterSignInUrl="/dashboard"
+          <SignUp 
+            afterSignUpUrl="/dashboard"
             routing="virtual"
             appearance={{
               elements: {
@@ -35,19 +35,19 @@ function Login() {
                 socialButtonsPlacement: 'top'
               }
             }}
-            onSignIn={() => closeModal()}
+            onSignUp={() => closeModal()}
           />
         </div>
         
-        {/* Custom Sign Up Link */}
+        {/* Custom Login Link */}
         <div className="text-center mt-4 p-4 border-t border-gray-200">
           <p className="text-gray-600 text-sm">
-            Don't have an account?{' '}
+            Already have an account?{' '}
             <button
-              onClick={() => openModal('signup')}
-              className="text-green-600 hover:text-green-700 font-medium hover:underline"
+              onClick={() => openModal('login')}
+              className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
             >
-              Sign Up Here
+              Login Here
             </button>
           </p>
         </div>
@@ -56,4 +56,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUpModal;
