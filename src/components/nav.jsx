@@ -18,9 +18,7 @@ const Navigation = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const servicesTimer = useRef(null);
 
-  // Using zustand store for modal state
-  // Using zustand store for authentication state
-
+  // Using zustand store for modal and authentication state
   const { modalType, openModal } = useModalStore();
   const { user } = useAuthStore();
 
@@ -45,6 +43,7 @@ const Navigation = () => {
     { title: t('nav.track'), path: '/track' },
     { title: t('nav.schedule'), path: '/schedule' },
     { title: t('nav.tourGuide'), path: '/tour-guide' },
+    { title: t('nav.travelPackages'), path: '/travel-packages' }, // <-- ADD THIS LINE
   ];
 
   const toggleSidebar = () => setIsMobileMenuOpen(x => !x);
@@ -187,7 +186,7 @@ const Navigation = () => {
                 </>
               ) : (
                 <>
-                  {/*  Conditionally render Login/Register buttons if user is not logged in */}
+                  {/* Conditionally render Login/Register buttons if user is not logged in */}
                   <button
                     onClick={() => openModal('login')}
                     className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"

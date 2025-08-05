@@ -8,7 +8,15 @@
     "services": "خدمات",
     "track": "بس ٹریک کریں",
     "schedule": "وقت کی فہرست",
-    "changeLanguage": "زبان تبدیل کریں"
+    "tourGuide": "ٹور گائیڈ",
+    "travelPackages": "سفری پیکیجز",
+    "helpline": "24x7 ہیلپ لائن",
+    "blog": "بلاگ",
+    "quickLinks": "فوری لنکس",
+    "travellocations": "سفر",
+    "guide": "رہنما اور قواعد",
+    "changeLanguage": "زبان تبدیل کریں",
+    "bestrides": "بہترین سواریاں"
   },
   "hero": {
     "heading": "ہریانہ روڈویز - آپ کی اپنی بس سروس",
@@ -16,13 +24,60 @@
     "departure": "کہاں سے",
     "arrival": "کہاں",
     "button": "بسیں تلاش کریں",
+    "popular": "مشہور راستے",
+    "allBuses": "تمام بسیں",
+    "volvo": "وولوو اے سی",
+    "superExpress": "سپر ایکسپریس",
+    "ordinary": "عام",
     "searchPlaceholder": "بس سٹینڈ تلاش کریں..."
+  },
+  "packagesPage": {
+    "title": "خصوصی سفری پیکیجز",
+    "offer_valid": "آفر درست ہے",
+    "book_now": "ابھی بک کریں",
+    "includes": "پیکیج میں شامل ہیں:"
+  },
+  "packages": {
+    "manali_adventure": {
+      "title": "منالی ایڈونچر ٹرپ",
+      "description": "منالی کے سنسنی خیز پہاڑوں اور پرسکون مناظر کا تجربہ کریں۔"
+    },
+    "jaipur_royal": {
+      "title": "شاہی جے پور گیٹ وے",
+      "description": "گلابی شہر کے شاندار قلعوں اور بھرپور ثقافت کو دریافت کریں۔"
+    }
   },
   "common": {
     "loading": "لوڈ ہو رہا ہے...",
     "error": "خرابی ہوئی",
     "submit": "جمع کریں",
-    "cancel": "منسوخ کریں"
+    "cancel": "منسوخ کریں",
+    "tryAgain": "دوبارہ کوشش کریں",
+    "save": "محفوظ کریں",
+    "edit": "ترمیم کریں",
+    "delete": "حذف کریں",
+    "confirm": "تصدیق کریں",
+    "close": "بند کریں",
+    "next": "آگے",
+    "previous": "پیچھے",
+    "search": "تلاش کریں",
+    "filter": "فلٹر",
+    "sort": "ترتیب دیں",
+    "apply": "لاگو کریں",
+    "reset": "ری سیٹ کریں",
+    "clear": "صاف کریں",
+    "select": "منتخب کریں",
+    "choose": "منتخب کریں",
+    "upload": "اپ لوڈ کریں",
+    "download": "ڈاؤن لوڈ کریں",
+    "share": "شیئر کریں",
+    "print": "پرنٹ کریں",
+    "view": "دیکھیں",
+    "more": "مزید",
+    "selectLanguage": "زبان منتخب کریں",
+    "less": "کم",
+    "show": "دکھائیں",
+    "hide": "چھپائیں"
   },
   "trip": {
     "title": "اپنے سفر کی منصوبہ بندی کریں",
@@ -55,6 +110,12 @@
     "ur": "اردو"
   },
   "footer": {
+    "companyInfo": "ہریانہ روڈویز",
+    "description": "قابل اعتماد اور آرام دہ بس خدمات کے ساتھ پورے ہریانہ میں لوگوں کو جوڑنا۔",
+    "quickLinks": "فوری لنکس",
+    "contact": "رابطے کی معلومات",
+    "followUs": "ہمیں فالو کریں",
+    "copyright": "© 2025 ہریانہ روڈویز. تمام حقوق محفوظ ہیں۔",
     "company": "کمپنی",
     "getHelp": "مدد حاصل کریں",
     "rides": "سواریاں",
@@ -62,5 +123,11 @@
     "luxury": "لگژری منزل"
   },
   "passenger": "مسافر",
-  "roundTrip": "راؤنڈ ٹرپ"
+  "roundTrip": "راؤنڈ ٹرپ",
+  "popularRoutes": "مشہور راستے",
+  "liveWeatherUpdates": "موسم کی تازہ ترین معلومات",
+  "routeDetails": "راستے کی تفصیلات",
+  "distance": "فاصلہ",
+  "routeType": "راستے کی قسم",
+  "availableBusTypes": "دستیاب بس کی اقسام"
 }

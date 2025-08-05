@@ -9,6 +9,7 @@
     "track": "बस ट्रैक करें",
     "schedule": "समय सारणी",
     "tourGuide": "मार्गदर्शिका",
+    "travelPackages": "यात्रा पैकेज",
     "helpline": "24x7 हेल्पलाइन",
     "blog": "ब्लॉग",
     "quickLinks": "त्वरित लिंक",
@@ -17,7 +18,35 @@
     "changeLanguage": "भाषा बदलें",
     "bestrides": "सर्वोत्तम यात्राएं"
   },
-
+  "hero": {
+    "heading": "हरियाणा रोडवेज - आपकी अपनी बस सेवा",
+    "subheading": "आपकी यात्रा, हमारा गौरव",
+    "departure": "कहाँ से",
+    "arrival": "कहाँ तक",
+    "button": "बसें खोजें",
+    "popular": "लोकप्रिय मार्ग",
+    "allBuses": "सभी बसें",
+    "volvo": "वोल्वो एसी",
+    "superExpress": "सुपर एक्सप्रेस",
+    "ordinary": "साधारण",
+    "searchPlaceholder": "बस स्टैंड खोजें..."
+  },
+  "packagesPage": {
+    "title": "विशेष यात्रा पैकेज",
+    "offer_valid": "ऑफ़र तक वैध है",
+    "book_now": "अभी बुक करें",
+    "includes": "पैकेज में शामिल हैं:"
+  },
+  "packages": {
+    "manali_adventure": {
+      "title": "मनाली एडवेंचर ट्रिप",
+      "description": "मनाली के रोमांचक पहाड़ों और शांत परिदृश्यों का अनुभव करें।"
+    },
+    "jaipur_royal": {
+      "title": "शाही जयपुर गेटअवे",
+      "description": "गुलाबी शहर के राजसी किलों और समृद्ध संस्कृति का अन्वेषण करें।"
+    }
+  },
   "register": {
     "title": "रजिस्टर करें",
     "namePlaceholder": "अपना नाम दर्ज करें...",
@@ -27,7 +56,6 @@
     "prompt": "क्या आपके पास पहले से एक खाता है?",
     "loginLink": "लॉगिन"
   },
-
   "login": {
     "title": "लॉगिन करें",
     "emailPlaceholder": "अपना ईमेल दर्ज करें...",
@@ -43,19 +71,6 @@
     "button": "रीसेट लिंक भेजें",
     "prompt": "क्या आपको याद आ गया है?",
     "backToLogin": "लॉगिन करें"
-  },    
-  "hero": {
-    "heading": "हरियाणा रोडवेज - आपकी अपनी बस सेवा",
-    "subheading": "आपकी यात्रा, हमारा गौरव",
-    "departure": "कहाँ से",
-    "arrival": "कहाँ तक",
-    "button": "बसें खोजें",
-    "popular": "लोकप्रिय मार्ग",
-    "allBuses": "सभी बसें",
-    "volvo": "वोल्वो एसी",
-    "superExpress": "सुपर एक्सप्रेस",
-    "ordinary": "साधारण",
-    "searchPlaceholder": "बस स्टैंड खोजें..."
   },
   "footer": {
     "companyInfo": "हरियाणा रोडवेज",
