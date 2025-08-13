@@ -9,12 +9,14 @@
     "track": "बस ट्रॅक करा",
     "schedule": "वेळापत्रक",
     "tourGuide": "टूर गाइड",
+    "travelPackages": "प्रवास पॅकेजेस",
     "helpline": "24x7 हेल्पलाइन",
     "blog": "ब्लॉग",
     "quickLinks": "द्रुत दुवे",
     "travellocations": "प्रवास",
     "guide": "मार्गदर्शक आणि नियम",
-    "changeLanguage": "भाषा बदला"
+    "changeLanguage": "भाषा बदला",
+    "bestrides": "उत्तम राइड्स"
   },
   "hero": {
     "heading": "हरियाणा रोडवेज - तुमची स्वतःची बस सेवा",
@@ -28,6 +30,22 @@
     "superExpress": "सुपर एक्स्प्रेस",
     "ordinary": "सामान्य",
     "searchPlaceholder": "बस स्टॅंड शोधा..."
+  },
+  "packagesPage": {
+    "title": "विशेष प्रवास पॅकेजेस",
+    "offer_valid": "ऑफर वैध आहे",
+    "book_now": "आताच बुक करा",
+    "includes": "पॅकेजमध्ये समाविष्ट आहे:"
+  },
+  "packages": {
+    "manali_adventure": {
+      "title": "मनाली साहस यात्रा",
+      "description": "मनालीच्या रोमांचक पर्वतांचा आणि शांत निसर्गरम्य दृश्यांचा अनुभव घ्या."
+    },
+    "jaipur_royal": {
+      "title": "शाही जयपुर गेटवे",
+      "description": "गुलाबी शहराच्या भव्य किल्ल्यांचा आणि समृद्ध संस्कृतीचा शोध घ्या."
+    }
   },
   "footer": {
     "companyInfo": "हरियाणा रोडवेज",
@@ -60,7 +78,19 @@
     "sort": "क्रमवारी",
     "apply": "लागू करा",
     "reset": "रीसेट करा",
-    "clear": "साफ करा"
+    "clear": "साफ करा",
+    "select": "निवडा",
+    "choose": "निवडा",
+    "upload": "अपलोड करा",
+    "download": "डाउनलोड करा",
+    "share": "शेअर करा",
+    "print": "प्रिंट करा",
+    "view": "पहा",
+    "more": "अधिक",
+    "selectLanguage": "भाषा निवडा",
+    "less": "कमी",
+    "show": "दाखवा",
+    "hide": "लपवा"
   },
   "trip": {
     "title": "आपला प्रवास नियोजित करा",

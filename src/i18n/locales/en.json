@@ -9,6 +9,7 @@
     "track": "Track Bus",
     "schedule": "Time Table",
     "tourGuide": "Tour Guide",
+    "travelPackages": "Travel Packages",
     "helpline": "24x7 Helpline",
     "blog": "Blog",
     "quickLinks": "Quick Links",
@@ -30,7 +31,22 @@
     "ordinary": "Ordinary",
     "searchPlaceholder": "Search bus stands..."
   },
-  
+  "packagesPage": {
+    "title": "Exclusive Travel Packages",
+    "offer_valid": "Offer valid until",
+    "book_now": "Book Now",
+    "includes": "Package Includes:"
+  },
+  "packages": {
+    "manali_adventure": {
+      "title": "Manali Adventure Trip",
+      "description": "Experience the thrilling mountains and serene landscapes of Manali."
+    },
+    "jaipur_royal": {
+      "title": "Royal Jaipur Getaway",
+      "description": "Explore the majestic forts and rich culture of the Pink City."
+    }
+  },
   "register": {
     "title": "Register",
     "namePlaceholder": "Enter your name...",
@@ -53,7 +69,7 @@
     "title": "Forgot Password",
     "emailPlaceholder": "Enter your email...",
     "button": "Reset Password",
-    "prompt": "Remembered your password?"    
+    "prompt": "Remembered your password?"
   },
   "footer": {
     "companyInfo": "Haryana Roadways",

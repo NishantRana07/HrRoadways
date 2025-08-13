@@ -18,10 +18,7 @@ const Navigation = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const servicesTimer = useRef(null);
 
-
-  // Using zustand store for modal state
-  // Using Clerk for authentication state
-
+  // Using zustand store for modal and authentication state
   const { modalType, openModal } = useModalStore();
   const { isSignedIn, user } = useUser();
  
@@ -46,6 +43,7 @@ const Navigation = () => {
     { title: t('nav.track'), path: '/track' },
     { title: t('nav.schedule'), path: '/schedule' },
     { title: t('nav.tourGuide'), path: '/tour-guide' },
+    { title: t('nav.travelPackages'), path: '/travel-packages' }, // <-- ADD THIS LINE
   ];
 
   const toggleSidebar = () => setIsMobileMenuOpen(x => !x);
@@ -120,36 +118,62 @@ const Navigation = () => {
                 <Phone className="w-4 h-4 mr-1" />
                 {t('nav.helpline')}
               </NavLink>
-             {isSignedIn ? (
-        <>
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
-            onClick={() => {
-              // Navigate to profile or bookings page
-              window.location.href = "/mybookings";
-            }}
-          >
-            {user?.firstName || "My Profile"}
-          </button>
-        </>
-      ) : (
-        <>
-        {/*  Conditionally render Login/SignUp buttons if user is not logged in */}
-          <button
-            onClick={() => openModal("login")}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition mr-2"
-          >
-            Login
-          </button>
-          <button
-            onClick={() => openModal("signup")}
-            className="bg-blue-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg transition"
-          >
-            Register
-          </button>
-        </>
-      )}
-             
+
+              {user ? (
+                <>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+                    onClick={() => {
+                      window.location.href = '/mybookings';
+                    }}
+                  >
+                    My Profile
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => openModal('login')}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={() => openModal('register')}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+                  >
+                    Register
+                  </button>
+                </>
+              )}
+
+              {isSignedIn ? (
+                <>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+                    onClick={() => {
+                      window.location.href = "/mybookings";
+                    }}
+                  >
+                    {user?.firstName || "My Profile"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => openModal("login")}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition mr-2"
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={() => openModal("signup")}
+                    className="bg-blue-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+                  >
+                    Register
+                  </button>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -165,7 +189,6 @@ const Navigation = () => {
       {/* Mobile Sidebar */}
       <div className={`fixed inset-y-0 right-0 w-64 bg-white shadow-lg transform ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-50 md:hidden dark:bg-gray-800 dark:shadow-xl`}>
         <div className="p-4 h-full overflow-y-auto">
-          {/* Close button */}
           <div className="flex justify-end mb-4">
             <button
               onClick={toggleSidebar}
@@ -177,7 +200,6 @@ const Navigation = () => {
           </div>
 
           <ul className="space-y-4">
-            {/* Language Selector at the top */}
             <li className="py-2 border-b border-gray-200 dark:border-gray-600">
               <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">
                 {t('common.selectLanguage', 'Select Language')}
@@ -243,11 +265,11 @@ const Navigation = () => {
             )}
           </ul>
         </div>
-        
       </div>
-            {/* Conditionally Render Modals */}
-            {modalType === 'login' && <Login />}
-            {modalType === 'signup' && <SignUpModal />}
+
+      {/* Conditionally Render Modals */}
+      {modalType === 'login' && <Login />}
+      {modalType === 'signup' && <SignUpModal />}
     </>
   );
 };
