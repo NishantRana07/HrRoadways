@@ -5,6 +5,19 @@ If you are adding content to the site or creating new pages, please:
 - Use PNG or JPG files for minimal size and always compress images.
 - Ensure that your forked repository is up to date before submitting a pull request.
 
+## Prerequisites
+
+Before contributing, please ensure you have the following installed on your system:
+
+- **Git** – [Install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- **Node.js (LTS version)** – [Download Node.js](https://nodejs.org/)
+- **npm** (comes with Node.js) or **yarn** – for managing packages
+- A GitHub account – [Sign up here](https://github.com/join)
+
+Also:
+- Familiarize yourself with the project structure and code style.
+- Make sure you can run the project locally before making changes.
+
 ### Steps for Contributing
 
 #### 1. Fork the Repository:
