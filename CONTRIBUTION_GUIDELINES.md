@@ -18,7 +18,7 @@ Also:
 - Familiarize yourself with the project structure and code style.
 - Make sure you can run the project locally before making changes.
 
-### Steps for Contributing
+## Steps for Contributing
 
 #### 1. Fork the Repository:
 Click on the "Fork" button at the top right of the repository page.
