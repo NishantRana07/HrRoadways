@@ -15,6 +15,7 @@ import Footer from './components/footer';
 import Header from './components/Header';
 
 import BookingPage from './components/BookingPage'; // do not lazy load this
+import Chatbot from './components/Chatbot';
 
 const Hero = lazy(() => import('./components/hero'));
 const Available = lazy(() => import('./components/Available'));
@@ -139,6 +140,7 @@ function App() {
 					pauseOnHover
 					theme="colored"
 				/>
+				<Chatbot />
 			</Router>
 		</LanguageProvider>
 	);
