@@ -7,28 +7,9 @@ import {
 } from "@heroicons/react/24/solid";
 import { motion, AnimatePresence } from "framer-motion";
 import Fuse from "fuse.js";
-import faqs from "../assets/faq.json"; // { faqs: [{ question, answer, tags? }] }
-
-const STORAGE_KEY = "hr_roadways_chat_history_v1";
+import faqs from "../assets/faq.json";
 
 // ----------------- Hooks -----------------
-function useLocalStorageState(key, initial) {
-  const [state, setState] = useState(() => {
-    try {
-      const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : initial;
-    } catch {
-      return initial;
-    }
-  });
-  useEffect(() => {
-    try {
-      localStorage.setItem(key, JSON.stringify(state));
-    } catch {}
-  }, [key, state]);
-  return [state, setState];
-}
-
 function useSpeechSynthesisSafe() {
   const voicesRef = useRef([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -63,7 +44,7 @@ function useSpeechSynthesisSafe() {
       const u = new SpeechSynthesisUtterance(sentences[idx].trim());
       u.lang = lang;
       const voice =
-        voicesRef.current.find((v) => v.lang === lang) || voicesRef.current[0];
+        voicesRef.current.find((v) => v.lang === lang) || voicesRef.current[1];
       if (voice) u.voice = voice;
       u.onend = () => {
         idx++;
@@ -129,12 +110,15 @@ function useSpeechRecognitionSafe(onResult) {
 }
 
 // ----------------- Component -----------------
-export default function Chatbot({ name = "SamVad", enableTTS = true }) {
+export default function Chatbot({
+  name = "SamVad Assistant",
+  enableTTS = true,
+}) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [ttsEnabled, setTtsEnabled] = useState(enableTTS);
-  const [chats, setChats] = useLocalStorageState(STORAGE_KEY, []);
+  const [chats, setChats] = useState([]);
 
   const chatboxRef = useRef(null);
   const fuseRef = useRef(null);
@@ -171,7 +155,7 @@ export default function Chatbot({ name = "SamVad", enableTTS = true }) {
     appendChat({ sender: "user", text, timestamp: Date.now() });
     setMessage("");
 
-    let replyText = "❓ Sorry, I didn't understand. Could you rephrase?";
+    let replyText = "Sorry, I didn't understand. Could you rephrase?";
     try {
       const res = fuseRef.current.search(text);
       if (res?.length) replyText = res[0].item.answer;
@@ -181,7 +165,12 @@ export default function Chatbot({ name = "SamVad", enableTTS = true }) {
 
     // typing effect
     const typingId = `bot-${Date.now()}`;
-    appendChat({ sender: "bot", text: "", meta: { id: typingId, typing: true } });
+    appendChat({
+      sender: "bot",
+      text: "",
+      meta: { id: typingId, typing: true },
+      timestamp: Date.now(),
+    });
     await new Promise((resolve) => {
       let i = 0;
       const interval = setInterval(() => {
@@ -189,7 +178,8 @@ export default function Chatbot({ name = "SamVad", enableTTS = true }) {
         setChats((prev) => {
           const copy = [...prev];
           const idx = copy.findIndex((c) => c.meta?.id === typingId);
-          if (idx !== -1) copy[idx] = { ...copy[idx], text: replyText.slice(0, i) };
+          if (idx !== -1)
+            copy[idx] = { ...copy[idx], text: replyText.slice(0, i) };
           return copy;
         });
         if (i >= replyText.length) {
@@ -214,32 +204,37 @@ export default function Chatbot({ name = "SamVad", enableTTS = true }) {
   const handleOpen = () => {
     setOpen(true);
     if (chats.length === 0) {
-      const welcome = `👋 Hello! I'm ${name}, your assistant.`;
-      const intro = "Here are some common questions:";
-      const examples = faqs.faqs.slice(0, 3).map((f) => `• ${f.question}`);
+      const welcome = `👋 Hello! I'm ${name}. How can I help you today?`;
+      const intro = "Here are some common questions you can try:";
+      const examples = faqs.faqs.slice(0, 5).map((f) => f.question);
       setChats([
         { sender: "bot", text: welcome, timestamp: Date.now() },
         { sender: "bot", text: intro, timestamp: Date.now() + 10 },
-        ...examples.map((t, i) => ({
-          sender: "bot",
-          text: t,
-          timestamp: Date.now() + 20 + i,
-        })),
       ]);
+      setSuggestions(examples);
       if (ttsEnabled) speak(welcome, { lang: "en-IN" });
     }
+  };
+
+  const [suggestions, setSuggestions] = useState([]);
+
+  const formatTime = (ts) => {
+    const d = new Date(ts);
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   return (
     <div>
       {/* Floating Button */}
       {!open && (
-        <button
-          className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition z-[9999] animate-bounce-slow"
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg z-[9999] animate-bounce-slow"
           onClick={handleOpen}
         >
           <ChatBubbleLeftIcon className="h-6 w-6" />
-        </button>
+        </motion.button>
       )}
 
       {/* Panel */}
@@ -250,15 +245,22 @@ export default function Chatbot({ name = "SamVad", enableTTS = true }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 40 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-6 right-6 w-[22rem] md:w-96 bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl border flex flex-col max-h-[80vh] overflow-hidden z-[9999]"
+            className="fixed bottom-6 right-6 w-[22rem] md:w-96 
+             bg-gradient-to-br from-blue-600/90 via-blue-500/70 to-blue-400/60 
+             backdrop-blur-xl shadow-2xl rounded-2xl border border-gray-200 
+             flex flex-col max-h-[80vh] overflow-hidden z-[9999]"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-blue-600 text-white">
-              <span className="font-semibold">{name}</span>
+            <div
+              className="flex items-center justify-between px-4 py-3 
+                  bg-gradient-to-br from-blue-600/90 via-blue-500/70 to-blue-400/60 
+                  backdrop-blur-xl text-white shadow-md"
+            >
+              <span className="font-semibold text-sm">{name}</span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setTtsEnabled((v) => !v)}
-                  className="p-2 rounded-full hover:bg-blue-500"
+                  className="p-2 rounded-full hover:bg-white/10 transition"
                   title="Toggle voice"
                 >
                   <SpeakerWaveIcon
@@ -269,7 +271,7 @@ export default function Chatbot({ name = "SamVad", enableTTS = true }) {
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-2 rounded-full hover:bg-blue-500"
+                  className="p-2 rounded-full hover:bg-white/10 transition"
                   title="Close chat"
                 >
                   ✖
@@ -280,35 +282,54 @@ export default function Chatbot({ name = "SamVad", enableTTS = true }) {
             {/* Messages */}
             <div
               ref={chatboxRef}
-              className="flex-1 overflow-y-auto p-3 space-y-2 custom-scrollbar bg-white/60"
+              className="flex-1 overflow-y-auto p-3 space-y-3 bg-white"
             >
               {chats.map((c, i) => (
                 <motion.div
                   key={c.timestamp || i}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${
+                  transition={{ duration: 0.2 }}
+                  className={`max-w-[80%] px-3 py-2 rounded-xl text-sm shadow-sm relative group ${
                     c.sender === "user"
                       ? "bg-blue-600 text-white ml-auto rounded-br-none"
                       : "bg-gray-100 text-gray-800 mr-auto rounded-bl-none"
                   }`}
                 >
-                  {c.text}
+                  <div>{c.text}</div>
+                  <div className="text-[10px] text-gray-400 mt-1 text-right">
+                    {formatTime(c.timestamp)}
+                  </div>
                 </motion.div>
               ))}
               {loading && (
-                <div className="text-gray-500 text-sm animate-pulse">
+                <div className="text-gray-500 text-xs animate-pulse">
                   {name} is typing...
                 </div>
               )}
             </div>
 
+            {/* Suggestions */}
+            {suggestions.length > 0 && (
+              <div className="grid grid-cols-2 gap-2 p-3 border-t bg-green-50">
+                {suggestions.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleSend(s)}
+                    className="text-sm bg-blue-600 text-white rounded-lg px-2 py-2 hover:bg-green-700 transition"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            )}
+
             {/* Input */}
-            <div className="flex items-center p-3 border-t gap-2 bg-white/70 backdrop-blur-md">
+            <div className="flex items-center p-3 border-t gap-2 bg-white">
               <button
                 onClick={() => (!listening ? startListening() : null)}
-                className={`p-2 rounded-full ${
-                  listening ? "bg-red-500" : "bg-gray-200"
+                className={`p-2 rounded-full transition ${
+                  listening ? "bg-red-500" : "bg-bluee-600"
                 }`}
                 title="Voice input"
               >
@@ -318,8 +339,8 @@ export default function Chatbot({ name = "SamVad", enableTTS = true }) {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                className="flex-1 p-2 border rounded-md text-sm focus:outline-none"
-                placeholder="Ask me anything..."
+                className="flex-1 p-2 border rounded-full text-sm focus:outline-none"
+                placeholder="Type your message..."
                 disabled={loading}
               />
               <button
@@ -328,15 +349,18 @@ export default function Chatbot({ name = "SamVad", enableTTS = true }) {
                 title="Pause/Resume voice"
               >
                 <PauseIcon
-                  className={`h-5 w-5 ${paused ? "text-red-500" : "text-gray-600"}`}
+                  className={`h-5 w-5 ${
+                    paused ? "text-red-500" : "text-gray-600"
+                  }`}
                 />
               </button>
-              <button
+              <motion.button
+                whileTap={{ scale: 0.95 }}
                 onClick={() => handleSend()}
-                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
+                className="px-3 py-2 bg-blue-600 text-white rounded-full hover:bg-green-700 text-sm"
               >
-                Send
-              </button>
+                ➤
+              </motion.button>
             </div>
           </motion.div>
         )}
