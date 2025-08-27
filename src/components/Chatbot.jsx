@@ -1,68 +1,88 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
   ChatBubbleLeftIcon,
   MicrophoneIcon,
   SpeakerWaveIcon,
   PauseIcon,
 } from "@heroicons/react/24/solid";
-import faqs from "../assets/faq.json"; // JSON with ticket, timing, contact info
+import { motion, AnimatePresence } from "framer-motion";
+import Fuse from "fuse.js";
+import faqs from "../assets/faq.json"; // { faqs: [{ question, answer, tags? }] }
 
-const Chatbot = () => {
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  const [chats, setChats] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [listening, setListening] = useState(false);
-  const [ttsEnabled, setTtsEnabled] = useState(true);
+const STORAGE_KEY = "hr_roadways_chat_history_v1";
+
+// ----------------- Hooks -----------------
+function useLocalStorageState(key, initial) {
+  const [state, setState] = useState(() => {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : initial;
+    } catch {
+      return initial;
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem(key, JSON.stringify(state));
+    } catch {}
+  }, [key, state]);
+  return [state, setState];
+}
+
+function useSpeechSynthesisSafe() {
+  const voicesRef = useRef([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [highlightIndex, setHighlightIndex] = useState(-1);
-  const chatboxRef = useRef(null);
 
-  // Auto-scroll when new chats arrive
   useEffect(() => {
-    if (chatboxRef.current) {
-      chatboxRef.current.scrollTo({
-        top: chatboxRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  }, [chats.length]);
+    const load = () => {
+      voicesRef.current = window.speechSynthesis.getVoices();
+    };
+    load();
+    window.speechSynthesis.onvoiceschanged = load;
+    return () => {
+      window.speechSynthesis.onvoiceschanged = null;
+    };
+  }, []);
 
-  const cleanText = (text) => text.replace(/\*\*(.*?)\*\*/g, "$1");
+  const speak = useCallback((text, { lang = "en-IN" } = {}) => {
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    setIsSpeaking(true);
+    setPaused(false);
 
-  // Text-to-Speech
-  const speakText = (text) => {
-    if (!ttsEnabled) return;
-
-    const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [text];
-    let index = 0;
+    const sentences = text.match(/[^\.\!\?]+[\.\!\?]+/g) || [text];
+    let idx = 0;
 
     const speakNext = () => {
-      if (index >= sentences.length) {
+      if (idx >= sentences.length) {
         setIsSpeaking(false);
-        setHighlightIndex(-1);
+        setPaused(false);
         return;
       }
-
-      const utterance = new SpeechSynthesisUtterance(cleanText(sentences[index]));
-      utterance.lang = "en-IN";
-      const voices = window.speechSynthesis.getVoices();
-      utterance.voice = voices.find((v) => v.lang === "en-IN") || voices[0];
-
-      utterance.onend = () => {
-        index++;
+      const u = new SpeechSynthesisUtterance(sentences[idx].trim());
+      u.lang = lang;
+      const voice =
+        voicesRef.current.find((v) => v.lang === lang) || voicesRef.current[0];
+      if (voice) u.voice = voice;
+      u.onend = () => {
+        idx++;
         speakNext();
       };
-
-      window.speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(u);
     };
 
-    setIsSpeaking(true);
     speakNext();
-  };
+  }, []);
 
-  const toggleSpeech = () => {
+  const cancel = useCallback(() => {
+    window.speechSynthesis?.cancel();
+    setIsSpeaking(false);
+    setPaused(false);
+  }, []);
+
+  const togglePause = useCallback(() => {
+    if (!("speechSynthesis" in window)) return;
     if (paused) {
       window.speechSynthesis.resume();
       setPaused(false);
@@ -70,181 +90,265 @@ const Chatbot = () => {
       window.speechSynthesis.pause();
       setPaused(true);
     }
-  };
+  }, [paused]);
 
-  // Speech-to-Text
-  const startListening = () => {
-    if (!("webkitSpeechRecognition" in window)) {
+  return { speak, cancel, togglePause, isSpeaking, paused };
+}
+
+function useSpeechRecognitionSafe(onResult) {
+  const recognitionRef = useRef(null);
+  const [listening, setListening] = useState(false);
+
+  const start = useCallback(() => {
+    const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!Rec) {
       alert("Speech recognition not supported in this browser.");
       return;
     }
+    const rec = new Rec();
+    rec.continuous = false;
+    rec.interimResults = false;
+    rec.lang = "en-IN";
 
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.lang = "en-US";
-
-    recognition.onstart = () => setListening(true);
-    recognition.onend = () => setListening(false);
-    recognition.onerror = (event) =>
-      console.error("Speech Recognition Error:", event);
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setMessage(transcript);
-      sendMessage(transcript);
+    rec.onstart = () => setListening(true);
+    rec.onend = () => setListening(false);
+    rec.onerror = (e) => {
+      console.error("Speech Recognition Error:", e);
+      setListening(false);
+    };
+    rec.onresult = (ev) => {
+      const transcript = ev.results[0][0].transcript;
+      onResult(transcript);
     };
 
-    recognition.start();
-  };
+    recognitionRef.current = rec;
+    rec.start();
+  }, [onResult]);
 
-  // Handle sending messages
-  const sendMessage = (text = message.trim()) => {
+  return { start, listening };
+}
+
+// ----------------- Component -----------------
+export default function Chatbot({ name = "SamVad", enableTTS = true }) {
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [ttsEnabled, setTtsEnabled] = useState(enableTTS);
+  const [chats, setChats] = useLocalStorageState(STORAGE_KEY, []);
+
+  const chatboxRef = useRef(null);
+  const fuseRef = useRef(null);
+
+  // init fuzzy search
+  useEffect(() => {
+    fuseRef.current = new Fuse(faqs.faqs, {
+      keys: ["question", "answer", "tags"],
+      threshold: 0.4,
+    });
+  }, []);
+
+  const { speak, cancel, togglePause, paused } = useSpeechSynthesisSafe();
+  const { start: startListening, listening } = useSpeechRecognitionSafe(
+    (transcript) => {
+      setMessage(transcript);
+      handleSend(transcript);
+    }
+  );
+
+  // auto scroll
+  useEffect(() => {
+    chatboxRef.current?.scrollTo({
+      top: chatboxRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [chats.length]);
+
+  const appendChat = (c) => setChats((prev) => [...prev, c]);
+
+  const handleSend = async (text = message.trim()) => {
     if (!text) return;
-    setChats((prev) => [...prev, { sender: "user", text }]);
-    setMessage("");
     setLoading(true);
+    appendChat({ sender: "user", text, timestamp: Date.now() });
+    setMessage("");
 
-    // Match FAQs from JSON
-    const matched = faqs.faqs.find((f) =>
-      text.toLowerCase().includes(f.question.toLowerCase())
+    let replyText = "❓ Sorry, I didn't understand. Could you rephrase?";
+    try {
+      const res = fuseRef.current.search(text);
+      if (res?.length) replyText = res[0].item.answer;
+    } catch (e) {
+      console.error("Fuse search error", e);
+    }
+
+    // typing effect
+    const typingId = `bot-${Date.now()}`;
+    appendChat({ sender: "bot", text: "", meta: { id: typingId, typing: true } });
+    await new Promise((resolve) => {
+      let i = 0;
+      const interval = setInterval(() => {
+        i++;
+        setChats((prev) => {
+          const copy = [...prev];
+          const idx = copy.findIndex((c) => c.meta?.id === typingId);
+          if (idx !== -1) copy[idx] = { ...copy[idx], text: replyText.slice(0, i) };
+          return copy;
+        });
+        if (i >= replyText.length) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 18);
+    });
+
+    setChats((prev) =>
+      prev.map((c) => (c.meta?.id === typingId ? { ...c, meta: undefined } : c))
     );
-    const replyText = matched
-      ? matched.answer
-      : "Sorry, I didn't understand. Please try another question.";
 
-    setTimeout(() => {
-      setChats((prev) => [...prev, { sender: "bot", text: replyText }]);
-      speakText(replyText);
-      setLoading(false);
-    }, 500);
+    if (ttsEnabled) {
+      cancel();
+      speak(replyText, { lang: "en-IN" });
+    }
+
+    setLoading(false);
   };
 
-  // Open chatbot with greeting + FAQs
   const handleOpen = () => {
     setOpen(true);
     if (chats.length === 0) {
-      const welcomeMsg =
-        "👋 Hello! I'm SamVad, your assistant. How can I help you today?";
-      const faqIntro = "Here are some frequently asked questions:";
+      const welcome = `👋 Hello! I'm ${name}, your assistant.`;
+      const intro = "Here are some common questions:";
+      const examples = faqs.faqs.slice(0, 3).map((f) => `• ${f.question}`);
       setChats([
-        { sender: "bot", text: welcomeMsg },
-        { sender: "bot", text: faqIntro },
-        ...faqs.faqs.slice(0, 3).map((f) => ({
+        { sender: "bot", text: welcome, timestamp: Date.now() },
+        { sender: "bot", text: intro, timestamp: Date.now() + 10 },
+        ...examples.map((t, i) => ({
           sender: "bot",
-          text: `• ${f.question}`,
+          text: t,
+          timestamp: Date.now() + 20 + i,
         })),
       ]);
-      speakText(welcomeMsg);
+      if (ttsEnabled) speak(welcome, { lang: "en-IN" });
     }
   };
 
   return (
     <div>
-      {/* Floating Chat Button (with subtle bounce animation when closed) */}
+      {/* Floating Button */}
       {!open && (
         <button
           className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition z-[9999] animate-bounce-slow"
           onClick={handleOpen}
         >
-          <ChatBubbleLeftIcon className="h-7 w-7" />
+          <ChatBubbleLeftIcon className="h-6 w-6" />
         </button>
       )}
 
-      {/* Chatbot Panel */}
-      {open && (
-        <div className="fixed bottom-6 right-6 w-96 bg-white shadow-2xl rounded-2xl border p-3 flex flex-col transition-all max-h-[80vh] overflow-hidden z-[9999]">
-          {/* Header */}
-          <div className="flex justify-between items-center p-2 border-b">
-            <h3 className="text-lg font-semibold text-gray-800">SamVad</h3>
-            <button
-              className="text-red-500 hover:text-red-700"
-              onClick={() => setOpen(false)}
-            >
-              ✖
-            </button>
-          </div>
-
-          {/* Chat Messages */}
-          <div
-            ref={chatboxRef}
-            className="flex-1 overflow-y-auto p-2 space-y-2 custom-scrollbar"
+      {/* Panel */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 40 }}
+            transition={{ duration: 0.25 }}
+            className="fixed bottom-6 right-6 w-[22rem] md:w-96 bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl border flex flex-col max-h-[80vh] overflow-hidden z-[9999]"
           >
-            {chats.map((chat, i) => (
-              <div
-                key={i}
-                className={`p-2 rounded-md max-w-full break-words ${
-                  chat.sender === "user"
-                    ? "bg-blue-500 text-white self-end text-right"
-                    : "bg-gray-300 text-black self-start text-left"
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 bg-blue-600 text-white">
+              <span className="font-semibold">{name}</span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setTtsEnabled((v) => !v)}
+                  className="p-2 rounded-full hover:bg-blue-500"
+                  title="Toggle voice"
+                >
+                  <SpeakerWaveIcon
+                    className={`h-5 w-5 ${
+                      ttsEnabled ? "text-green-200" : "text-gray-300"
+                    }`}
+                  />
+                </button>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="p-2 rounded-full hover:bg-blue-500"
+                  title="Close chat"
+                >
+                  ✖
+                </button>
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div
+              ref={chatboxRef}
+              className="flex-1 overflow-y-auto p-3 space-y-2 custom-scrollbar bg-white/60"
+            >
+              {chats.map((c, i) => (
+                <motion.div
+                  key={c.timestamp || i}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${
+                    c.sender === "user"
+                      ? "bg-blue-600 text-white ml-auto rounded-br-none"
+                      : "bg-gray-100 text-gray-800 mr-auto rounded-bl-none"
+                  }`}
+                >
+                  {c.text}
+                </motion.div>
+              ))}
+              {loading && (
+                <div className="text-gray-500 text-sm animate-pulse">
+                  {name} is typing...
+                </div>
+              )}
+            </div>
+
+            {/* Input */}
+            <div className="flex items-center p-3 border-t gap-2 bg-white/70 backdrop-blur-md">
+              <button
+                onClick={() => (!listening ? startListening() : null)}
+                className={`p-2 rounded-full ${
+                  listening ? "bg-red-500" : "bg-gray-200"
                 }`}
+                title="Voice input"
               >
-                {chat.text}
-              </div>
-            ))}
-            {loading && (
-              <div className="text-gray-500 animate-pulse">
-                SamVad is thinking...
-              </div>
-            )}
-          </div>
-
-          {/* Input Area */}
-          <div className="flex items-center p-2 border-t space-x-2">
-            <button
-              onClick={startListening}
-              className={`p-2 rounded-full ${
-                listening ? "bg-red-500" : "bg-gray-300"
-              }`}
-            >
-              <MicrophoneIcon className="h-5 w-5 text-white" />
-            </button>
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              className="flex-1 p-2 border rounded-md focus:outline-none"
-              placeholder="Type a question..."
-              disabled={loading}
-            />
-            <button
-              onClick={toggleSpeech}
-              className="p-2 bg-gray-300 rounded-full"
-            >
-              <PauseIcon
-                className={`h-5 w-5 ${
-                  paused ? "text-red-500" : "text-gray-500"
-                }`}
+                <MicrophoneIcon className="h-5 w-5 text-white" />
+              </button>
+              <input
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                className="flex-1 p-2 border rounded-md text-sm focus:outline-none"
+                placeholder="Ask me anything..."
+                disabled={loading}
               />
-            </button>
-            <button
-              onClick={() => setTtsEnabled(!ttsEnabled)}
-              className="p-2 bg-gray-300 rounded-full"
-            >
-              <SpeakerWaveIcon
-                className={`h-5 w-5 ${
-                  ttsEnabled ? "text-green-500" : "text-gray-500"
-                }`}
-              />
-            </button>
-          </div>
-        </div>
-      )}
+              <button
+                onClick={togglePause}
+                className="p-2 bg-gray-200 rounded-full"
+                title="Pause/Resume voice"
+              >
+                <PauseIcon
+                  className={`h-5 w-5 ${paused ? "text-red-500" : "text-gray-600"}`}
+                />
+              </button>
+              <button
+                onClick={() => handleSend()}
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
+              >
+                Send
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Custom bounce animation */}
-      <style>
-        {`
-          @keyframes bounce-slow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-          }
-          .animate-bounce-slow {
-            animation: bounce-slow 2s infinite;
-          }
-        `}
-      </style>
+      <style>{`
+        @keyframes bounce-slow {
+          0%,100%{transform:translateY(0);}
+          50%{transform:translateY(-5px);}
+        }
+        .animate-bounce-slow { animation:bounce-slow 2s infinite; }
+      `}</style>
     </div>
   );
-};
-
-export default Chatbot;
+}
