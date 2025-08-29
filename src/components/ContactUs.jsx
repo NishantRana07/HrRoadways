@@ -30,7 +30,7 @@ const ContactUs = ({ isHindi }) => {
   }
 
   return (
-    <div className="contact-container">
+    <div className="contact-container w-full">
       {/* Header Section */}
       <div className="contact-header">
         <h1>{currentLanguage.header.title}</h1>

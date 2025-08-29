@@ -51,7 +51,7 @@ const Navigation = () => {
   const toggleSidebar = () => setIsMobileMenuOpen(x => !x);
  
   return (
-    <>
+    <navbar className="w-full">
       {/* Top Bar */}
       <div className="bg-blue-900 text-white py-2 hidden md:block">
         <div className="container mx-auto px-4 flex justify-between items-center text-sm">
@@ -248,7 +248,7 @@ const Navigation = () => {
             {/* Conditionally Render Modals */}
             {modalType === 'login' && <Login />}
             {modalType === 'signup' && <SignUpModal />}
-    </>
+    </navbar>
   );
 };
 

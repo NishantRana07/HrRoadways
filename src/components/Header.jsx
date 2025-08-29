@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   return (
-    <div onClick={handleLogoClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+    <div onClick={handleLogoClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} className='w-full bg-[#1A202C]'>
       <img src="https://i.ibb.co/kg3RQQ1S/LogoHR.png" alt="Haryana Roadways" style={{ height: '40px', marginRight: '8px' }} />
       <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Haryana Roadways</span>
     </div>
