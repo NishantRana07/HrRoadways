@@ -9,6 +9,8 @@
   <meta name="robots" content="index, follow" />
   <meta name="geo.region" content="IN-HR" />
   <meta name="geo.placename" content="Haryana" />
+ <!-- Link to external CSS -->
+  <link rel="stylesheet" href="./src/styles/dark_mode.css" />
 
   <link rel="canonical" href="https://hrroadways.vercel.app/" />
   <link rel="icon" type="image/png" href="/src/assets/LogoHR.png" />
@@ -81,8 +83,20 @@
       <p class="loading-text">Loading Haryana Roadways...</p>
     </div>
   </div>
+  <!-- Your toggle component  -->
+  <div class="theme-toggle">
+  <input type="checkbox" id="darkModeToggle" />
+  <label for="darkModeToggle" class="toggle-label">
+    <span class="toggle-ball"></span>
+  </label>
+</div>
 
   <script type="module" src="/src/main.jsx"></script>
   <script src="https://kit.fontawesome.com/f794a9dced.js" crossorigin="anonymous"></script>
+
+
+  
+  <script src="./src/components/dark_mode.js"></script>
+
 </body>
 </html>
