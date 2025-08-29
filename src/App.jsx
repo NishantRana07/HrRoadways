@@ -2,6 +2,7 @@ import ScrollButton from './components/ScrollButton';
 import { lazy, Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const Dashboard = lazy(() => import('./components/Dashboard'));
 import {
 	BrowserRouter as Router,
 	Routes,
@@ -70,6 +71,7 @@ function App() {
 				>
 					<ScrollToTop />
 					<Routes>
+						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path='/' element={<Hero />} />
 						<Route path='/Available' element={<Available />} />
 						<Route path='/about' element={<AboutUs />} />
