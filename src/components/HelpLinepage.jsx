@@ -112,7 +112,7 @@ const HelplinePage = ({ isHindi }) => {
   );
 
   return (
-    <div className="font-sans bg-gray-50 text-gray-800 min-h-screen">
+    <div className="font-sans bg-gray-50 text-gray-800 min-h-screen dark:bg-gray-950 dark:text-white">
       <header className="bg-blue-900 text-white py-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/api/placeholder/1920/400')] opacity-10"></div>
         <div className="max-w-4xl mx-auto px-4 relative">

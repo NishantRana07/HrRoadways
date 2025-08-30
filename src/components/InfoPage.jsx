@@ -211,7 +211,7 @@ const InfoPage = ({ isHindi }) => {
     );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-gray-950 dark:text-white">
       <header className="bg-white shadow-md py-6">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center">

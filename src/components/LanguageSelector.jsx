@@ -60,7 +60,7 @@ const LanguageSelector = ({ className = "", variant = "default" }) => {
     const styles = getVariantStyles();
 
     return (
-        <div className={`relative language-selector ${variant === 'navbar' ? 'z-[9999]' : ''} ${variant === 'mobile' ? 'language-selector-mobile' : ''} ${className}`} ref={dropdownRef}>
+        <div className={`relative language-selector ${variant === 'navbar' ? 'z-[9999]' : ''} ${variant === 'mobile' ? 'language-selector-mobile' : ''} ${className} dark:bg-gray-950 dark:text-white`} ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={styles.button}

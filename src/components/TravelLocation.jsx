@@ -41,7 +41,7 @@ const TravelLocations = ({ isHindi }) => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Page header */}
         <div className="mb-8 text-center">
@@ -89,7 +89,7 @@ const TravelLocations = ({ isHindi }) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-4">
+              <div className="p-4 dark:bg-gray-900 dark:text-white">
                 <h3 className="text-xl font-bold mb-2 text-gray-800">{location.name}</h3>
                 <p className="text-gray-600 mb-4">{location.description}</p>
                 <div className="space-y-3">

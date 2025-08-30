@@ -153,7 +153,7 @@ const SkeletonBlock = ({ className = "" }) => (
 );
 
 const ListItemSkeleton = () => (
-  <div className="bg-white rounded-lg p-4 mb-4 shadow-lg">
+  <div className="bg-white rounded-lg p-4 mb-4 shadow-lg ">
     <div className="flex justify-between">
       <div className="flex items-center gap-2">
         <SkeletonBlock className="w-6 h-6 rounded-full" />
@@ -203,7 +203,7 @@ const InfoCard = ({ icon, label, value }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className="bg-gray-50 p-4 rounded-lg"
+      className="bg-gray-50 p-4 rounded-lg dark:bg-gray-800 dark:text-white"
     >
       <div className="flex items-center gap-2 text-blue-600 mb-2">
         {icon}
@@ -262,7 +262,7 @@ const BusListItem = ({ bus, onSelect, isSelected, language, index }) => {
       exit={{ opacity: 0, y: -20 }}
       whileHover={{ scale: 1.02 }}
       onClick={() => onSelect(index)}
-      className="bg-white rounded-lg p-4 cursor-pointer transition-all mb-4 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="bg-white rounded-lg p-4 cursor-pointer transition-all mb-4 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
       style={{
         borderLeft: isSelected ? "4px solid #3b82f6" : "4px solid transparent",
       }}
@@ -346,7 +346,7 @@ const BusDetails = ({ bus, language, isHindi }) => {
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
-      className="bg-white rounded-lg shadow-xl p-6 mt-6 overflow-hidden"
+      className="bg-white rounded-lg shadow-xl p-6 mt-6 overflow-hidden dark:bg-gray-950 dark:text-white"
       aria-live="polite"
     >
       <motion.div
@@ -358,7 +358,7 @@ const BusDetails = ({ bus, language, isHindi }) => {
           {highlightText(bus.routeNumber)}
         </h3>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-6 dark:bg-gray-950 dark:text-white">
           <InfoCard
             icon={<Clock size={20} />}
             label={language.busInfo.speed}
@@ -512,7 +512,7 @@ const BusTracker = ({ isHindi = false }) => {
   const selectedBus = activeBuses[selectedIndex] || null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 dark:text-white">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -546,7 +546,7 @@ const BusTracker = ({ isHindi = false }) => {
         </motion.div>
 
         {/* Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 dark:bg-gray-950 dark:text-white">
           {/* Left: List */}
           <div
             ref={listContainerRef}
@@ -587,7 +587,7 @@ const BusTracker = ({ isHindi = false }) => {
           </div>
 
           {/* Right: Details */}
-          <div className="lg:sticky lg:top-8">
+          <div className="lg:sticky lg:top-8 ">
             <AnimatePresence>
               {loading ? (
                 <DetailsSkeleton />

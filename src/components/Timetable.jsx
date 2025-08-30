@@ -208,12 +208,12 @@ const WeeklyTimetable = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6 dark:bg-gray-950 dark:text-white">
+      <div className="max-w-7xl mx-auto ">
         {/* Header with Time */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 mb-6 flex justify-end items-center">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 mb-6 flex justify-end items-center dark:bg-gray-950 dark:text-white">
           <div className="flex items-center gap-2">
-            <div className="bg-blue-100 p-2 rounded-lg">
+            <div className="bg-blue-100 p-2 rounded-lg dark:bg-gray-950 dark:text-white">
               <Clock size={20} className="text-blue-600" />
             </div>
             <span className="font-medium">{currentDateTime}</span>
@@ -221,7 +221,7 @@ const WeeklyTimetable = () => {
         </div>
 
         {/* Main Search Section */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 mb-8 text-black">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 mb-8 text-black dark:bg-gray-950 dark:text-white">
           <h1 className="text-4xl font-bold text-center mb-8">
             <span className="text-blue-600">Find Your Bus Route</span>
           </h1>
@@ -319,7 +319,7 @@ const WeeklyTimetable = () => {
                 </div>
                 {showToSuggestions && toSuggestions.length > 0 && (
                   <div 
-                    className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto"
+                    className="absolute z-10 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-48 overflow-y-auto dark:bg-gray-950 dark:text-white"
                   >
                     {toSuggestions.slice(0, 10).map((suggestion, index) => (
                       <button
@@ -354,7 +354,7 @@ const WeeklyTimetable = () => {
             {/* Quick Links */}
             <div className="mt-8">
               {popularRoutes.length > 0 && (
-                <div className="mb-6">
+                <div className="mb-6 dark:bg-gray-950 dark:text-white">
                   <h3 className="text-sm font-medium text-gray-500 mb-3">Popular Routes</h3>
                   <div className="flex flex-wrap gap-2">
                     {popularRoutes.map((route, index) => (
@@ -371,8 +371,8 @@ const WeeklyTimetable = () => {
               )}
 
               {recentSearches.length > 0 && (
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500 mb-3">Recent Searches</h3>
+                <div className='dark:bg-gray-950 dark:text-white'>
+                  <h3 className="text-sm font-medium text-gray-500 mb-3 ">Recent Searches</h3>
                   <div className="flex flex-wrap gap-2">
                     {recentSearches.map((route, index) => (
                       <button
@@ -392,13 +392,13 @@ const WeeklyTimetable = () => {
 
         {/* Results Section */}
         {loading ? (
-          <div className="flex justify-center items-center h-64">
+          <div className="flex justify-center items-center h-64 dark:bg-gray-950 dark:text-white">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
           </div>
         ) : (
           <>
             {filteredSchedules.length > 0 && (
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6">
+              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 dark:bg-gray-950 dark:text-white">
                 <div className="mb-6">
                   <h2 className="text-2xl font-semibold text-gray-800 mb-2">
                     {searchFrom} → {searchTo}
@@ -409,7 +409,7 @@ const WeeklyTimetable = () => {
                 </div>
 
                 {/* Grid layout to reduce vertical scrolling */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 dark:bg-gray-950 dark:text-white">
                   {filteredSchedules.map((schedule, index) => (
                     <div 
                       key={index}

@@ -130,7 +130,7 @@ const ServiceCategories = ({ isHindi }) => {
   ];
 
   return (
-    <div className="service-categories-container">
+    <div className="service-categories-container dark:bg-gray-950 dark:text-white">
       <div className="category-tabs ">
         {categories.map((category) => (
           <button
@@ -195,7 +195,7 @@ const ServicesPage = ({ isHindi }) => {
   }
 
   return (
-    <div className="services-page">
+    <div className="services-page dark:bg-gray-950 dark:text-white">
       <motion.header
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -206,7 +206,7 @@ const ServicesPage = ({ isHindi }) => {
         <p className="services-subtitle">{t.subtitle}</p>
       </motion.header>
 
-      <section className="key-services">
+      <section className="key-services dark:bg-gray-950 dark:text-white">
         <div className="services-grid">
           {t.keyServices.map((service, index) => {
             const IconComponent = iconMap[service.icon];
@@ -225,7 +225,7 @@ const ServicesPage = ({ isHindi }) => {
 
       <ServiceCategories isHindi={isHindi} />
 
-      <section ref={statsRef} className="services-stats rounded-lg">
+      <section ref={statsRef} className="services-stats rounded-lg dark:bg-gray-950 dark:text-white">
         <div className="stats-container">
           {Object.entries(stats).map(([key, value]) => (
             <motion.div
@@ -248,7 +248,7 @@ const ServicesPage = ({ isHindi }) => {
         </div>
       </section>
 
-      <section className="additional-services rounded-lg mt-8">
+      <section className="additional-services rounded-lg mt-8 dark:bg-gray-950 dark:text-white">
         <h2 className="section-title text-gray-800">{t.additionalSupport}</h2>
         <div className="support-grid">
           {t.additionalServices.map((service, index) => {

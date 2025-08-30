@@ -60,7 +60,7 @@ const TourGuidePage = () => {
   };
 
   return (
-    <div className="p-8 bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
+    <div className="p-8 bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen dark:bg-gray-950 dark:text-white">
       <h1 className="text-4xl font-extrabold text-center mb-10 text-blue-900 hover:text-blue-700 transition-colors duration-300">
         Explore Popular Places
       </h1>
@@ -78,7 +78,7 @@ const TourGuidePage = () => {
         </div>
       )}
       
-      <div className="flex flex-wrap justify-center gap-2 mb-10">
+      <div className="flex flex-wrap justify-center gap-2 mb-10 ">
         {jsonBlobLinks.map(link => (
           <button
             key={link.city}

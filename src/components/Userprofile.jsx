@@ -92,7 +92,7 @@ const MyBookings = () => {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-950 dark:text-white">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -107,8 +107,8 @@ const MyBookings = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-xl mx-auto bg-white rounded-xl p-6 shadow-md">
+    <div className="min-h-screen bg-gray-100 p-4 dark:bg-gray-950 dark:text-white">
+      <div className="max-w-xl mx-auto bg-white rounded-xl p-6 shadow-md dark:bg-gray-950 dark:text-white">
         <h1 className="text-2xl font-bold mb-4 text-neutral-800">My Bookings</h1>
         <p className="text-neutral-600 mb-6">
           Welcome, {user?.firstName || user?.emailAddresses?.[0]?.emailAddress} 👋

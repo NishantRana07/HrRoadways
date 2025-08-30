@@ -112,11 +112,11 @@ const HotelCard = ({ hotel, currentLanguage }) => {
   className="bg-white overflow-hidden border border-gray-200 mb-4 rounded-xl 
   shadow-sm hover:shadow-xl hover:scale-[1.02] hover:border-blue-400 
   transition-all duration-500 ease-in-out cursor-pointer
-  hover:-translate-y-1"
+  hover:-translate-y-1 dark:bg-gray-900 dark:text-white dark:border-none"
 >
 
 
-      <div className="flex">
+      <div className="flex dark:bg-gray-900 dark:text-white">
         <div className="relative w-64 h-56 flex-shrink-0">
           <img
             src={hotel.image}
@@ -129,7 +129,7 @@ const HotelCard = ({ hotel, currentLanguage }) => {
           <div>
             <div className="flex items-start justify-between mb-3">
               <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-1">
+                <h3 className="text-xl font-bold text-gray-900 mb-1 dark:text-white">
                   {hotel.name}
                 </h3>
                 <div className="flex items-center gap-3 mb-2">
@@ -301,7 +301,7 @@ const Trip = ({ isHindi = false }) => {
     <div className="min-h-screen bg-gray-50">
       <div className="flex h-screen">
         {/* Sidebar Filters */}
-        <div className="w-80 bg-white border-r border-gray-200 flex-shrink-0 overflow-y-auto shadow-lg">
+        <div className="w-80 bg-white border-r border-gray-200 flex-shrink-0 overflow-y-auto shadow-lg dark:bg-gray-950 dark:text-white">
           <div className="p-6">
             <SidebarFilter
               filters={filters}
@@ -313,7 +313,7 @@ const Trip = ({ isHindi = false }) => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-y-auto bg-white border border-gray-100 m- ml-0">
+        <div className="flex-1 overflow-y-auto bg-white border border-gray-100 m- ml-0 dark:bg-gray-950 dark:text-white">
           <div className="p-6">
             {/* Search Form */}
             <div className="flex flex-col md:flex-row gap-4 mb-4">
@@ -355,8 +355,8 @@ const Trip = ({ isHindi = false }) => {
             </div>
 
             {/* Header with Sorting */}
-            <div className="flex items-center justify-between bg-gradient-to-r pb-4 bg-white overflow-hidden border-b border-gray-200 mb-4">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between bg-gradient-to-r pb-4 bg-white overflow-hidden border-b border-gray-200 mb-4 dark:bg-gray-950 dark:text-white">
+              <div className="flex items-center gap-3 ">
                 <h2 className="text-2xl font-bold text-gray-900 ">
                   {sortedHotels.length} Hotels in paharganj
                 </h2>
@@ -391,7 +391,7 @@ const Trip = ({ isHindi = false }) => {
                   />
                 ))
               ) : (
-                <div className="text-center py-16 bg-gradient-to-b from-gray-50 to-white rounded-2xl border border-gray-200">
+                <div className="text-center py-16 bg-gradient-to-b from-gray-50 to-white rounded-2xl border border-gray-200 dark:bg-gray-950 dark:text-white">
                   <div className="mb-4">
                     <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto flex items-center justify-center">
                       <Star className="w-8 h-8 text-gray-400" />

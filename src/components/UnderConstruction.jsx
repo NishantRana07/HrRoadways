@@ -5,7 +5,7 @@ const constructionImage = 'https://i.ibb.co/5VqhnDH/under-construction.webp';
 
 const UnderConstruction = () => {
     return (
-        <div className="under-construction">
+        <div className="under-construction dark:bg-gray-950 dark:text-white">
             <h1>Under Construction</h1>
             <div className="animation-container">
                 <img 

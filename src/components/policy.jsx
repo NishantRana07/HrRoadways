@@ -93,7 +93,7 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100 text-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100 text-gray-800 dark:bg-gray-950 dark:text-white">
       {/* Enhanced Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">

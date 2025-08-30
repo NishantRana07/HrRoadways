@@ -11,9 +11,9 @@ const SidebarFilter = ({
   const MAX_RANGE_VALUE = 8000;
 
   return (
-    <div className="bg-white">
+    <div className="bg-white dark:bg-gray-950 dark:text-white">
       {/* Header */}
-      <div className="mb-6 flex ">
+      <div className="mb-6 flex dark:bg-gray-950 dark:text-white">
         <h3 className="text-[1.75rem] font-bold text-gray-900 mb-4">
           {currentLanguage.filters}
         </h3>
@@ -45,7 +45,7 @@ const SidebarFilter = ({
           </div>
 
           {/* Dual Range Slider Visual Track */}
-          <div className="relative h-2 bg-gray-200 rounded-full">
+          <div className="relative h-2 bg-gray-200 rounded-full ">
             <div
               className="absolute h-2 bg-blue-600 rounded-full"
               style={{

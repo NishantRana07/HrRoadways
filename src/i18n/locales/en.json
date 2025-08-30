@@ -30,7 +30,7 @@
     "ordinary": "Ordinary",
     "searchPlaceholder": "Search bus stands..."
   },
-  
+
   "register": {
     "title": "Register",
     "namePlaceholder": "Enter your name...",
@@ -53,7 +53,7 @@
     "title": "Forgot Password",
     "emailPlaceholder": "Enter your email...",
     "button": "Reset Password",
-    "prompt": "Remembered your password?"    
+    "prompt": "Remembered your password?"
   },
   "footer": {
     "companyInfo": "Haryana Roadways",
@@ -306,7 +306,10 @@
     "selectLanguage": "Select Language",
     "less": "Less",
     "show": "Show",
-    "hide": "Hide"
+    "hide": "Hide",
+    "theme": "Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode"
   },
   "languages": {
     "en": "English",

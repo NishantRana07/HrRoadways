@@ -71,14 +71,14 @@ const TrafficUpdates = () => {
   }, []);
 
   return (
-    <div className="relative bg-white/90 rounded-2xl shadow-2xl border border-blue-100/50 overflow-hidden">
+    <div className="relative bg-white/90 rounded-2xl shadow-2xl border border-blue-100/50 overflow-hidden dark:bg-gray-950 dark:text-white">
       {/* Animated background effect */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-100 to-blue-200 animate-pulse"></div>
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 p-6">
+      <div className="relative z-10 p-6 dark:bg-gray-950 dark:text-white">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-blue-900 flex items-center gap-3">
             <Zap className="w-7 h-7 text-yellow-500 animate-pulse" />
@@ -133,7 +133,7 @@ const TrafficUpdates = () => {
           ))}
         </div>
 
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-center dark:bg-gray-950 dark:text-whiteF">
           <div className="inline-flex items-center gap-2 text-sm text-blue-700/70">
             <Wind className="w-4 h-4 text-blue-500 animate-bounce" />
             Real-time updates powered by Haryana Roadways

@@ -220,7 +220,7 @@ const RoyalHaryanaTourism = ({ isHindi }) => {
   };
 
   return (
-    <div className="royal-haryana-container">
+    <div className="royal-haryana-container dark:bg-gray-950 dark:text-white">
       {/* Curtain Animation */}
       <div 
         ref={curtainRef} 

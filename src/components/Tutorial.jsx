@@ -149,7 +149,7 @@ function Tutorial() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4 md:px-0">
+    <div className="min-h-screen bg-gray-100 py-10 px-4 md:px-0 dark:bg-gray-950 dark:text-white">
       <header className="text-center mb-10">
         <h1 className="text-4xl font-bold text-gray-900">Tutorials & Guidelines</h1>
         <p className="text-lg text-gray-600 mt-2">

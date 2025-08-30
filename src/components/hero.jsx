@@ -224,7 +224,7 @@ const Hero = () => {
   }
 
   return (
-    <div className="hero-container text-black" ref={containerRef}>
+    <div className="hero-container text-black dark:bg-gray-950 dark:text-white" ref={containerRef}>
       <div className="hero-header">
         <div className="hero-header-overlay" />
         <div className="hero-header-content">
@@ -266,9 +266,9 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="hero-content">
+      <div className="hero-content dark:bg-gray-950 dark:text-white">
         <div className="content-grid">
-          <CustomCard className="form-card">
+          <CustomCard className="form-card dark:bg-gray-950 dark:text-white">
             <form className="form text-slate-950" onSubmit={handleSubmit}>
             <div className="swap-wrapper">
               <FormInput

@@ -35,7 +35,7 @@ function BusCard({ isHindi = false }) {
       transition={{ delay: 0.3, duration: 0.8 }}
     >
       {/* Bus Details */}
-      <div className="border-b pb-4">
+      <div className="border-b pb-4 dark:bg-gray-950 dark:text-white">
         <h1 className="text-2xl font-bold text-gray-800">{busName}</h1>
         <p className="text-sm text-gray-600">Bus Number: {busNumber}</p>
         <p className="mt-2 text-gray-700">
@@ -47,7 +47,7 @@ function BusCard({ isHindi = false }) {
       </div>
 
       {/* Passenger Details */}
-      <div className="my-4 text-black">
+      <div className="my-4 text-black dark:bg-gray-950 dark:text-white">
         <h2 className="text-xl font-semibold text-gray-800 mb-2">Passenger Details</h2>
         {passengers && passengers.length > 0 ? (
           <div className="space-y-2">
@@ -75,7 +75,7 @@ function BusCard({ isHindi = false }) {
 
       {/* Fare Summary */}
       <div className="my-4">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">Fare Summary</h2>
+        <h2 className="text-xl font-semibold text-gray-800 mb-2 dark:bg-gray-950 dark:text-white">Fare Summary</h2>
         <div className="space-y-1">
           <p className="text-gray-800">
             <strong>Base Fare:</strong> ₹{baseFare}
@@ -90,7 +90,7 @@ function BusCard({ isHindi = false }) {
       </div>
 
       {/* Contact Information */}
-      <div className="my-4 border-t pt-4">
+      <div className="my-4 border-t pt-4 dark:bg-gray-950 dark:text-white">
         <h2 className="text-xl font-semibold text-gray-800 mb-2">Contact Information</h2>
         <p className="text-gray-800">
           <strong>Phone:</strong> {contactInfo.phone}

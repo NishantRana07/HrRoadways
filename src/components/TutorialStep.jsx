@@ -3,7 +3,7 @@ import React from 'react';
 
 const TutorialStep = ({ icon: Icon, title, description, videoUrl, stepNumber, totalSteps }) => {
   return (
-    <div className="flex flex-col items-start p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div className="flex flex-col items-start p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 dark:bg-gray-950 dark:text-white">
       {/* Step Number Indicator */}
       <div className="flex-shrink-0 mb-4">
         <div className="w-10 h-10 flex items-center justify-center bg-blue-500 rounded-full">

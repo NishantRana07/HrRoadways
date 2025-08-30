@@ -206,7 +206,7 @@ const Reviews = ({ isHindi }) => {
   }
 
   return (
-    <div className="p-10 mx-auto rounded-lg max-w-7xl mb-9">
+    <div className="p-10 mx-auto rounded-lg max-w-7xl mb-9 dark:bg-gray-950 dark:text-white">
       <h1 className="mt-12 mb-10 text-5xl font-bold text-center">
         {currentLanguage.title}
       </h1>
@@ -239,7 +239,7 @@ const Reviews = ({ isHindi }) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col space-y-6 reviews-section">
+          <div className="flex flex-col space-y-6 reviews-section dark:bg-gray-950 dark:text-white">
             {currentReviews.map((review, index) => (
               <motion.div
                 key={index}

@@ -48,7 +48,7 @@ const FareSummary = ({ selectedSeats, seatCost }) => {
   const totalFare = baseFare + tax;
   
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-2xl transition-shadow duration-300">
+    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-2xl transition-shadow duration-300 dark:bg-gray-950 dark:text-white">
       <h2 className="text-2xl font-bold mb-4 text-gray-800">Fare Summary</h2>
       <div className="space-y-3 text-gray-700">
         <div className="flex justify-between">

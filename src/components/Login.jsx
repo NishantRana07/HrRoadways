@@ -11,7 +11,7 @@ function Login() {
   if (modalType !== "login") return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 dark:bg-gray-950 dark:text-white">
       <div className="relative">
         <button
           onClick={closeModal}

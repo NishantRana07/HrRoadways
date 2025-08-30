@@ -187,7 +187,7 @@ const PaymentOptions = ({ isHindi }) => {
   }
 
   return (
-    <div className="min-h-screen px-4 py-12 bg-gray-100 payment-container">
+    <div className="min-h-screen px-4 py-12 bg-gray-100 payment-container dark:bg-gray-950 dark:text-white">
       <div className="max-w-4xl mx-auto overflow-hidden bg-white shadow-lg rounded-xl">
         <div className="md:flex">
           {/* Payment methods sidebar */}

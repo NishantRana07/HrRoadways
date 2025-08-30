@@ -175,7 +175,7 @@ const BestRides = () => {
   };
 
   const RouteCard = ({ route }) => (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 dark:bg-gray-950 dark:text-white">
       <div className="relative">
         <img
           src={route.image}

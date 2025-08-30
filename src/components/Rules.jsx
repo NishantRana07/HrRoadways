@@ -279,7 +279,7 @@ const RulesAndGuidelines = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6 dark:bg-gray-950 dark:text-white">
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-12 transform transition-all duration-1000 ${animateIn ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           <h1 className="text-6xl font-bold text-white mb-4 relative">

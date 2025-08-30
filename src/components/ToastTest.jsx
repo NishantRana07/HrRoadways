@@ -82,7 +82,7 @@ const ToastTest = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-8 dark:bg-gray-950 dark:text-white">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
           React-Toastify Demo - HR Roadways Style

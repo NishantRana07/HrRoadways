@@ -15,6 +15,7 @@ import Footer from './components/footer';
 import Header from './components/Header';
 
 import BookingPage from './components/BookingPage'; // do not lazy load this
+import ThemeWrapper from './components/ThemeWrapper';
 
 const Hero = lazy(() => import('./components/hero'));
 const Available = lazy(() => import('./components/Available'));
@@ -57,90 +58,96 @@ function BookingPageWrapper() {
 
 function App() {
 	return (
-		<LanguageProvider>
-			<Router>
-				<Header />
-				<Navigation />
-				<Suspense
-					fallback={
-						<div style={{ padding: '2rem', textAlign: 'center' }}>
-							Loading...
-						</div>
-					}
-				>
-					<ScrollToTop />
-					<Routes>
-						<Route path='/' element={<Hero />} />
-						<Route path='/Available' element={<Available />} />
-						<Route path='/about' element={<AboutUs />} />
-						<Route path='/trip' element={<Trip />} />
-						<Route path='/bestrides' element={<BestRides />} />
-						<Route path='/policy' element={<InfoPage />} />
-						<Route path='/rules' element={<RulesAndGuidelines />} />
-						<Route
-							path='/under-construction'
-							element={<UnderConstruction />}
+		<ThemeWrapper>
+			<div className="min-h-screen bg-white text-black dark:bg-gray-950 dark:text-white">
+
+
+				<LanguageProvider>
+					<Router>
+						<Header />
+						<Navigation />
+						<Suspense
+							fallback={
+								<div style={{ padding: '2rem', textAlign: 'center' }}>
+									Loading...
+								</div>
+							}
+						>
+							<ScrollToTop />
+							<Routes>
+								<Route path='/' element={<Hero />} />
+								<Route path='/Available' element={<Available />} />
+								<Route path='/about' element={<AboutUs />} />
+								<Route path='/trip' element={<Trip />} />
+								<Route path='/bestrides' element={<BestRides />} />
+								<Route path='/policy' element={<InfoPage />} />
+								<Route path='/rules' element={<RulesAndGuidelines />} />
+								<Route
+									path='/under-construction'
+									element={<UnderConstruction />}
+								/>
+								<Route
+									path='/contactUs'
+									element={<Navigate to='/contact' replace />}
+								/>
+								<Route path='/contact' element={<ContactUs />} />
+								<Route path='/blog' element={<Blog />} />
+								<Route path='/payment' element={<PaymentOptions />} />
+								<Route path='/track' element={<BusTracker />} />
+								<Route
+									path='/luxury'
+									element={<RoyalHaryanaTourism />}
+								/>
+								<Route path='/donate' element={<DonatePage />} />
+								<Route path='/services' element={<ServicesPage />} />
+								<Route
+									path='/travellocations'
+									element={<TravelLocations />}
+								/>
+								<Route path='/helpline' element={<HelplinePage />} />
+								<Route path='/schedule' element={<WeeklyTimetable />} />
+								<Route path='/reviews' element={<Reviews />} />
+								<Route
+									path='/affiliate'
+									element={<AffiliateProgram />}
+								/>
+								<Route path='/card' element={<BusCard />} />
+								<Route path='/guide' element={<Tutorial />} />
+								<Route path='/tour-guide' element={<TourGuidePage />} />
+								<Route
+									path='/booking'
+									element={<BookingPageWrapper />}
+								/>
+								<Route path='*' element={<NotFound />} />
+								<Route path='/login' element={<Login />} />
+								{/* <Route path='/register' element={<Register />} /> */} {/* no Register component found */}
+								{/* <Route path='/forgot-password' element={<ForgotPassword />} /> */} {/* no ForgotPassword component found */}
+								<Route path='/mybookings' element={<MyBookings />} />
+								<Route
+									path='/yash'
+									element={<h1>Yash&apos;s Page</h1>}
+								/>
+								<Route path='/toast-test' element={<ToastTest />} />
+							</Routes>
+						</Suspense>
+						<Footer />
+						<ScrollButton />
+						<ToastContainer
+							position="top-right"
+							autoClose={4000}
+							hideProgressBar={false}
+							newestOnTop={false}
+							closeOnClick
+							rtl={false}
+							pauseOnFocusLoss
+							draggable
+							pauseOnHover
+							theme="colored"
 						/>
-						<Route
-							path='/contactUs'
-							element={<Navigate to='/contact' replace />}
-						/>
-						<Route path='/contact' element={<ContactUs />} />
-						<Route path='/blog' element={<Blog />} />
-						<Route path='/payment' element={<PaymentOptions />} />
-						<Route path='/track' element={<BusTracker />} />
-						<Route
-							path='/luxury'
-							element={<RoyalHaryanaTourism />}
-						/>
-						<Route path='/donate' element={<DonatePage />} />
-						<Route path='/services' element={<ServicesPage />} />
-						<Route
-							path='/travellocations'
-							element={<TravelLocations />}
-						/>
-						<Route path='/helpline' element={<HelplinePage />} />
-						<Route path='/schedule' element={<WeeklyTimetable />} />
-						<Route path='/reviews' element={<Reviews />} />
-						<Route
-							path='/affiliate'
-							element={<AffiliateProgram />}
-						/>
-						<Route path='/card' element={<BusCard />} />
-						<Route path='/guide' element={<Tutorial />} />
-						<Route path='/tour-guide' element={<TourGuidePage />} />
-						<Route
-							path='/booking'
-							element={<BookingPageWrapper />}
-						/>
-						<Route path='*' element={<NotFound />} />
-						<Route path='/login' element={<Login />} />
-						{/* <Route path='/register' element={<Register />} /> */} {/* no Register component found */}
-						{/* <Route path='/forgot-password' element={<ForgotPassword />} /> */} {/* no ForgotPassword component found */}
-						<Route path='/mybookings' element={<MyBookings />} />
-						<Route
-							path='/yash'
-							element={<h1>Yash&apos;s Page</h1>}
-						/>
-						<Route path='/toast-test' element={<ToastTest />} />
-					</Routes>
-				</Suspense>
-				<Footer />
-				<ScrollButton />
-				<ToastContainer
-					position="top-right"
-					autoClose={4000}
-					hideProgressBar={false}
-					newestOnTop={false}
-					closeOnClick
-					rtl={false}
-					pauseOnFocusLoss
-					draggable
-					pauseOnHover
-					theme="colored"
-				/>
-			</Router>
-		</LanguageProvider>
+					</Router>
+				</LanguageProvider>
+			</div>
+		</ThemeWrapper>
 	);
 }
 

@@ -39,15 +39,15 @@ const Donate = ({isHindi}) => {
   if (loading) return <Loading />;
 
   return (
-    <section className="py-10 px-4 max-w-5xl mx-auto">
+    <section className="py-10 px-4 max-w-5xl mx-auto ">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-blue-800">{t("headerTitle")}</h2>
         <p className="text-gray-600 mt-2">{t("headerSubtitle")}</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 items-start">
+      <div className="grid md:grid-cols-2 gap-8 items-start ">
         {/* QR and info */}
-        <div className="bg-white shadow-md rounded-2xl p-6">
+        <div className="bg-white shadow-md rounded-2xl p-6 ">
           <img
             src={QRCode}
             alt="QR Code"
@@ -72,10 +72,10 @@ const Donate = ({isHindi}) => {
         {/* Form */}
         <form
           onSubmit={handleDonate}
-          className="bg-white shadow-md rounded-2xl p-6 space-y-4 text-black"
+          className="bg-white shadow-md rounded-2xl p-6 space-y-4 text-black dark:bg-gray-950 dark:text-white"
         >
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">
+            <label className="block font-semibold text-gray-700 mb-1 ">
               {t("fullName")}
             </label>
             <input
