@@ -248,6 +248,16 @@ const CapacityBar = ({ passengers, capacity }) => {
 };
 
 // ----------------- Bus List Item -----------------
+// Enhanced eco-friendly score utility for live buses
+const getEcoScore = (bus) => {
+  let score = 0;
+  if (bus.id && /ev|electric/i.test(bus.id)) score += 50;
+  if (bus.passengers > 40) score += 25;
+  if (bus.speed < 50) score += 25;
+  if (bus.route && bus.route.length < 5) score += 10;
+  return score;
+};
+
 const BusListItem = ({ bus, onSelect, isSelected, language, index }) => {
   return (
     <motion.div
@@ -294,7 +304,9 @@ const BusListItem = ({ bus, onSelect, isSelected, language, index }) => {
           {bus.status}
         </motion.div>
       </div>
-
+      <div className="mt-2 flex items-center gap-2">
+        <span className={`font-bold ${getEcoScore(bus) > 80 ? 'text-green-700' : 'text-green-600'}`}>Eco Score: {getEcoScore(bus)} {getEcoScore(bus) > 80 ? '🌱' : getEcoScore(bus) > 60 ? '🌿' : '🌳'}</span>
+      </div>
       <div className="mt-4 grid grid-cols-3 gap-4">
         <motion.div
           whileHover={{ y: -2 }}

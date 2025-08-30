@@ -119,14 +119,29 @@ const WeeklyTimetable = () => {
     }
   };
 
+  // AI-powered eco-friendly route scoring utility
+  const getEcoScore = (schedule) => {
+    let score = 0;
+    if (schedule.busType && /electric|ev/i.test(schedule.busType)) score += 50;
+    if (schedule.occupancy && schedule.occupancy > 40) score += 25;
+    if (schedule.avgSpeed && schedule.avgSpeed < 50) score += 25;
+    if (schedule.route && schedule.route.length < 5) score += 10; // Shorter routes
+    return score;
+  };
+  
+  const getAISuggestedRoutes = (from, to, schedules) => {
+    // Prioritize eco score, then ETA, then occupancy
+    return schedules
+      .filter(s => s.from.toLowerCase() === from.toLowerCase() && s.to.toLowerCase() === to.toLowerCase())
+      .sort((a, b) => getEcoScore(b) - getEcoScore(a) || a.eta - b.eta || (b.occupancy || 0) - (a.occupancy || 0))
+      .slice(0, 3);
+  };
+
   const handleSearch = () => {
     if (searchFrom && searchTo) {
-      const filtered = scheduleData.filter(schedule => 
-        schedule.from.toLowerCase() === searchFrom.toLowerCase() &&
-        schedule.to.toLowerCase() === searchTo.toLowerCase()
-      );
-      setFilteredSchedules(filtered);
-
+      // AI-powered suggestions
+      const aiRoutes = getAISuggestedRoutes(searchFrom, searchTo, scheduleData);
+      setFilteredSchedules(aiRoutes);
       const newSearch = `${searchFrom} to ${searchTo}`;
       setRecentSearches(prev => [newSearch, ...prev.filter(search => search !== newSearch)].slice(0, 5));
     }
@@ -449,6 +464,22 @@ const WeeklyTimetable = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+            {filteredSchedules.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4 text-green-700">AI-Powered Eco-Friendly Suggestions</h2>
+                <ul>
+                  {filteredSchedules.map((schedule, idx) => (
+                    <li key={idx} className="mb-6 p-4 rounded-xl shadow bg-white border-l-4 border-green-400">
+                      <div className="flex justify-between items-center">
+                        <span className="font-semibold text-lg">{schedule.from} → {schedule.to}</span>
+                        <span className={`font-bold ${getEcoScore(schedule) > 80 ? 'text-green-700' : 'text-green-600'}`}>Eco Score: {getEcoScore(schedule)} {getEcoScore(schedule) > 80 ? '🌱' : getEcoScore(schedule) > 60 ? '🌿' : '🌳'}</span>
+                      </div>
+                      <div className="mt-2 text-gray-700">ETA: {schedule.eta} min | Occupancy: {schedule.occupancy || 'N/A'} | Bus Type: {schedule.busType || 'Standard'} | Route Length: {schedule.route ? schedule.route.length : 'N/A'}</div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </>
