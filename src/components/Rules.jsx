@@ -22,11 +22,11 @@ import {
 import { MdTravelExplore } from 'react-icons/md';
 
 const RulesAndGuidelines = () => {
-    const [activeCategory, setActiveCategory] = useState('all');
-    const [searchTerm, setSearchTerm] = useState('');
-    const [expandedRules, setExpandedRules] = useState({});
-    const [animateIn, setAnimateIn] = useState(false);
-    const [filteredRules, setFilteredRules] = useState([]);
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [expandedRules, setExpandedRules] = useState({});
+  const [animateIn, setAnimateIn] = useState(false);
+  const [filteredRules, setFilteredRules] = useState([]);
 
   useEffect(() => {
     setAnimateIn(true);
@@ -61,179 +61,179 @@ const RulesAndGuidelines = () => {
       actionRequired: true
     },
     {
-        id: 2,
-        category: 'safety',
-        title: 'COVID-19 Safety Protocols',
-        severity: 'high',
-        icon: ShieldAlert,
-        content: [
-          'Masks are mandatory throughout the journey',
-          'Temperature screening at boarding points',
-          'Sanitization of hands before boarding',
-          'Maintaining social distancing while boarding/deboarding',
-          'Buses sanitized after each trip',
-          'Passengers with symptoms will not be allowed to travel',
-          'Download Aarogya Setu app recommended'
-        ],
-        important: true,
-        actionRequired: true
-      },
-      {
-        id: 3,
-        category: 'luggage',
-        title: 'Baggage Rules',
-        severity: 'medium',
-        icon: Luggage,
-        content: [
-          'Free baggage allowance: 15kg per passenger',
-          'Extra baggage charges: ₹20 per kg',
-          'Maximum dimensions: 30x20x10 inches',
-          'Valuable items must be declared',
-          'Fragile items carried at passenger risk',
-          'No responsibility for untagged luggage',
-          'Luggage must be claimed within 24 hours'
-        ],
-        important: true,
-        actionRequired: false
-      },
-      {
-        id: 4,
-        category: 'prohibited',
-        title: 'Prohibited Items',
-        severity: 'high',
-        icon: Ban,
-        content: [
-          'Flammable materials and explosives',
-          'Weapons and sharp objects',
-          'Illegal substances and drugs',
-          'Live animals (except service animals)',
-          'Perishable items',
-          'Hazardous chemicals',
-          'Oversized packages exceeding size limits'
-        ],
-        important: true,
-        actionRequired: true
-      },
-      {
-        id: 5,
-        category: 'special',
-        title: 'Special Assistance',
-        severity: 'medium',
-        icon: Luggage,
-        content: [
-          'Wheelchair assistance available at major stations',
-          'Priority seating for elderly and disabled',
-          'Special assistance for pregnant women',
-          'Guide dogs allowed for visually impaired',
-          'Request assistance 24 hours in advance',
-          'Medical emergency contact points at stations',
-          'Special needs must be declared during booking'
-        ],
-        important: true,
-        actionRequired: false
-      },
-      {
-        id: 6,
-        category: 'payments',
-        title: 'Payment Guidelines',
-        severity: 'medium',
-        icon: Coins,
-        content: [
-          'Online payments through authorized platforms only',
-          'Cash payments accepted at counters',
-          'UPI payments accepted',
-          'No foreign currency accepted',
-          'Monthly pass payments by 5th of each month',
-          'Receipt mandatory for all transactions',
-          'Refunds processed within 7 working days'
-        ],
-        important: true,
-        actionRequired: false
-      },
-      {
-        id: 7,
-        category: 'conduct',
-        title: 'Passenger Code of Conduct',
-        severity: 'medium',
-        icon: User,
-        content: [
-          'No smoking inside buses',
-          'No consumption of alcohol',
-          'Maintain cleanliness',
-          'Follow staff instructions',
-          'No playing loud music',
-          'No harassment of co-passengers',
-          'Respect reserved seating arrangements'
-        ],
-        important: true,
-        actionRequired: false
-      },
-      {
-        id: 8,
-        category: 'routes',
-        title: 'Route Operations',
-        severity: 'medium',
-        icon: MapIcon,
-        content: [
-          'Check route updates before travel',
-          'Buses stop only at designated stops',
-          'Route diversions announced 24 hours prior',
-          'No mid-route boarding in express services',
-          'Night service routes have limited stops',
-          'Route maps available at all stations',
-          'GPS tracking enabled on all buses'
-        ],
-        important: true,
-        actionRequired: false
-      },
-      {
-        id: 9,
-        category: 'travel',
-        title: 'Travel Documentation',
-        severity: 'high',
-        icon: MdTravelExplore,
-        content: [
-          'Valid ID proof mandatory for all passengers',
-          'Physical or digital ticket must be carried',
-          'Student concession cards must be current',
-          'Senior citizen cards for discount',
-          'Monthly pass holders must carry passes',
-          'Insurance documents for valuable baggage',
-          'Medical certificates for specific conditions'
-        ],
-        important: true,
-        actionRequired: true
-      },
-      {
-        id: 10,
-        category: 'safety',
-        title: 'Emergency Procedures',
-        severity: 'high',
-        icon: AlertTriangle,
-        content: [
-          'Emergency exits marked in all buses',
-          'First aid kits available with conductor',
-          'Emergency contact numbers displayed',
-          'Follow evacuation procedures when announced',
-          'Report suspicious items to staff',
-          'Emergency stops only at designated points',
-          'Safety instructions in multiple languages'
-        ],
-        important: true,
-        actionRequired: true
-      },
+      id: 2,
+      category: 'safety',
+      title: 'COVID-19 Safety Protocols',
+      severity: 'high',
+      icon: ShieldAlert,
+      content: [
+        'Masks are mandatory throughout the journey',
+        'Temperature screening at boarding points',
+        'Sanitization of hands before boarding',
+        'Maintaining social distancing while boarding/deboarding',
+        'Buses sanitized after each trip',
+        'Passengers with symptoms will not be allowed to travel',
+        'Download Aarogya Setu app recommended'
+      ],
+      important: true,
+      actionRequired: true
+    },
+    {
+      id: 3,
+      category: 'luggage',
+      title: 'Baggage Rules',
+      severity: 'medium',
+      icon: Luggage,
+      content: [
+        'Free baggage allowance: 15kg per passenger',
+        'Extra baggage charges: ₹20 per kg',
+        'Maximum dimensions: 30x20x10 inches',
+        'Valuable items must be declared',
+        'Fragile items carried at passenger risk',
+        'No responsibility for untagged luggage',
+        'Luggage must be claimed within 24 hours'
+      ],
+      important: true,
+      actionRequired: false
+    },
+    {
+      id: 4,
+      category: 'prohibited',
+      title: 'Prohibited Items',
+      severity: 'high',
+      icon: Ban,
+      content: [
+        'Flammable materials and explosives',
+        'Weapons and sharp objects',
+        'Illegal substances and drugs',
+        'Live animals (except service animals)',
+        'Perishable items',
+        'Hazardous chemicals',
+        'Oversized packages exceeding size limits'
+      ],
+      important: true,
+      actionRequired: true
+    },
+    {
+      id: 5,
+      category: 'special',
+      title: 'Special Assistance',
+      severity: 'medium',
+      icon: Luggage,
+      content: [
+        'Wheelchair assistance available at major stations',
+        'Priority seating for elderly and disabled',
+        'Special assistance for pregnant women',
+        'Guide dogs allowed for visually impaired',
+        'Request assistance 24 hours in advance',
+        'Medical emergency contact points at stations',
+        'Special needs must be declared during booking'
+      ],
+      important: true,
+      actionRequired: false
+    },
+    {
+      id: 6,
+      category: 'payments',
+      title: 'Payment Guidelines',
+      severity: 'medium',
+      icon: Coins,
+      content: [
+        'Online payments through authorized platforms only',
+        'Cash payments accepted at counters',
+        'UPI payments accepted',
+        'No foreign currency accepted',
+        'Monthly pass payments by 5th of each month',
+        'Receipt mandatory for all transactions',
+        'Refunds processed within 7 working days'
+      ],
+      important: true,
+      actionRequired: false
+    },
+    {
+      id: 7,
+      category: 'conduct',
+      title: 'Passenger Code of Conduct',
+      severity: 'medium',
+      icon: User,
+      content: [
+        'No smoking inside buses',
+        'No consumption of alcohol',
+        'Maintain cleanliness',
+        'Follow staff instructions',
+        'No playing loud music',
+        'No harassment of co-passengers',
+        'Respect reserved seating arrangements'
+      ],
+      important: true,
+      actionRequired: false
+    },
+    {
+      id: 8,
+      category: 'routes',
+      title: 'Route Operations',
+      severity: 'medium',
+      icon: MapIcon,
+      content: [
+        'Check route updates before travel',
+        'Buses stop only at designated stops',
+        'Route diversions announced 24 hours prior',
+        'No mid-route boarding in express services',
+        'Night service routes have limited stops',
+        'Route maps available at all stations',
+        'GPS tracking enabled on all buses'
+      ],
+      important: true,
+      actionRequired: false
+    },
+    {
+      id: 9,
+      category: 'travel',
+      title: 'Travel Documentation',
+      severity: 'high',
+      icon: MdTravelExplore,
+      content: [
+        'Valid ID proof mandatory for all passengers',
+        'Physical or digital ticket must be carried',
+        'Student concession cards must be current',
+        'Senior citizen cards for discount',
+        'Monthly pass holders must carry passes',
+        'Insurance documents for valuable baggage',
+        'Medical certificates for specific conditions'
+      ],
+      important: true,
+      actionRequired: true
+    },
+    {
+      id: 10,
+      category: 'safety',
+      title: 'Emergency Procedures',
+      severity: 'high',
+      icon: AlertTriangle,
+      content: [
+        'Emergency exits marked in all buses',
+        'First aid kits available with conductor',
+        'Emergency contact numbers displayed',
+        'Follow evacuation procedures when announced',
+        'Report suspicious items to staff',
+        'Emergency stops only at designated points',
+        'Safety instructions in multiple languages'
+      ],
+      important: true,
+      actionRequired: true
+    },
   ];
   const filterRules = () => {
     return rules.filter(rule => {
       const matchesSearch = rule.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         rule.content.some(item => item.toLowerCase().includes(searchTerm.toLowerCase()));
-      
+
       const matchesCategory = activeCategory === 'all' || rule.category === activeCategory;
-      
+
       return matchesSearch && matchesCategory;
     });
   };
-  
+
   useEffect(() => {
     setAnimateIn(true);
   }, []);
@@ -281,17 +281,22 @@ const RulesAndGuidelines = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6">
       <div className="max-w-7xl mx-auto">
-        <div className={`text-center mb-12 transform transition-all duration-1000 ${animateIn ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          <h1 className="text-6xl font-bold text-white mb-4 relative">
-            <span className="relative">
-              Rules & Guidelines
-              <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 animate-expandWidth"></div>
-            </span>
+        <div
+          className={`text-center mb-12 transform transition-all duration-1000 ${animateIn ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            }`}
+        >
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6 tracking-wide">
+            Rules & Guidelines
           </h1>
-          <p className="text-xl text-blue-200">
+
+          {/* sleek divider instead of thick underline */}
+          <div className="mx-auto mb-6 h-1 w-24 rounded-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 animate-expandWidth"></div>
+
+          <p className="mx-auto max-w-2xl text-lg sm:text-xl text-blue-200 leading-relaxed px-4">
             Essential information for a smooth journey with Haryana Roadways
           </p>
         </div>
+
 
         <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl p-8 mb-8 border border-white/20">
           <div className="flex flex-col md:flex-row gap-6">
@@ -315,8 +320,8 @@ const RulesAndGuidelines = () => {
                   key={category.id}
                   onClick={() => setActiveCategory(category.id)}
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105
-                    ${activeCategory === category.id 
-                      ? `bg-gradient-to-r ${category.color} text-white shadow-lg scale-105` 
+                    ${activeCategory === category.id
+                      ? `bg-gradient-to-r ${category.color} text-white shadow-lg scale-105`
                       : 'bg-white/10 text-white hover:bg-white/20'}`}
                   style={{
                     animationDelay: `${index * 100}ms`,
@@ -371,7 +376,7 @@ const RulesAndGuidelines = () => {
                     />
                   </div>
                 </button>
-                
+
                 {expandedRules[rule.id] && (
                   <div className="px-6 pb-6 pt-2">
                     <div className="pl-4 border-l-4 border-blue-500 space-y-3">
