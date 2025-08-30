@@ -34,11 +34,10 @@ const LanguageSelector = ({ className = "", variant = "default" }) => {
         switch (variant) {
             case "navbar":
                 return {
-                    button: "flex items-center space-x-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 transition-all duration-200 backdrop-blur-sm min-w-0",
-                    // Dropdown opens downward, positioned absolutely below the button, with high z-index and scrollable
-                    dropdown: "absolute top-full right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-[9999] max-h-80 overflow-y-auto backdrop-blur-lg language-dropdown",
+                    button: "flex items-center space-x-1 text-white hover:text-blue-200 transition-colors",
+                    dropdown: "absolute top-full right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-[9999] max-h-80 overflow-y-auto language-dropdown",
                     item: "w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100 last:border-b-0 language-item",
-                    activeItem: "bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-500"
+                    activeItem: "bg-blue-50 text-blue-600 font-medium"
                 };
             case "mobile":
                 return {
