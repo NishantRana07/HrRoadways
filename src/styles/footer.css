@@ -129,6 +129,7 @@
 .footer-section-title {
   font-size: 1rem;
   font-weight: 600;
+  transition: all 0.5s;
 }
 
 .footer-links {
