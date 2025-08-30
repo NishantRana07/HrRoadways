@@ -1,77 +1,112 @@
-/* Language Selector Responsive Styles */
-
-/* Custom scrollbar for dropdown */
-.language-dropdown::-webkit-scrollbar,
-.language-dropdown *::-webkit-scrollbar {
-  width: 6px;
+/* Language Selector for Footer */
+.language-selector-footer {
+  position: relative;
+  display: inline-block;
+  font-size: 0.8rem;
+  z-index: 10;
 }
 
-.language-dropdown::-webkit-scrollbar-track,
-.language-dropdown *::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
+.language-selector-footer .language-button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.8rem;
+  height: 28px;
 }
 
-.language-dropdown::-webkit-scrollbar-thumb,
-.language-dropdown *::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
+.language-selector-footer .language-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
-.language-dropdown::-webkit-scrollbar-thumb:hover,
-.language-dropdown *::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+.language-selector-footer .language-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background: linear-gradient(to bottom, #1a2a6c, #16222a);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  min-width: 120px;
+  z-index: 1000;
+  margin-bottom: 8px;
+  overflow: hidden;
 }
 
-/* Ensure scrollable container */
-
-/* Ensure desktop dropdown is scrollable */
-.language-dropdown {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  max-height: 20rem;
-  /* Firefox scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: #c1c1c1 #f1f1f1;
+.language-selector-footer .language-item {
+  padding: 0.4rem 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-/* Dark mode Firefox scrollbar */
-.dark .language-dropdown > div {
-  scrollbar-color: #6b7280 #374151;
+.language-selector-footer .language-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
-/* Mobile scrollbar - make it more visible on touch devices */
-@media (max-width: 768px) {
-  .language-dropdown::-webkit-scrollbar,
-  .language-dropdown *::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  .language-dropdown::-webkit-scrollbar-thumb,
-  .language-dropdown *::-webkit-scrollbar-thumb {
-    background: #9ca3af;
-    border-radius: 4px;
-  }
-
-  .language-dropdown::-webkit-scrollbar-thumb:active,
-  .language-dropdown *::-webkit-scrollbar-thumb:active {
-    background: #6b7280;
-  }
+.language-selector-footer .language-item.active {
+  color: #60a5fa;
+  font-weight: 500;
 }
 
-/* Dark mode scrollbar */
-.dark .language-dropdown::-webkit-scrollbar-track,
-.dark .language-dropdown *::-webkit-scrollbar-track {
-  background: #374151;
+/* Small globe icon */
+.language-selector-footer .globe-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.9;
 }
 
-.dark .language-dropdown::-webkit-scrollbar-thumb,
-.dark .language-dropdown *::-webkit-scrollbar-thumb {
+/* Chevron icon */
+.language-selector-footer .chevron-icon {
+  width: 12px;
+  height: 12px;
+  margin-left: 2px;
+  transition: transform 0.2s ease;
+}
+
+.language-selector-footer .language-button[aria-expanded='true'] .chevron-icon {
+  transform: rotate(180deg);
+}
+
+/* Scrollbar styles */
+.language-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.language-dropdown::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.language-dropdown::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 4px;
+}
+
+.language-dropdown::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
 
-.dark .language-dropdown::-webkit-scrollbar-thumb:hover,
-.dark .language-dropdown *::-webkit-scrollbar-thumb:hover {
+/* Dark mode scrollbar */
+.dark .language-dropdown::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark .language-dropdown::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.dark .language-dropdown::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
 

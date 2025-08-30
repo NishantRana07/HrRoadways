@@ -12,9 +12,9 @@ import {
 import { LanguageProvider } from './contexts/LanguageContext';
 import Navigation from './components/nav';
 import Footer from './components/footer';
-import Header from './components/Header';
 
 import BookingPage from './components/BookingPage'; // do not lazy load this
+
 
 const Hero = lazy(() => import('./components/hero'));
 const Available = lazy(() => import('./components/Available'));
@@ -59,10 +59,10 @@ function App() {
 	return (
 		<LanguageProvider>
 			<Router>
-				<Header />
 				<Navigation />
 				<Suspense
 					fallback={
+
 						<div style={{ padding: '2rem', textAlign: 'center' }}>
 							Loading...
 						</div>
