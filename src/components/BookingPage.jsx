@@ -204,7 +204,7 @@ const BookingPage = ({ selectedBus }) => {
   const seatCost = selectedBus?.Price ? parseSeatCost(selectedBus.Price) : 900;
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-200 p-6 ">
+    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-200 p-6 w-full">
       {/* Header */}
       <header className="mb-8">
         <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-2">Haryana Roadways</h1>
@@ -223,136 +223,137 @@ const BookingPage = ({ selectedBus }) => {
           </div>
         </div>
       </header>
+      <main className="m-2 lg:flex lg:justify-around">
+        <section>
+          {/* Seat Layout */}
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold mb-4 text-gray-700">Seat Layout</h2>
+            <div className="flex justify-center space-x-4 bg-white rounded-xl p-2 md:p-6 shadow-lg">
+              {seatBlocks.map((block, bIdx) => (
+                <div key={bIdx} className="flex flex-col space-y-4">
+                  {Array.from({ length: 6 }).map((_, rowIdx) => {
+                    if (rowIdx === 2) {
+                      return (
+                        <div key={rowIdx} className="flex items-center justify-center h-8">
+                          <span className="text-sm text-gray-500 italic">alley</span>
+                        </div>
+                      );
+                    }
+                    const k = rowIdx < 2 ? rowIdx : rowIdx - 1;
+                    const leftSeat = block[k];
+                    const rightSeat = block[k + 5];
+                    return (
+                      <div key={rowIdx} className="flex space-x-4">
+                        {leftSeat && (
+                          <SeatButton 
+                            seat={leftSeat} 
+                            isSelected={selectedSeats.includes(leftSeat.id)}
+                            onClick={() => handleSeatClick(leftSeat.id)}
+                          />
+                        )}
+                        {rightSeat && (
+                          <SeatButton 
+                            seat={rightSeat} 
+                            isSelected={selectedSeats.includes(rightSeat.id)}
+                            onClick={() => handleSeatClick(rightSeat.id)}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </section>
 
-      {/* Seat Layout */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-bold mb-4 text-gray-700">Seat Layout</h2>
-        <div className="flex justify-center space-x-4 bg-white rounded-xl p-6 shadow-lg">
-          {seatBlocks.map((block, bIdx) => (
-            <div key={bIdx} className="flex flex-col space-y-4">
-              {Array.from({ length: 6 }).map((_, rowIdx) => {
-                if (rowIdx === 2) {
-                  return (
-                    <div key={rowIdx} className="flex items-center justify-center h-8">
-                      <span className="text-sm text-gray-500 italic">alley</span>
+          {/* Passenger Details */}
+          {selectedSeats.length > 0 && (
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold mb-4 text-gray-700">Passenger Details</h2>
+              <div className="space-y-6">
+                {passengerDetails.map((passenger) => (
+                  <div key={passenger.seatId} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <h3 className="text-xl font-semibold mb-4 text-gray-800">Seat {passenger.seatId}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <input 
+                        type="text"
+                        placeholder="Name"
+                        value={passenger.name}
+                        onChange={e => handlePassengerChange(passenger.seatId, 'name', e.target.value)}
+                        className="px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+                      />
+                      <input 
+                        type="number"
+                        placeholder="Age"
+                        value={passenger.age}
+                        onChange={e => handlePassengerChange(passenger.seatId, 'age', e.target.value)}
+                        className="px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+                      />
+                      <select
+                        value={passenger.gender}
+                        onChange={e => handlePassengerChange(passenger.seatId, 'gender', e.target.value)}
+                        className="px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 text-gray-700"
+                      >
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                      </select>
                     </div>
-                  );
-                }
-                const k = rowIdx < 2 ? rowIdx : rowIdx - 1;
-                const leftSeat = block[k];
-                const rightSeat = block[k + 5];
-                return (
-                  <div key={rowIdx} className="flex space-x-4">
-                    {leftSeat && (
-                      <SeatButton 
-                        seat={leftSeat} 
-                        isSelected={selectedSeats.includes(leftSeat.id)}
-                        onClick={() => handleSeatClick(leftSeat.id)}
-                      />
+                    {errors[`name-${passenger.seatId}`] && (
+                      <p className="text-red-500 text-sm mt-1">{errors[`name-${passenger.seatId}`]}</p>
                     )}
-                    {rightSeat && (
-                      <SeatButton 
-                        seat={rightSeat} 
-                        isSelected={selectedSeats.includes(rightSeat.id)}
-                        onClick={() => handleSeatClick(rightSeat.id)}
-                      />
+                    {errors[`age-${passenger.seatId}`] && (
+                      <p className="text-red-500 text-sm mt-1">{errors[`age-${passenger.seatId}`]}</p>
                     )}
                   </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Passenger Details */}
-      {selectedSeats.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold mb-4 text-gray-700">Passenger Details</h2>
-          <div className="space-y-6">
-            {passengerDetails.map((passenger) => (
-              <div key={passenger.seatId} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
-                <h3 className="text-xl font-semibold mb-4 text-gray-800">Seat {passenger.seatId}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <input 
-                    type="text"
-                    placeholder="Name"
-                    value={passenger.name}
-                    onChange={e => handlePassengerChange(passenger.seatId, 'name', e.target.value)}
-                    className="px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
-                  />
-                  <input 
-                    type="number"
-                    placeholder="Age"
-                    value={passenger.age}
-                    onChange={e => handlePassengerChange(passenger.seatId, 'age', e.target.value)}
-                    className="px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
-                  />
-                  <select
-                    value={passenger.gender}
-                    onChange={e => handlePassengerChange(passenger.seatId, 'gender', e.target.value)}
-                    className="px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200 text-gray-700"
-                  >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                {errors[`name-${passenger.seatId}`] && (
-                  <p className="text-red-500 text-sm mt-1">{errors[`name-${passenger.seatId}`]}</p>
-                )}
-                {errors[`age-${passenger.seatId}`] && (
-                  <p className="text-red-500 text-sm mt-1">{errors[`age-${passenger.seatId}`]}</p>
-                )}
+                ))}
               </div>
-            ))}
+            </section>
+          )}
+
+          {/* Contact Details */}
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold mb-4 text-gray-700">Contact Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="relative">
+                <FaPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                <input
+                  type="tel"
+                  placeholder="Mobile Number"
+                  value={contactInfo.phone}
+                  onChange={e => handleContactChange('phone', e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+                />
+                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+              </div>
+              <div className="relative">
+                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={contactInfo.email}
+                  onChange={e => handleContactChange('email', e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+                />
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              </div>
+            </div>
+          </section>
+        </section>
+        {/* Fare Summary and Proceed Button */}
+        <section className="mb-8 xl:w-80">
+          <FareSummary selectedSeats={selectedSeats} seatCost={seatCost} />
+          <div className="mt-6">
+            <button 
+              onClick={handleProceed}
+              className="w-full bg-blue-600 text-white py-4 rounded-lg font-semibold hover:bg-blue-800 transform hover:scale-105 transition duration-300 shadow-md"
+            >
+              Proceed with Booking
+            </button>
           </div>
         </section>
-      )}
-
-      {/* Contact Details */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-bold mb-4 text-gray-700">Contact Details</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="relative">
-            <FaPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
-            <input
-              type="tel"
-              placeholder="Mobile Number"
-              value={contactInfo.phone}
-              onChange={e => handleContactChange('phone', e.target.value)}
-              className="w-full pl-12 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
-            />
-            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
-          </div>
-          <div className="relative">
-            <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
-            <input
-              type="email"
-              placeholder="Email"
-              value={contactInfo.email}
-              onChange={e => handleContactChange('email', e.target.value)}
-              className="w-full pl-12 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-          </div>
-        </div>
-      </section>
-
-      {/* Fare Summary and Proceed Button */}
-      <section className="mb-8">
-        <FareSummary selectedSeats={selectedSeats} seatCost={seatCost} />
-        <div className="mt-6">
-          <button 
-            onClick={handleProceed}
-            className="w-full bg-blue-600 text-white py-4 rounded-lg font-semibold hover:bg-blue-800 transform hover:scale-105 transition duration-300 shadow-md"
-          >
-            Proceed with Booking
-          </button>
-        </div>
-      </section>
+      </main>
     </div>
-  );
-};
-
+);
+}
 export default BookingPage;
