@@ -1,0 +1,40 @@
+{
+  "faqs": [
+    {
+      "question": "How can I book a bus ticket?",
+      "answer": "You can book tickets directly from the 'Book Ticket' page on the HR Roadways website. Simply select your source, destination, and travel date, then proceed with payment."
+    },
+    {
+      "question": "What payment methods are accepted?",
+      "answer": "We accept UPI, debit/credit cards, net banking, and popular wallets. Cash payment is only available at physical ticket counters."
+    },
+    {
+      "question": "How can I check bus timings?",
+      "answer": "Go to the 'Bus Schedule' page and enter your source and destination to view available timings for the day."
+    },
+    {
+      "question": "Can I cancel or reschedule my ticket?",
+      "answer": "Yes. Visit the 'Manage Booking' section, enter your booking ID, and follow the steps to cancel or reschedule as per the cancellation policy."
+    },
+    {
+      "question": "Do you offer student or senior citizen discounts?",
+      "answer": "Yes, HR Roadways provides discounted fares for students and senior citizens. Please carry a valid ID proof when traveling."
+    },
+    {
+      "question": "What happens if my bus is delayed?",
+      "answer": "In case of delays, you will be notified via SMS or email. You can also check real-time status under 'Track Bus' on the website."
+    },
+    {
+      "question": "How can I contact HR Roadways customer support?",
+      "answer": "You can reach us at +91-1800-111-222 (toll-free) or email us at support@hrroadways.in."
+    },
+    {
+      "question": "Is there a luggage limit?",
+      "answer": "Each passenger is allowed up to 20kg of luggage. For additional baggage, please contact the bus station staff."
+    },
+    {
+      "question": "Do buses have Wi-Fi and charging points?",
+      "answer": "Most HR Roadways premium buses are equipped with free Wi-Fi and mobile charging points."
+    }
+  ]
+}
