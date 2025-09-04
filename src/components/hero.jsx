@@ -20,14 +20,13 @@ import { fallbackBusStands, fallbackBusData } from "../data/fallbackData";
 import "../styles/hero.css";
 import "../styles/modal.css";
 
+// Local YYYY-MM-DD (safer than toISOString due to time zones)
+const TODAY_STR = new Date().toLocaleDateString("en-CA");
+
 // CustomAlert Component to display info and warning alerts
 const CustomAlert = ({ type, children }) => (
   <div className={`custom-alert ${type === "warning" ? "warning" : "info"}`}>
-    {type === "warning" ? (
-      <AlertCircle className="icon" />
-    ) : (
-      <Info className="icon" />
-    )}
+    {type === "warning" ? <AlertCircle className="icon" /> : <Info className="icon" />}
     <p className="text">{children}</p>
   </div>
 );
@@ -45,7 +44,7 @@ const Hero = () => {
   const [formData, setFormData] = useState({
     src: "",
     dest: "",
-    date: new Date().toISOString().split("T")[0],
+    date: TODAY_STR,
     passengers: 1,
     roundTrip: false,
   });
@@ -59,8 +58,7 @@ const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBus, setSelectedBus] = useState(null);
   const [activeSrcSuggestionIndex, setActiveSrcSuggestionIndex] = useState(-1);
-  const [activeDestSuggestionIndex, setActiveDestSuggestionIndex] =
-    useState(-1);
+  const [activeDestSuggestionIndex, setActiveDestSuggestionIndex] = useState(-1);
   const [isLoading, setIsLoading] = useState(true);
 
   const inputRefs = useRef([]);
@@ -108,10 +106,18 @@ const Hero = () => {
       });
   }, []);
 
-  // Handle input change for form fields
+  // Handle input change for form fields (with past-date guard)
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type, checked } = event.target;
+
+    // Block any manual past-date entry
+    if (name === "date") {
+      const next = value < TODAY_STR ? TODAY_STR : value;
+      setFormData((prev) => ({ ...prev, date: next }));
+      return;
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
 
     if (name === "src") {
       const filtered = busStands
@@ -156,9 +162,7 @@ const Hero = () => {
             formData.roundTrip &&
             bus.from.toLowerCase() === formData.dest.toLowerCase() &&
             bus.via?.toLowerCase().includes(formData.src.toLowerCase());
-          return (
-            isExactRoute || isReverseRoute || isViaRoute || isViaReverseRoute
-          );
+          return isExactRoute || isReverseRoute || isViaRoute || isViaReverseRoute;
         });
         setBuses(filteredBuses);
       })
@@ -180,9 +184,7 @@ const Hero = () => {
             formData.roundTrip &&
             bus.from.toLowerCase() === formData.dest.toLowerCase() &&
             bus.Via?.toLowerCase().includes(formData.src.toLowerCase());
-          return (
-            isExactRoute || isReverseRoute || isViaRoute || isViaReverseRoute
-          );
+          return isExactRoute || isReverseRoute || isViaRoute || isViaReverseRoute;
         });
         setBuses(filteredBuses);
       });
@@ -270,48 +272,48 @@ const Hero = () => {
         <div className="content-grid">
           <CustomCard className="form-card dark:bg-gray-950 dark:text-white">
             <form className="form text-slate-950" onSubmit={handleSubmit}>
-            <div className="swap-wrapper">
-              <FormInput
-                placeholder="Departure location"
-                label={t("hero.departure")}
-                name="src"
-                value={formData.src}
-                onChange={handleChange}
-                suggestions={srcSuggestions}
-                showSuggestions={showSrcSuggestions}
-                setShowSuggestions={setShowSrcSuggestions}
-                activeSuggestionIndex={activeSrcSuggestionIndex}
-                setActiveSuggestionIndex={setActiveSrcSuggestionIndex}
-              />
-              {/*  ADDING A SWAP BUTTTON HERE */}
-              <button
-                type="button"
-                onClick={() =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    src: prev.dest,
-                    dest: prev.src,
-                  }))
-                }
-                className="swap-btn"
-                title="Swap locations"
-              >
-                <Repeat size={20} />
-              </button>
-            
-              <FormInput
-                placeholder="Destination city or address"
-                label={t("hero.arrival")}
-                name="dest"
-                value={formData.dest}
-                onChange={handleChange}
-                suggestions={destSuggestions}
-                showSuggestions={showDestSuggestions}
-                setShowSuggestions={setShowDestSuggestions}
-                activeSuggestionIndex={activeDestSuggestionIndex}
-                setActiveSuggestionIndex={setActiveDestSuggestionIndex}
-                disabled={!formData.src}
-              />
+              <div className="swap-wrapper">
+                <FormInput
+                  placeholder="Departure location"
+                  label={t("hero.departure")}
+                  name="src"
+                  value={formData.src}
+                  onChange={handleChange}
+                  suggestions={srcSuggestions}
+                  showSuggestions={showSrcSuggestions}
+                  setShowSuggestions={setShowSrcSuggestions}
+                  activeSuggestionIndex={activeSrcSuggestionIndex}
+                  setActiveSuggestionIndex={setActiveSrcSuggestionIndex}
+                />
+                {/*  ADDING A SWAP BUTTTON HERE */}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      src: prev.dest,
+                      dest: prev.src,
+                    }))
+                  }
+                  className="swap-btn"
+                  title="Swap locations"
+                >
+                  <Repeat size={20} />
+                </button>
+
+                <FormInput
+                  placeholder="Destination city or address"
+                  label={t("hero.arrival")}
+                  name="dest"
+                  value={formData.dest}
+                  onChange={handleChange}
+                  suggestions={destSuggestions}
+                  showSuggestions={showDestSuggestions}
+                  setShowSuggestions={setShowDestSuggestions}
+                  activeSuggestionIndex={activeDestSuggestionIndex}
+                  setActiveSuggestionIndex={setActiveDestSuggestionIndex}
+                  disabled={!formData.src}
+                />
               </div>
               <FormInput
                 label={t("schedule.departure")}
@@ -319,6 +321,7 @@ const Hero = () => {
                 type="date"
                 value={formData.date}
                 onChange={handleChange}
+                min={TODAY_STR}
               />
               <FormInput
                 label={t("trip.passengers")}
@@ -357,21 +360,13 @@ const Hero = () => {
             <h3 className="bus-results-heading">{t("hero.allBuses")}</h3>
             <div className="bus-grid">
               {buses.map((bus, index) => (
-                <BusCard
-                  key={index}
-                  bus={bus}
-                  onClick={() => handleBusCardClick(bus)}
-                />
+                <BusCard key={index} bus={bus} onClick={() => handleBusCardClick(bus)} />
               ))}
             </div>
           </div>
         )}
       </div>
-      <BusDetailModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        bus={selectedBus}
-      />
+      <BusDetailModal isOpen={isModalOpen} onClose={closeModal} bus={selectedBus} />
     </div>
   );
 };
@@ -443,9 +438,7 @@ const FormInput = ({
       onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
     >
       <label className="form-label">
-        {name === "src" || name === "dest" ? (
-          <MapPin className="form-icon" />
-        ) : null}
+        {name === "src" || name === "dest" ? <MapPin className="form-icon" /> : null}
         {label}
       </label>
       <input
@@ -462,18 +455,12 @@ const FormInput = ({
         onKeyDown={handleKeyDown}
       />
       {showSuggestions && (
-        <div
-          className={`suggestions-dropdown ${suggestions.length ? "show" : ""}`}
-        >
+        <div className={`suggestions-dropdown ${suggestions.length ? "show" : ""}`}>
           {suggestions.map((suggestion, index) => (
             <div
               key={index}
-              className={`suggestion-item ${
-                index === activeSuggestionIndex ? "active" : ""
-              }`}
-              onMouseDown={() =>
-                onChange({ target: { name, value: suggestion } })
-              }
+              className={`suggestion-item ${index === activeSuggestionIndex ? "active" : ""}`}
+              onMouseDown={() => onChange({ target: { name, value: suggestion } })}
             >
               {suggestion}
             </div>
@@ -491,13 +478,7 @@ const FormCheckbox = ({ label, name, checked, onChange }) => (
       <Repeat className="form-icon mb-3" />
       {label}
     </label>
-    <input
-      type="checkbox"
-      name={name}
-      checked={checked}
-      onChange={onChange}
-      className="form-checkbox ml-2"
-    />
+    <input type="checkbox" name={name} checked={checked} onChange={onChange} className="form-checkbox ml-2" />
   </div>
 );
 
@@ -519,9 +500,7 @@ const BusCard = ({ bus, onClick }) => {
               {bus.Price.includes("₹") ? bus.Price : `₹${bus.Price}`}
             </div>
             <div className="bus-card-price-distance">
-              {bus.Total_Distance.includes("KM")
-                ? bus.Total_Distance
-                : `${bus.Total_Distance} KM`}
+              {bus.Total_Distance.includes("KM") ? bus.Total_Distance : `${bus.Total_Distance} KM`}
             </div>
           </div>
         </div>
@@ -536,10 +515,7 @@ const BusCard = ({ bus, onClick }) => {
           </div>
         </div>
         <div className="distance-bar-wrapper">
-          <div
-            className="distance-bar-fill"
-            style={{ width: `${fillPercentage}%` }}
-          ></div>
+          <div className="distance-bar-fill" style={{ width: `${fillPercentage}%` }}></div>
         </div>
       </div>
     </div>
