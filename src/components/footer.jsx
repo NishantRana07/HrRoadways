@@ -16,7 +16,8 @@ function Footer() {
   }, []);
 
   return (
-    <footer className="footer dark:bg-gray-950 dark:text-white">
+    <footer className="footer w-full">
+
       <div className="footer-bg-overlay" />
       <div className="footer-time">
         <div className="footer-time-content">
