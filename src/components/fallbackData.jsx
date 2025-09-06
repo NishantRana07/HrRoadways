@@ -33,6 +33,30 @@ const sampleData = {
         "readTime": "2 min",
         "author": "Admin",
         "route": "Delhi - Chandigarh"
+      },
+      {
+        "id": 2,
+        "title": "Top Haryana Bus Routes",
+        "content": "A quick guide to some of the most popular and reliable bus routes across Haryana.",
+        "category": "routes",
+        "tags": ["Haryana", "Routes", "Guide"],
+        "date": "2025-09-06",
+        "likes": 5,
+        "readTime": "3 min",
+        "author": "Admin",
+        "route": "Gurugram - Panipat"
+      },
+      {
+        "id": 3,
+        "title": "Service Update: New Express Buses",
+        "content": "We have introduced new express services on key intercity corridors to reduce travel time.",
+        "category": "news",
+        "tags": ["Update", "Express", "Service"],
+        "date": "2025-09-06",
+        "likes": 3,
+        "readTime": "1 min",
+        "author": "Admin",
+        "route": "Ambala - Rohtak"
       }
     ]
   },
@@ -70,6 +94,30 @@ const sampleData = {
         "readTime": "2 मिनट",
         "author": "Admin",
         "route": "दिल्ली - चंडीगढ़"
+      },
+      {
+        "id": 2,
+        "title": "हरियाणा के प्रमुख रूट्स",
+        "content": "हरियाणा के लोकप्रिय और विश्वसनीय बस रूट्स का संक्षिप्त मार्गदर्शक।",
+        "category": "रूट",
+        "tags": ["हरियाणा", "रूट", "गाइड"],
+        "date": "2025-09-06",
+        "likes": 4,
+        "readTime": "3 मिनट",
+        "author": "Admin",
+        "route": "गुरुग्राम - पानीपत"
+      },
+      {
+        "id": 3,
+        "title": "सेवा अपडेट: नई एक्सप्रेस बसें",
+        "content": "मुख्य शहरों के बीच यात्रा समय कम करने के लिए नई एक्सप्रेस सेवाएँ शुरू की गई हैं।",
+        "category": "समाचार",
+        "tags": ["अपडेट", "एक्सप्रेस", "सेवा"],
+        "date": "2025-09-06",
+        "likes": 2,
+        "readTime": "1 मिनट",
+        "author": "Admin",
+        "route": "अम्बाला - रोहतक"
       }
     ]
   }
