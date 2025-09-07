@@ -13,7 +13,6 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import Navigation from './components/nav';
 import Footer from './components/footer';
 import Header from './components/Header';
-
 import BookingPage from './components/BookingPage'; // do not lazy load this
 import Chatbot from './components/Chatbot';
 
@@ -78,51 +77,30 @@ function App() {
 						<Route path='/bestrides' element={<BestRides />} />
 						<Route path='/policy' element={<InfoPage />} />
 						<Route path='/rules' element={<RulesAndGuidelines />} />
-						<Route
-							path='/under-construction'
-							element={<UnderConstruction />}
-						/>
-						<Route
-							path='/contactUs'
-							element={<Navigate to='/contact' replace />}
-						/>
+						<Route path='/under-construction' element={<UnderConstruction />} />
+						<Route path='/contactUs' element={<Navigate to='/contact' replace />} />
 						<Route path='/contact' element={<ContactUs />} />
 						<Route path='/blog' element={<Blog />} />
 						<Route path='/payment' element={<PaymentOptions />} />
 						<Route path='/track' element={<BusTracker />} />
-						<Route
-							path='/luxury'
-							element={<RoyalHaryanaTourism />}
-						/>
+						<Route path='/luxury' element={<RoyalHaryanaTourism />} />
 						<Route path='/donate' element={<DonatePage />} />
 						<Route path='/services' element={<ServicesPage />} />
-						<Route
-							path='/travellocations'
-							element={<TravelLocations />}
-						/>
+						<Route path='/travellocations' element={<TravelLocations />} />
 						<Route path='/helpline' element={<HelplinePage />} />
 						<Route path='/schedule' element={<WeeklyTimetable />} />
 						<Route path='/reviews' element={<Reviews />} />
-						<Route
-							path='/affiliate'
-							element={<AffiliateProgram />}
-						/>
+						<Route path='/affiliate' element={<AffiliateProgram />} />
 						<Route path='/card' element={<BusCard />} />
 						<Route path='/guide' element={<Tutorial />} />
 						<Route path='/tour-guide' element={<TourGuidePage />} />
-						<Route
-							path='/booking'
-							element={<BookingPageWrapper />}
-						/>
+						<Route path='/booking' element={<BookingPageWrapper />} />
 						<Route path='*' element={<NotFound />} />
 						<Route path='/login' element={<Login />} />
 						{/* <Route path='/register' element={<Register />} /> */} {/* no Register component found */}
 						{/* <Route path='/forgot-password' element={<ForgotPassword />} /> */} {/* no ForgotPassword component found */}
 						<Route path='/mybookings' element={<MyBookings />} />
-						<Route
-							path='/yash'
-							element={<h1>Yash&apos;s Page</h1>}
-						/>
+						<Route path='/yash' element={<h1>Yash&apos;s Page</h1>} />
 						<Route path='/toast-test' element={<ToastTest />} />
 					</Routes>
 				</Suspense>
