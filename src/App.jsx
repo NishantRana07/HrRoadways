@@ -49,6 +49,7 @@ const Login = lazy(() => import('./components/Login'));
 const MyBookings = lazy(() => import('./components/Userprofile'));
 const NotFound = lazy(() => import('./components/NotFound'));
 const ToastTest = lazy(() => import('./components/ToastTest'));
+const FaqPage = lazy(() => import('./components/faq'));
 
 function BookingPageWrapper() {
 	const location = useLocation();
@@ -79,6 +80,7 @@ function App() {
 								<Route path='/Available' element={<Available />} />
 								<Route path='/about' element={<AboutUs />} />
 								<Route path='/trip' element={<Trip />} />
+								<Route path='/faq' element={<Faq />} />{/* Added FAQ route */}
 								<Route path='/bestrides' element={<BestRides />} />
 								<Route path='/policy' element={<InfoPage />} />
 								<Route path='/rules' element={<RulesAndGuidelines />} />
@@ -151,4 +153,6 @@ function App() {
 	);
 }
 
+
 export default App;
+

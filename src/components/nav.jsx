@@ -117,6 +117,7 @@ const Navigation = () => {
               <NavLink to="/about" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.about')}</NavLink>
               <NavLink to="/blog" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.blog')}</NavLink>
               <NavLink to="/donate" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.donate')}</NavLink>
+              <NavLink to="/faq" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.faq')}</NavLink>
               <NavLink to="/helpline" className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center text-base font-semibold ml-4 dark:bg-blue-600 dark:hover:bg-blue-500">
                 <Phone className="w-4 h-4 mr-1" />
                 {t('nav.helpline')}
@@ -221,6 +222,7 @@ const Navigation = () => {
             <li><NavLink to="/about" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.about')}</NavLink></li>
             <li><NavLink to="/blog" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.blog')}</NavLink></li>
             <li><NavLink to="/donate" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.donate')}</NavLink></li>
+            <li><NavLink to="/faq" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.faq')}</NavLink></li>
             <li><NavLink to="/helpline" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.helpline')}</NavLink></li>
             {!isSignedIn && (
               <>
@@ -239,7 +241,7 @@ const Navigation = () => {
                   >
                     Sign Up
                   </button>
-                </li>
+                </li> 
               </>
             )}
             {isSignedIn && (
@@ -263,3 +265,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
