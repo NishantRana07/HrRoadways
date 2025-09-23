@@ -73,14 +73,16 @@ const Navigation = () => {
 
       {/* Navbar */}
       <nav className={`sticky top-0 z-50 w-full ${isScrolled ? 'shadow-lg bg-white dark:bg-gray-800' : 'bg-white/95 dark:bg-gray-900'} transition-all duration-300`}>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2">
           <div className="flex justify-between items-center h-16">
-            <NavLink to="/" className="flex items-center space-x-2">
+            <div className='flex items-center mr-9'>
+            <NavLink to="/" className="flex items-center space-x-1">
               <img src={Logo} alt="Haryana Roadways Logo" className="w-8 h-8" />
               <span className="font-bold text-xl text-blue-900 dark:text-white">
                 Haryana Roadways
               </span>
             </NavLink>
+            </div>
 
             {/* Desktop Links */}
             <div className="hidden md:flex items-center space-x-6">
@@ -103,7 +105,7 @@ const Navigation = () => {
                     <NavLink
                       key={idx}
                       to={item.path}
-                      className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-200 dark:hover:bg-gray-600"
+                      className="block px-2 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-200 dark:hover:bg-gray-600"
                       onClick={() => setIsServicesOpen(false)}
                     >
                       {item.title}
@@ -117,8 +119,8 @@ const Navigation = () => {
               <NavLink to="/about" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.about')}</NavLink>
               <NavLink to="/blog" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.blog')}</NavLink>
               <NavLink to="/donate" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.donate')}</NavLink>
-              <NavLink to="/helpline" className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center text-base font-semibold ml-4 dark:bg-blue-600 dark:hover:bg-blue-500">
-                <Phone className="w-4 h-4 mr-1" />
+              <NavLink to="/helpline" className="bg-blue-800 text-white h-12 px-2 py-2 rounded-lg hover:bg-blue-700 transition flex items-center text-base font-semibold ml-2 dark:bg-blue-600 dark:hover:bg-blue-500">
+                <Phone className="w-5 h-5" />
                 {t('nav.helpline')}
               </NavLink>
               <ThemeToggle />
@@ -126,7 +128,7 @@ const Navigation = () => {
               {isSignedIn ? (
                 <>
                   <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-2 rounded-lg transition"
                     onClick={() => {
                       // Navigate to profile or bookings page
                       window.location.href = "/mybookings";
@@ -140,13 +142,13 @@ const Navigation = () => {
                   {/*  Conditionally render Login/SignUp buttons if user is not logged in */}
                   <button
                     onClick={() => openModal("login")}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition mr-2"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-2 rounded-lg transition mr-2"
                   >
                     Login
                   </button>
                   <button
                     onClick={() => openModal("signup")}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-1 py-2 rounded-lg transition"
                   >
                     Register
                   </button>
