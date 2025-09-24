@@ -231,6 +231,7 @@ const Navigation = () => {
             <li><NavLink to="/about" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.about')}</NavLink></li>
             <li><NavLink to="/blog" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.blog')}</NavLink></li>
             <li><NavLink to="/donate" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.donate')}</NavLink></li>
+            <li><NavLink to="/faq" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.faq')}</NavLink></li>
             <li><NavLink to="/helpline" onClick={toggleSidebar} className="block py-2 text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400">{t('nav.helpline')}</NavLink></li>
             {!isSignedIn && (
               <>
@@ -249,7 +250,7 @@ const Navigation = () => {
                   >
                     Sign Up
                   </button>
-                </li>
+                </li> 
               </>
             )}
             {isSignedIn && (
@@ -273,3 +274,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+

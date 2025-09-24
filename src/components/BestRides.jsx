@@ -312,10 +312,10 @@ const BestRides = () => {
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center pb-8"> {/* Added padding-bottom */}
           <div className="text-black">
-            <h1 className="text-5xl font-bold mb-4">
+            <h1 className="text-5xl font-bold mb-4 text-white">
               Experience Premium Travel
             </h1>
-            <p className="text-xl mb-8">Discover why our premium routes offer the best travel experience in Haryana</p>
+            <p className="text-xl mb-8 text-blue-200">Discover why our premium routes offer the best travel experience in Haryana</p>
             <button 
               onClick={() => setShowFleetModal(true)}
               className="bg-blue-600 text-white px-8 py-3 rounded-full flex items-center space-x-2 hover:bg-blue-700 transition-all"
