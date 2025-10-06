@@ -52,7 +52,7 @@ const Navigation = () => {
   const toggleSidebar = () => setIsMobileMenuOpen(x => !x);
 
   return (
-    <navbar className="w-full">
+    <div className="w-full">
       {/* Top Bar */}
       <div className="bg-blue-900 text-white py-2 hidden md:block w-full">
         <div className="container mx-auto px-4 flex justify-between items-center text-sm">
@@ -73,17 +73,19 @@ const Navigation = () => {
 
       {/* Navbar */}
       <nav className={`sticky top-0 z-50 w-full ${isScrolled ? 'shadow-lg bg-white dark:bg-gray-800' : 'bg-white/95 dark:bg-gray-900'} transition-all duration-300`}>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2">
           <div className="flex justify-between items-center h-16">
-            <NavLink to="/" className="flex items-center space-x-2">
-              <img src={Logo} alt="Haryana Roadways Logo" className="w-8 h-8" />
-              <span className="font-bold text-xl text-blue-900 dark:text-white">
-                Haryana Roadways
-              </span>
-            </NavLink>
+            <div className='flex items-center mr-9'>
+              <NavLink to="/" className="flex items-center space-x-1">
+                <img src={Logo} alt="Haryana Roadways Logo" className="w-8 h-8" />
+                <span className="font-bold text-xl text-blue-900 dark:text-white">
+                  Haryana Roadways
+                </span>
+              </NavLink>
+            </div>
 
             {/* Desktop Links */}
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden lg:flex items-center space-x-4">
               <NavLink to="/" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">
                 {t('nav.home')}
               </NavLink>
@@ -103,7 +105,7 @@ const Navigation = () => {
                     <NavLink
                       key={idx}
                       to={item.path}
-                      className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-200 dark:hover:bg-gray-600"
+                      className="block px-2 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-200 dark:hover:bg-gray-600"
                       onClick={() => setIsServicesOpen(false)}
                     >
                       {item.title}
@@ -118,7 +120,7 @@ const Navigation = () => {
               <NavLink to="/blog" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.blog')}</NavLink>
               <NavLink to="/donate" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.donate')}</NavLink>
               <NavLink to="/faq" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.faq')}</NavLink>
-              <NavLink to="/helpline" className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center text-base font-semibold ml-4 dark:bg-blue-600 dark:hover:bg-blue-500">
+              <NavLink to="/helpline" className="bg-blue-800 text-white px-2 rounded-lg hover:bg-blue-700 transition flex items-center text-base font-semibold ml-4 dark:bg-blue-600 dark:hover:bg-blue-500">
                 <Phone className="w-4 h-4 mr-1" />
                 {t('nav.helpline')}
               </NavLink>
@@ -127,7 +129,7 @@ const Navigation = () => {
               {isSignedIn ? (
                 <>
                   <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-2 rounded-lg transition"
                     onClick={() => {
                       // Navigate to profile or bookings page
                       window.location.href = "/mybookings";
@@ -141,13 +143,13 @@ const Navigation = () => {
                   {/*  Conditionally render Login/SignUp buttons if user is not logged in */}
                   <button
                     onClick={() => openModal("login")}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition mr-2"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-2 rounded-lg transition mr-2"
                   >
                     Login
                   </button>
                   <button
                     onClick={() => openModal("signup")}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-1 py-2 rounded-lg transition"
                   >
                     Register
                   </button>
@@ -157,7 +159,7 @@ const Navigation = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center">
+            <div className="lg:hidden flex items-center">
               <button className="text-blue-900 focus:outline-none dark:text-white" onClick={toggleSidebar} aria-label="Toggle menu">
                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -166,13 +168,20 @@ const Navigation = () => {
         </div>
       </nav>
 
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+      
       {/* Mobile Sidebar */}
-      <div className={`fixed inset-y-0 right-0 w-64 bg-white shadow-lg transform ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-50 md:hidden dark:bg-gray-800 dark:shadow-xl`}>
+      <div className={`fixed inset-y-0 right-0 w-64 bg-white shadow-lg transform ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-50 lg:hidden dark:bg-gray-800 dark:shadow-xl`}>
         <div className="p-4 h-full overflow-y-auto">
           {/* Close button */}
           <div className="flex justify-end mb-4">
             <button
-              onClick={toggleSidebar}
+              onClick={() => setIsMobileMenuOpen(false)}
               className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
               aria-label="Close menu"
             >
@@ -255,12 +264,12 @@ const Navigation = () => {
             )}
           </ul>
         </div>
-
       </div>
-            {/* Conditionally Render Modals */}
-            {modalType === 'login' && <Login />}
-            {modalType === 'signup' && <SignUpModal />}
-    </navbar>
+
+      {/* Conditionally Render Modals */}
+      {modalType === 'login' && <Login />}
+      {modalType === 'signup' && <SignUpModal />}
+    </div>
   );
 };
 
