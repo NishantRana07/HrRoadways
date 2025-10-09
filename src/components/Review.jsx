@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"; 
 import { FaStar, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Loading from "./Loading";
@@ -50,7 +50,6 @@ const Reviews = ({ isHindi }) => {
         },
       ],
     },
-    // Add more reviews here
     {
       name: "Priya Sharma",
       date: "2025-02-12",
@@ -102,6 +101,7 @@ const Reviews = ({ isHindi }) => {
       replies: [],
     },
   ]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [sortTopic, setSortTopic] = useState("All");
   const [newReview, setNewReview] = useState({
@@ -115,6 +115,8 @@ const Reviews = ({ isHindi }) => {
     photo: null,
     replies: [],
   });
+
+  const [errors, setErrors] = useState({});
   const [newReply, setNewReply] = useState("");
   const reviewsPerPage = 5;
 
@@ -130,28 +132,66 @@ const Reviews = ({ isHindi }) => {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif"];
+      if (!allowedTypes.includes(file.type)) {
+        setErrors({ ...errors, photo: "Only JPG, PNG, or GIF files are allowed." });
+        return;
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        setErrors({ ...errors, photo: "File size must be less than 2MB." });
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setNewReview({ ...newReview, photo: reader.result });
       };
       reader.readAsDataURL(file);
+      setErrors({ ...errors, photo: null });
     }
+  };
+
+  // ✅ Advanced validation
+  const validateReview = () => {
+    const newErrors = {};
+
+    if (!newReview.name || newReview.name.trim().length < 3) {
+      newErrors.name = "Name must be at least 3 characters long.";
+    }
+
+    if (!newReview.comment || newReview.comment.trim().length < 10) {
+      newErrors.comment = "Comment must be at least 10 characters long.";
+    }
+
+    if (!newReview.rating || newReview.rating === 0) {
+      newErrors.rating = "Please select a rating.";
+    }
+
+    if (!newReview.topic || newReview.topic === "All") {
+      newErrors.topic = "Please select a valid topic.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setReviews([...reviews, newReview]);
-    setNewReview({
-      name: "",
-      date: new Date().toISOString().split("T")[0],
-      rating: 0,
-      comment: "",
-      likes: 0,
-      dislikes: 0,
-      topic: "All",
-      photo: null,
-      replies: [],
-    });
+    if (validateReview()) {
+      setReviews([...reviews, newReview]);
+      setNewReview({
+        name: "",
+        date: new Date().toISOString().split("T")[0],
+        rating: 0,
+        comment: "",
+        likes: 0,
+        dislikes: 0,
+        topic: "All",
+        photo: null,
+        replies: [],
+      });
+      setErrors({});
+    }
   };
 
   const handleLike = (index) => {
@@ -211,6 +251,7 @@ const Reviews = ({ isHindi }) => {
         {currentLanguage.title}
       </h1>
       <div className="flex flex-col-reverse lg:flex-row">
+        {/* Reviews Section */}
         <div className="w-full lg:w-2/3 lg:pr-10">
           <div className="mb-4">
             <label className="block mb-2 text-lg font-semibold">
@@ -220,7 +261,7 @@ const Reviews = ({ isHindi }) => {
               <select
                 value={sortTopic}
                 onChange={(e) => setSortTopic(e.target.value)}
-                className="block w-full px-4 py-2 pr-8 leading-tight transition duration-200 ease-in-out bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:shadow-outline"
+                className="block w-full px-4 py-2 pr-8 leading-tight bg-white border border-gray-300 rounded appearance-none focus:outline-none focus:shadow-outline"
               >
                 {currentLanguage.topics.map((topic, index) => (
                   <option key={index} value={topic}>
@@ -239,11 +280,13 @@ const Reviews = ({ isHindi }) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col space-y-6 reviews-section dark:bg-gray-950 dark:text-white">
+
+          {/* Review Cards */}
+          <div className="flex flex-col space-y-6 reviews-section">
             {currentReviews.map((review, index) => (
               <motion.div
                 key={index}
-                className="p-6 transition-all bg-white rounded-lg shadow-md hover:shadow-lg"
+                className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg"
                 whileHover={{ scale: 1.02 }}
               >
                 <div className="flex items-center justify-between">
@@ -278,35 +321,35 @@ const Reviews = ({ isHindi }) => {
                   <div className="flex items-center space-x-4">
                     <button
                       onClick={() => handleLike(index)}
-                      className="flex items-center text-green-500 transition hover:text-green-600"
+                      className="flex items-center text-green-500 hover:text-green-600"
                     >
                       <FaThumbsUp className="mr-2" /> {review.likes}
                     </button>
                     <button
                       onClick={() => handleDislike(index)}
-                      className="flex items-center text-red-500 transition hover:text-red-600"
+                      className="flex items-center text-red-500 hover:text-red-600"
                     >
                       <FaThumbsDown className="mr-2" /> {review.dislikes}
                     </button>
                   </div>
                   <p className="text-gray-500">{review.topic}</p>
                 </div>
+
+                {/* Replies */}
                 {review.replies.map((reply, replyIndex) => (
                   <div
                     key={replyIndex}
                     className="p-4 mt-4 ml-6 bg-gray-100 rounded-lg shadow-inner"
                   >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800">
-                          {reply.name}
-                        </h3>
-                        <p className="text-gray-500">{reply.date}</p>
-                      </div>
-                    </div>
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      {reply.name}
+                    </h3>
+                    <p className="text-gray-500">{reply.date}</p>
                     <p className="mt-2 text-gray-700">{reply.comment}</p>
                   </div>
                 ))}
+
+                {/* Add Reply */}
                 <div className="mt-4 ml-6">
                   <textarea
                     value={newReply}
@@ -316,7 +359,7 @@ const Reviews = ({ isHindi }) => {
                   ></textarea>
                   <button
                     onClick={() => handleReplySubmit(index)}
-                    className="px-4 py-2 text-white transition bg-blue-500 rounded hover:bg-blue-600"
+                    className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
                   >
                     {currentLanguage.addReply}
                   </button>
@@ -324,10 +367,12 @@ const Reviews = ({ isHindi }) => {
               </motion.div>
             ))}
           </div>
+
+          {/* Pagination */}
           <div className="flex items-center justify-between mt-6">
             <button
               onClick={handlePreviousPage}
-              className="px-4 py-2 text-white transition bg-blue-500 rounded hover:bg-blue-600"
+              className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
               disabled={currentPage === 1}
             >
               {currentLanguage.previous}
@@ -335,13 +380,15 @@ const Reviews = ({ isHindi }) => {
             <span>{`Page ${currentPage} of ${totalPages}`}</span>
             <button
               onClick={handleNextPage}
-              className="px-4 py-2 text-white transition bg-blue-500 rounded hover:bg-blue-600"
+              className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
               disabled={currentPage === totalPages}
             >
               {currentLanguage.next}
             </button>
           </div>
         </div>
+
+        {/* Add Review Form */}
         <div className="w-full mb-10 lg:w-1/3 lg:pl-10 lg:mb-0">
           <motion.form
             onSubmit={handleSubmit}
@@ -351,6 +398,8 @@ const Reviews = ({ isHindi }) => {
             <h2 className="mb-4 text-2xl font-semibold">
               {currentLanguage.addReview}
             </h2>
+
+            {/* Name */}
             <div className="mb-4">
               <input
                 type="text"
@@ -359,9 +408,13 @@ const Reviews = ({ isHindi }) => {
                 onChange={handleInputChange}
                 placeholder={currentLanguage.namePlaceholder}
                 className="w-full p-2 border border-gray-300 rounded"
-                required
               />
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+              )}
             </div>
+
+            {/* Comment */}
             <div className="mb-4">
               <textarea
                 name="comment"
@@ -369,9 +422,13 @@ const Reviews = ({ isHindi }) => {
                 onChange={handleInputChange}
                 placeholder={currentLanguage.commentPlaceholder}
                 className="w-full p-2 border border-gray-300 rounded"
-                required
               ></textarea>
+              {errors.comment && (
+                <p className="mt-1 text-sm text-red-500">{errors.comment}</p>
+              )}
             </div>
+
+            {/* Topic */}
             <div className="mb-4">
               <label className="block mb-2">{currentLanguage.sortBy}: </label>
               <select
@@ -386,7 +443,12 @@ const Reviews = ({ isHindi }) => {
                   </option>
                 ))}
               </select>
+              {errors.topic && (
+                <p className="mt-1 text-sm text-red-500">{errors.topic}</p>
+              )}
             </div>
+
+            {/* Photo */}
             <div className="mb-4">
               <label className="block mb-2">{currentLanguage.addPhoto}: </label>
               <input
@@ -395,7 +457,12 @@ const Reviews = ({ isHindi }) => {
                 onChange={handlePhotoChange}
                 className="w-full p-2 border border-gray-300 rounded"
               />
+              {errors.photo && (
+                <p className="mt-1 text-sm text-red-500">{errors.photo}</p>
+              )}
             </div>
+
+            {/* Rating */}
             <div className="mb-4">
               <label className="block mb-2">Rating: </label>
               <div className="flex space-x-2">
@@ -404,15 +471,22 @@ const Reviews = ({ isHindi }) => {
                     key={i}
                     onClick={() => handleStarClick(i + 1)}
                     className={`h-8 w-8 cursor-pointer ${
-                      i < newReview.rating ? "text-yellow-500" : "text-gray-300"
+                      i < newReview.rating
+                        ? "text-yellow-500"
+                        : "text-gray-300"
                     }`}
                   />
                 ))}
               </div>
+              {errors.rating && (
+                <p className="mt-1 text-sm text-red-500">{errors.rating}</p>
+              )}
             </div>
+
+            {/* Submit */}
             <button
               type="submit"
-              className="px-4 py-2 text-white transition bg-blue-500 rounded hover:bg-blue-600"
+              className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
             >
               {currentLanguage.submit}
             </button>
