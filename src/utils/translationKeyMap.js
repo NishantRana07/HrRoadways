@@ -9,7 +9,7 @@ export const translationKeyMap = {
     about: "nav.about",
     services: "nav.services",
     contact: "nav.contact",
-    trip: "nav.trip",
+    trip: "nav.trip",   
     track: "nav.track",
     blog: "nav.blog",
     donate: "nav.donate",
@@ -49,6 +49,19 @@ export const translationKeyMap = {
     rides: "footer.rides",
     privacy: "footer.privacy",
     luxury: "footer.luxury",
+  },
+
+   // 🌟✨ ADDED NEWSLETTER SECTION KEYS ✨🌟
+    newsletterTitle: "footer.newsletterTitle", // "Subscribe to our Newsletter"
+    newsletterSubtitle: "footer.newsletterSubtitle", // "Get latest updates and offers"
+    newsletterPlaceholder: "footer.newsletterPlaceholder", // "Enter your email"
+    newsletterSubscribe: "footer.newsletterSubscribe", // "Subscribe"
+    newsletterNoThanks: "footer.newsletterNoThanks", // "No thanks"
+    newsletterSuccess: "footer.newsletterSuccess", // "You have successfully subscribed!"
+    newsletterError: "footer.newsletterError", // "Something went wrong. Please try again."
+    newsletterTerms: "footer.newsletterTerms", // "By subscribing, you agree to our"
+    newsletterPrivacyPolicy: "footer.newsletterPrivacyPolicy", // "Privacy Policy"
+    newsletterTermsOfService: "footer.newsletterTermsOfService", // "Terms of Service"
   },
 
   // About section keys

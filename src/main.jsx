@@ -5,6 +5,11 @@ import App from './App';
 import './index.css';
 import './i18n';
 import "leaflet/dist/leaflet.css";
+
+
+// ✅ Newsletter global CSS (agar footer ke liye alag CSS file ho)
+import './styles/footer.css'; // ✅ Added for Newsletter
+ 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -47,7 +52,10 @@ root.render(
   <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <ErrorBoundary>
+        {/* ✅ Wrap App with Newsletter Context if needed */}
+         <NewsletterProvider> 
         <App />
+         </NewsletterProvider> 
       </ErrorBoundary>
     </ClerkProvider>
   </React.StrictMode>
@@ -66,3 +74,5 @@ root.render(
 //       });
 //   });
 // }
+
+

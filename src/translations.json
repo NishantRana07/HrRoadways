@@ -1,0 +1,14 @@
+{
+  "newsletter": {
+    "title": "Subscribe to our Newsletter",
+    "description": "Get the latest updates, offers, and travel tips delivered straight to your inbox!",
+    "emailPlaceholder": "Enter your email address",
+    "subscribe": "Subscribe",
+    "noThanks": "No Thanks",
+    "termsText": "By subscribing, you agree to our",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy"
+  }
+
+}
+  

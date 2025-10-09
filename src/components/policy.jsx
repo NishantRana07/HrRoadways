@@ -6,7 +6,7 @@ import {
   Phone, 
   Mail, 
   CreditCard, 
-  Headphones, 
+  Headphones,
   AlertTriangle, 
   Lock, 
   Hammer,
@@ -52,6 +52,10 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
     email: '',
     message: ''
   });
+
+  const [newsletterEmail, setNewsletterEmail] = useState(''); // 🔹 ADD: Newsletter email state
+  const [isSubscribing, setIsSubscribing] = useState(false); // 🔹 ADD: Subscribing loader
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef(null);
 
@@ -77,6 +81,19 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
     setFormData({ name: '', email: '', message: '' });
     setIsSubmitting(false);
     setSupportModalOpen(false);
+  };
+
+  // 🔹 ADD: Newsletter subscription submit handler
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    if (!newsletterEmail) return;
+    setIsSubscribing(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    console.log('Subscribed Email:', newsletterEmail);
+    setNewsletterEmail('');
+    setIsSubscribing(false);
+    alert('Thank you for subscribing!');
   };
 
   useEffect(() => {
@@ -299,6 +316,62 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
                   required
                 />
               </div>
+
+                      {/* 🔹 ADD: Newsletter Subscription Section */}
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Subscribe to our Newsletter</h3>
+            <form onSubmit={handleNewsletterSubmit} className="flex flex-col space-y-3">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800 dark:border-gray-700"
+                required
+              />
+              <div className="flex space-x-3">
+                <button
+                  type="submit"
+                  disabled={isSubscribing}
+                  className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 flex items-center justify-center"
+                >
+                  {isSubscribing ? (
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  ) : (
+                    "Subscribe"
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNewsletterEmail('')}
+                  className="flex-1 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 rounded-lg hover:bg-gray-400 transition-all duration-300"
+                >
+                  No thanks
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                By subscribing, you agree to our{' '}
+                <a href="/privacy-policy" className="underline">Privacy Policy</a> and{' '}
+                <a href="/terms-of-service" className="underline">Terms of Service</a>.
+              </p>
+            </form>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Contact</h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Email: support@example.com
+            </p>
+            <p className="text-gray-600 dark:text-gray-300">
+              Phone: +91 12345 67890
+            </p>
+          </div>
+        </div>
+        <div className="text-center text-gray-500 dark:text-gray-400 py-4 border-t border-gray-200 dark:border-gray-700">
+          &copy; {new Date().getFullYear()} HR Roadways. All rights reserved.
+        </div>
+      </footer>
+          
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -321,4 +394,6 @@ const InfoPage = ({ initialLanguage = 'en' }) => {
   );
 };
 
+
 export default InfoPage;
+
