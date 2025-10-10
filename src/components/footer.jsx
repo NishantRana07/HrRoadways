@@ -8,6 +8,10 @@ function Footer() {
   const { t } = useTranslation();
   const [currentTime, setCurrentTime] = useState(new Date());
 
+  // 🟩 ADD HERE — Newsletter local state
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
   useEffect(() => {
     const timeInterval = setInterval(() => {
       setCurrentTime(new Date());
@@ -15,6 +19,14 @@ function Footer() {
     return () => clearInterval(timeInterval);
   }, []);
 
+// 🟩 ADD HERE — handle subscribe button
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setSubscribed(true);
+    setEmail("");
+  };
+  
   return (
     <footer className="footer w-full">
 
@@ -37,6 +49,55 @@ function Footer() {
             <h2 className="footer-title">Haryana Roadways</h2>
           </div>
         </div>
+
+        {/* 🟩 ADD HERE — Newsletter Subscription Section */}
+        <div className="footer-newsletter">
+          <div className="footer-newsletter-header">
+            <Mail className="footer-newsletter-icon" />
+            <h3>{t("footer.newsletterTitle") || "Subscribe to our Newsletter"}</h3>
+          </div>
+
+          {!subscribed ? (
+            <form onSubmit={handleSubscribe} className="footer-newsletter-form">
+              <input
+                type="email"
+                placeholder={t("footer.emailPlaceholder") || "Enter your email"}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="footer-newsletter-input"
+              />
+              <div className="footer-newsletter-buttons">
+                <button type="submit" className="footer-newsletter-btn">
+                  {t("footer.subscribe") || "Subscribe"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEmail("")}
+                  className="footer-newsletter-cancel"
+                >
+                  {t("footer.noThanks") || "No Thanks"}
+                </button>
+              </div>
+              <p className="footer-newsletter-terms">
+                By subscribing, you agree to our{" "}
+                <Link to="/policy" className="footer-link">
+                  {t("footer.privacyPolicy") || "Privacy Policy"}
+                </Link>{" "}
+                and{" "}
+                <Link to="/terms" className="footer-link">
+                  {t("footer.termsOfService") || "Terms of Service"}
+                </Link>.
+              </p>
+            </form>
+          ) : (
+            <p className="footer-newsletter-success">
+              {t("footer.subscribedMessage") ||
+                "Thank you for subscribing! You'll hear from us soon."}
+            </p>
+          )}
+        </div>
+        {/* 🟩 Newsletter section ends here */}
 
         <div className="footer-sections">
           {[
@@ -124,3 +185,4 @@ function Footer() {
 }
 
 export default Footer;
+

@@ -682,4 +682,104 @@ input::placeholder {
 
 .swap-wrapper {
   position: relative;
+
 }
+
+/* Newsletter Subscription Styles (ADD HERE) */
+.newsletter-footer {
+  background-color: #1f2937; /* Dark footer background */
+  color: #f9fafb; /* Light text */
+  padding: 2rem 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.newsletter-footer h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.newsletter-footer p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.newsletter-input-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.newsletter-input-group input[type="email"] {
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  width: 250px;
+  max-width: 100%;
+  outline: none;
+}
+
+.newsletter-input-group button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.newsletter-input-group button.subscribe-btn {
+  background-color: #2563eb;
+  color: white;
+}
+
+.newsletter-input-group button.subscribe-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.newsletter-input-group button.no-thanks-btn {
+  background-color: #6b7280;
+  color: white;
+}
+
+.newsletter-input-group button.no-thanks-btn:hover {
+  background-color: #4b5563;
+}
+
+.newsletter-footer .footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.875rem;
+}
+
+.newsletter-footer .footer-links a {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+.newsletter-footer .footer-links a:hover {
+  color: #60a5fa;
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .newsletter-input-group {
+    flex-direction: column;
+  }
+
+  .newsletter-input-group input[type="email"] {
+    width: 100%;
+  }
+
+  .newsletter-input-group button {
+    width: 100%;
+  }
+}
+/* End Newsletter Subscription Styles */
