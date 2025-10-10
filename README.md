@@ -26,6 +26,8 @@
 | i18next       | Internationalization                       |
 | Tailwind CSS  | Utility-first styling                      |
 | Framer Motion | Smooth, production-ready animations        |
+| Node.js + Express | Backend server                       |
+| Axios         | HTTP client for API requests               |
 
 </div>
 
@@ -96,8 +98,57 @@ To add new translations:
 2. Use the `useTranslation` hook: `const { t } = useTranslation();`
 3. Reference translations with: `{t('key.subkey')}`
 
----
+### Backend Server
 
+This project includes a backend server built with Node.js and Express to handle API requests.
+
+#### API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/health` | GET | Health check endpoint |
+| `/api/smartRoute` | POST | Get smart route suggestions |
+
+#### Smart Route API
+
+The smart route API accepts a POST request with the following JSON body:
+
+```json
+{
+  "source": "Chandigarh",
+  "destination": "Delhi"
+}
+```
+
+It returns route suggestions based on the bus database with optional travel time and distance data from Google Maps API.
+
+### Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# API Keys
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+
+# Database Paths
+DB_PATH=./Databases/State_Database/Haryana.json
+```
+
+To get a Google Maps API key:
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Enable billing for the project
+4. Go to "APIs & Services" > "Library"
+5. Search for "Distance Matrix API" and enable it
+6. Go to "APIs & Services" > "Credentials"
+7. Click "Create Credentials" > "API Key"
+8. Copy the API key and add it to your `.env` file
+
+---
 
 ## File Structure
 
@@ -105,6 +156,9 @@ To add new translations:
 HrRoadways/
 ├── Databases/
 │   └── State_Database/
+├── backend/
+│   ├── routes/
+│   └── mainServer.js
 ├── src/
 │   ├── components/
 │   └── assets/
@@ -126,7 +180,14 @@ HrRoadways/
   npm install
 ```
 
-3. Run the development server to access the site locally:
+3. Create a `.env` file in the root directory with your API keys (see Environment Variables section above)
+
+4. Run the backend server:
+```
+  npm run server
+```
+
+5. In a new terminal, run the development server to access the site locally:
 
 ```
   npm run dev

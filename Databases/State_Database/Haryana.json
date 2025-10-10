@@ -1,0 +1,34 @@
+{
+  "buses": [
+    {
+      "name": "Chandigarh to Delhi Express",
+      "route": "Chandigarh to Delhi",
+      "eta": 45,
+      "stops": ["Sector 17", "Sector 22", "Zirakpur", "Ambala", "Karnal", "Delhi"]
+    },
+    {
+      "name": "Gurgaon Local Service",
+      "route": "Gurgaon to Delhi",
+      "eta": 30,
+      "stops": ["Sikanderpur", "MG Road", "DLF Phase 1", "NHPC Chowk", "Rajiv Chowk"]
+    },
+    {
+      "name": "Hisar to Rohtak Direct",
+      "route": "Hisar to Rohtak",
+      "eta": 60,
+      "stops": ["Hisar Bus Stand", "Beri", "Tohana", "Jind", "Rohtak"]
+    },
+    {
+      "name": "Panipat to Kurukshetra Shuttle",
+      "route": "Panipat to Kurukshetra",
+      "eta": 25,
+      "stops": ["Panipat ISBT", "Samalkha", "Shahbad", "Kurukshetra"]
+    },
+    {
+      "name": "Faridabad Circuit Route",
+      "route": "Faridabad to Delhi",
+      "eta": 35,
+      "stops": ["Sector 15", "NIT", "ESI Hospital", "Badkal Mor", "New Delhi"]
+    }
+  ]
+}
