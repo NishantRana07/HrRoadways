@@ -16,6 +16,8 @@ import Header from './components/Header';
 import EcoRoutes from "./components/EcoRoutes";
 import BookingPage from './components/BookingPage'; // do not lazy load this
 import ThemeWrapper from './components/ThemeWrapper';
+// 🟢 Added — Newsletter Subscription Component Import
+import NewsletterSubscription from './components/NewsletterSubscription'; 
 
 const Hero = lazy(() => import('./components/hero'));
 const Available = lazy(() => import('./components/Available'));
@@ -132,6 +134,10 @@ function App() {
 								<Route path='/toast-test' element={<ToastTest />} />
 							</Routes>
 						</Suspense>
+
+						{/* 🟢 Added Newsletter Section (appears above Footer) */}
+						<NewsletterSubscription />
+						
 						<Footer />
 						<ScrollButton />
 						<ToastContainer
@@ -155,4 +161,5 @@ function App() {
 
 
 export default App;
+
 
