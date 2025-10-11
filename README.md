@@ -1,9 +1,18 @@
-<h1 align="center">HrRoadways</h1>
+
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+  
+  <h1 align="center">HrRoadways</h1>
+  
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 <p align="center">
   <img src="https://img.shields.io/badge/BUILD-grey?style=for-the-badge" />
   <img src="https://img.shields.io/badge/PASSING-brightgreen?style=for-the-badge" />
   <img src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB&style=for-the-badge" />
 </p>
+
+<div align="center"><p><a href="https://github.com/NishantRana07/HrRoadways/issues"><strong>Report a Bug • </strong></a>
+<a href="https://github.com/NishantRana07/HrRoadways/issues"><strong>Request a Feature</strong></a></p>
+</div>
 
 <h4 align="center">
   HrRoadways is a comprehensive project designed to provide users with an intuitive platform to check bus routes, timings, and real-time updates for government bus services.
@@ -12,9 +21,44 @@
   <a href="https://hrroadways.vercel.app/" target="_blank" rel="noopener noreferrer">🌐 Live Demo</a>
 </h2>
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
+## 🌟 Vision
 
+Make public bus info simple, reliable, and accessible to everyone — across languages and devices. HrRoadways aims to reduce travel friction by surfacing accurate routes, schedules, and live updates in a lightweight, easy-to-use web app.
+
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+
+## 🎯 Mission
+
+Provide an inclusive, multilingual platform that:
+- Lets users quickly find bus routes, stops, and timings.
+- Delivers real-time status and useful alerts.
+- Enables community contributions for better local coverage.
+- Keeps privacy, performance, and accessibility as first-class concerns.
+
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+  
+## Why HrRoadways?
+
+HrRoadways solves everyday transit friction by making government bus information easy to find, understand, and use.
+
+- Problem solved: consolidates routes, timings, and live updates into one lightweight web app so commuters don’t need multiple sources.
+- Multilingual by design: supports 13 Indian languages to serve diverse users across regions.
+- Lightweight & fast: built with React + Vite and optimized for low bandwidth and mobile devices.
+- Reliable data focus: integrates authoritative route/schedule sources and simple JSON-backed datasets for quick iteration.
+- Accessibility & inclusivity: semantic UI, keyboard navigation, and language-first UX reduce barriers for all users.
+- Community-driven: contributors can add places, translations, and local corrections to improve coverage.
+- Privacy-conscious: no unnecessary tracking; minimal data collection with clear retention practices.
+- Production-ready: easy to deploy, monitor, and scale with standard tooling (CI, hosting, backups).
+
+ <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+
+## Project Flowchart
+<img width="1125" height="760" alt="Untitled diagram-2025-10-11-075010" src="https://github.com/user-attachments/assets/5a406a55-d242-4b7f-9aec-de0b0194a896" />
+
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+ 
 ## ⚙️ Tech Stack
 
 <div align="center">
@@ -30,20 +74,19 @@
 </div>
 
 
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+  
 ## Our Events - 
 <a href="https://www.elitecoders.xyz/events/1756104358418"><img src="https://github.com/user-attachments/assets/2e87bdb6-aa0d-42e6-a40c-fd00125d64c2"/></a>
 
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+  
 ## 📢 Weekly Shoutouts 🎉
 | Profile | Name | Profile | Name | Profile | Name | Profile | Name |
 |---------|------|---------|------|---------|------|---------|------|
 | <a href="https://github.com/Keshav1605"><img src="https://github.com/Keshav1605.png" width="80" /></a> | [**Keshav1605**](https://github.com/Keshav1605) | <a href="https://github.com/Renu-code123"><img src="https://github.com/Renu-code123.png" width="80" /></a> | [**Soumyosish**](https://github.com/Renu-code123) | <a href="https://github.com/anushkasark08"><img src="https://github.com/anushkasark08.png" width="80" /></a> | [**anjaliitgit**](https://github.com/anushkasark08) | <a href="https://github.com/Aripilli-Bhavana"><img src="https://github.com/Aripilli-Bhavana.png" width="80" /></a> | [**Aripilli-Bhavana**](https://github.com/Aripilli-Bhavana) |
 
-
-
-
-
-
-
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 <h2 align="center">🌏 National Language Support</h2>
 
@@ -69,9 +112,8 @@
 
 </div>
 
-
-
-
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+  
 <h2 align="center">📝 Language Features</h2>
 
 <div align="center">
@@ -87,6 +129,8 @@
 </div>
 
 
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+  
 <h2 align="center">⚡ For Developers</h2>
 
 ### Internationalization (i18n)
@@ -96,8 +140,7 @@ To add new translations:
 2. Use the `useTranslation` hook: `const { t } = useTranslation();`
 3. Reference translations with: `{t('key.subkey')}`
 
----
-
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 ## File Structure
 
@@ -112,7 +155,7 @@ HrRoadways/
 
 - Json Database hosting link - https://jsonblob.com/api/jsonBlob/1333092652136194048
 
----
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 ## Getting Started
 
@@ -137,12 +180,15 @@ HrRoadways/
   A centralized repository to store and manage information about popular places across various locations.
 </h4>
 
----
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 ## Format for Adding Popular Places
 
 To add popular places to the repository, follow the format specified below:
 
+
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+  
 ### File Structure
 
 <pre>
@@ -248,7 +294,7 @@ git push origin your-branch-name
 
 Go to the original repository and click **New Pull Request**.
 
----
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 ## Keeping Your Fork Updated
 
@@ -281,7 +327,7 @@ git push origin main
 
 By following these steps, your pull request will be based on the latest code.
 
----
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 ## Translation Documentation
 
@@ -317,7 +363,7 @@ const currentLanguage = isHindi ? translations.hi : translations.en;
 const handleToggleLanguage = () => setIsHindi(!isHindi);
 ```
 
----
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 ### Adding Translations to New Components
 
@@ -362,17 +408,51 @@ return (
 );
 ```
 
----
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+  
+## Screenshots
+<img width="1910" height="828" alt="Screenshot 2025-10-11 131213" src="https://github.com/user-attachments/assets/b286a143-c5db-45d5-88ce-de7a83ce0f80" />
 
+<img width="1711" height="718" alt="Screenshot 2025-10-11 131235" src="https://github.com/user-attachments/assets/4361b2e0-1e8a-45d9-bbe0-11c046c967a6" />
+
+ <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+ 
+## 🐞 Troubleshooting 
+
+App won't start (dev)
+- Check Node version (use Node 16+).
+- Run npm install in repo root (or frontend folder if separated).
+- Ensure dev server port not in use. Kill conflicting process or change port.
+- Missing translations or UI shows keys
+
+- Confirm locale JSON files exist under src/i18n/locales/.
+- Restart dev server after adding new keys.
+- Use useTranslation() properly and call t('namespace.key').
+- Data not loading (API/DB)
+- Verify the JSON/DB endpoint is reachable (check CORS).
+- If using a hosted JSON blob, ensure the URL is correct and public.
+- Inspect browser console / network tab for 4xx/5xx responses.
+- Images fail to upload or display
+- Confirm storage URL/CORS settings.
+- Check file size limits and client-side compression.
+- Language switch not persisting
+
+- Make sure selected language is saved to localStorage or user profile.
+- Ensure state is read on app init before rendering locale-dependent components.
+- Build/Production issues
+- Verify environment variables for production (API base URL, any keys).
+- Run a local production build (npm run build) and serve the dist to reproduce.
+
+ <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+ 
 ## Best Practices
 
 * **Always apply translation logic** for new content/pages.
 * **Use PNG/JPG** files and compress images before uploading.
 * **Keep your fork updated** before submitting PRs.
 
----
-
-
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+  
 <div align="center">
 
 [🔼 Back to Top](#-hrroadways)
