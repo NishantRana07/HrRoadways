@@ -1,53 +1,53 @@
 {
-  "nav": {
-    "home": "Home",
-    "contact": "Contact",
-    "donate": "Donate",
-    "faq": "FAQ",
-    "about": "About Us",
-    "trip": "Plan Journey",
-    "services": "Services",
-    "track": "Track Bus",
-    "schedule": "Time Table",
-    "tourGuide": "Tour Guide",
-    "travelPackages": "Travel Packages",
-    "helpline": "24x7 Helpline",
-    "blog": "Blog",
-    "quickLinks": "Quick Links",
-    "travellocations": "Travel",
-    "guide": "Guide and Rules",
-    "bestrides": "Best Rides"
-  },
-  "hero": {
-    "heading": "Haryana Roadways - Your Own Bus Service",
-    "subheading": "Your Journey, Our Pride | आपकी यात्रा, हमारा गौरव",
-    "departure": "From",
-    "arrival": "To",
-    "button": "Search Buses",
-    "popular": "Popular Routes",
-    "allBuses": "All Buses",
-    "volvo": "Volvo AC",
-    "superExpress": "Super Express",
-    "ordinary": "Ordinary",
-    "searchPlaceholder": "Search bus stands..."
-  },
-  "packagesPage": {
-    "title": "Exclusive Travel Packages",
-    "offer_valid": "Offer valid until",
-    "book_now": "Book Now",
-    "includes": "Package Includes:"
-  },
-  "packages": {
-    "manali_adventure": {
-      "title": "Manali Adventure Trip",
-      "description": "Experience the thrilling mountains and serene landscapes of Manali."
-    },
-    "jaipur_royal": {
-      "title": "Royal Jaipur Getaway",
-      "description": "Explore the majestic forts and rich culture of the Pink City."
-    }
-  },
-  "register": {
+  "nav": {
+    "home": "Home",
+    "contact": "Contact",
+    "donate": "Donate",
+    "faq": "FAQ",
+    "about": "About Us",
+    "trip": "Plan Journey",
+    "services": "Services",
+    "track": "Track Bus",
+    "schedule": "Time Table",
+    "tourGuide": "Tour Guide",
+    "travelPackages": "Travel Packages",
+    "helpline": "24x7 Helpline",
+    "blog": "Blog",
+    "quickLinks": "Quick Links",
+    "travellocations": "Travel",
+    "guide": "Guide and Rules",
+    "bestrides": "Best Rides"
+  },
+  "hero": {
+    "heading": "Haryana Roadways - Your Own Bus Service",
+    "subheading": "Your Journey, Our Pride | आपकी यात्रा, हमारा गौरव",
+    "departure": "From",
+    "arrival": "To",
+    "button": "Search Buses",
+    "popular": "Popular Routes",
+    "allBuses": "All Buses",
+    "volvo": "Volvo AC",
+    "superExpress": "Super Express",
+    "ordinary": "Ordinary",
+    "searchPlaceholder": "Search bus stands..."
+  },
+   "packagesPage": {
+      "title": "Exclusive Travel Packages",
+      "offer_valid": "Offer valid until",
+      "book_now": "Book Now",
+      "includes": "Package Includes:"
+},
+"packages": {
+   "manali_adventure": {
+       "title": "Manali Adventure Trip",
+       "description": "Experience the thrilling mountains and serene landscapes of Manali."
+   },
+    "jaipur_royal": {
+      "title": "Royal Jaipur Getaway",
+      "description": "Explore the majestic forts and rich culture of the Pink City."
+    }
+},
+ "register": {
     "title": "Register",
     "namePlaceholder": "Enter your name...",
     "emailPlaceholder": "Enter your email...",

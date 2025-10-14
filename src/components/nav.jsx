@@ -109,6 +109,7 @@ const Navigation = () => {
                   ))}
                 </div>
               </div>
+             </div>
 
               <NavLink to="/trip" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.trip')}</NavLink>
               <NavLink to="/travellocations" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.travellocations')}</NavLink>
@@ -116,10 +117,11 @@ const Navigation = () => {
               <NavLink to="/blog" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.blog')}</NavLink>
               <NavLink to="/donate" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.donate')}</NavLink>
               <NavLink to="/faq" className="text-gray-700 hover:text-blue-600 font-medium dark:text-gray-300 dark:hover:text-blue-400">{t('nav.faq')}</NavLink>
-              <NavLink to="/helpline" className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center text-base font-semibold ml-4 dark:bg-blue-600 dark:hover:bg-blue-500">
-                <Phone className="w-4 h-4 mr-1" />
-                {t('nav.helpline')}
-              </NavLink>
+             <NavLink to="/helpline" className={({ isActive }) =>`px-4 py-2 rounded-lg flex items-center text-base font-semibold ml-4 transition ${isActive ? 'bg-blue-800 text-white dark:bg-blue-600'  : 'bg-blue-600 text-gray-200 hover:bg-blue-700 dark:hover:bg-blue-500'}`}>
+<Phone className="w-4 h-4 mr-1" />
+  {t('nav.helpline')}
+</NavLink>
+
 
               <ThemeToggle /> {/* KEPT ThemeToggle from main branch */}
 
