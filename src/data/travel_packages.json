@@ -1,0 +1,22 @@
+[
+  {
+    "id": "PKG001",
+    "i18nKey": "packages.manali_adventure",
+    "imageUrl": "/Places/images/manali.jpg",
+    "duration": "4 Days, 3 Nights",
+    "originalPrice": 12000,
+    "discountedPrice": 9999,
+    "validUntil": "2025-10-31",
+    "includes": ["Round-trip AC Bus", "3-Star Hotel", "Daily Breakfast", "Sightseeing Tour"]
+  },
+  {
+    "id": "PKG002",
+    "i18nKey": "packages.jaipur_royal",
+    "imageUrl": "/Places/images/jaipur.jpg",
+    "duration": "3 Days, 2 Nights",
+    "originalPrice": 8500,
+    "discountedPrice": 6999,
+    "validUntil": "2025-11-15",
+    "includes": ["Round-trip Volvo Bus", "Heritage Hotel", "Welcome Drink", "Fort Entries"]
+  }
+]

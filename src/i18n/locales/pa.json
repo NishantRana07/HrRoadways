@@ -8,7 +8,15 @@
     "services": "ਸੇਵਾਵਾਂ",
     "track": "ਬੱਸ ਟਰੈਕ ਕਰੋ",
     "schedule": "ਸਮਾਂ ਸਾਰਣੀ",
-    "changeLanguage": "ਭਾਸ਼ਾ ਬਦਲੋ"
+    "tourGuide": "ਟੂਰ ਗਾਈਡ",
+    "travelPackages": "ਯਾਤਰਾ ਪੈਕੇਜ",
+    "helpline": "24x7 ਹੈਲਪਲਾਈਨ",
+    "blog": "ਬਲੌਗ",
+    "quickLinks": "ਤੇਜ਼ ਲਿੰਕ",
+    "travellocations": "ਯਾਤਰਾ",
+    "guide": "ਗਾਈਡ ਅਤੇ ਨਿਯਮ",
+    "changeLanguage": "ਭਾਸ਼ਾ ਬਦਲੋ",
+    "bestrides": "ਵਧੀਆ ਸਵਾਰੀਆਂ"
   },
   "hero": {
     "heading": "ਹਰਿਆਣਾ ਰੋਡਵੇਜ - ਤੁਹਾਡੀ ਆਪਣੀ ਬੱਸ ਸੇਵਾ",
@@ -16,13 +24,60 @@
     "departure": "ਕਿੱਥੋਂ",
     "arrival": "ਕਿੱਥੇ",
     "button": "ਬੱਸਾਂ ਖੋਜੋ",
+    "popular": "ਪ੍ਰਸਿੱਧ ਰੂਟ",
+    "allBuses": "ਸਾਰੀਆਂ ਬੱਸਾਂ",
+    "volvo": "ਵੋਲਵੋ ਏਸੀ",
+    "superExpress": "ਸੁਪਰ ਐਕਸਪ੍ਰੈਸ",
+    "ordinary": "ਸਾਧਾਰਨ",
     "searchPlaceholder": "ਬੱਸ ਸਟੈਂਡ ਖੋਜੋ..."
+  },
+  "packagesPage": {
+    "title": "ਵਿਸ਼ੇਸ਼ ਯਾਤਰਾ ਪੈਕੇਜ",
+    "offer_valid": "ਆਫ਼ਰ ਤੱਕ ਵੈਧ ਹੈ",
+    "book_now": "ਹੁਣੇ ਬੁੱਕ ਕਰੋ",
+    "includes": "ਪੈਕੇਜ ਵਿੱਚ ਸ਼ਾਮਲ ਹੈ:"
+  },
+  "packages": {
+    "manali_adventure": {
+      "title": "ਮਨਾਲੀ ਸਾਹਸੀ ਯਾਤਰਾ",
+      "description": "ਮਨਾਲੀ ਦੇ ਰੋਮਾਂਚਕ ਪਹਾੜਾਂ ਅਤੇ ਸ਼ਾਂਤ ਲੈਂਡਸਕੇਪਾਂ ਦਾ ਅਨੁਭਵ ਕਰੋ।"
+    },
+    "jaipur_royal": {
+      "title": "ਸ਼ਾਹੀ ਜੈਪੁਰ ਗੇਟਵੇ",
+      "description": "ਗੁਲਾਬੀ ਸ਼ਹਿਰ ਦੇ ਸ਼ਾਨਦਾਰ ਕਿਲ੍ਹਿਆਂ ਅਤੇ ਅਮੀਰ ਸੱਭਿਆਚਾਰ ਦੀ ਪੜਚੋਲ ਕਰੋ।"
+    }
   },
   "common": {
     "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
     "error": "ਗਲਤੀ ਹੋਈ",
     "submit": "ਜਮ੍ਹਾਂ ਕਰੋ",
-    "cancel": "ਰੱਦ ਕਰੋ"
+    "cancel": "ਰੱਦ ਕਰੋ",
+    "tryAgain": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
+    "save": "ਸੇਵ ਕਰੋ",
+    "edit": "ਸੰਪਾਦਿਤ ਕਰੋ",
+    "delete": "ਮਿਟਾਓ",
+    "confirm": "ਪੁਸ਼ਟੀ ਕਰੋ",
+    "close": "ਬੰਦ ਕਰੋ",
+    "next": "ਅੱਗੇ",
+    "previous": "ਪਿਛਲਾ",
+    "search": "ਖੋਜ",
+    "filter": "ਫਿਲਟਰ",
+    "sort": "ਕ੍ਰਮਬੱਧ ਕਰੋ",
+    "apply": "ਲਾਗੂ ਕਰੋ",
+    "reset": "ਰੀਸੈੱਟ ਕਰੋ",
+    "clear": "ਸਾਫ਼ ਕਰੋ",
+    "select": "ਚੁਣੋ",
+    "choose": "ਚੁਣੋ",
+    "upload": "ਅਪਲੋਡ ਕਰੋ",
+    "download": "ਡਾਊਨਲੋਡ ਕਰੋ",
+    "share": "ਸਾਂਝਾ ਕਰੋ",
+    "print": "ਪ੍ਰਿੰਟ ਕਰੋ",
+    "view": "ਵੇਖੋ",
+    "more": "ਹੋਰ",
+    "selectLanguage": "ਭਾਸ਼ਾ ਚੁਣੋ",
+    "less": "ਘੱਟ",
+    "show": "ਦਿਖਾਓ",
+    "hide": "ਛੁਪਾਓ"
   },
   "trip": {
     "title": "ਆਪਣੀ ਯਾਤਰਾ ਦੀ ਯੋਜਨਾ ਬਣਾਓ",
@@ -55,6 +110,12 @@
     "ur": "اردو"
   },
   "footer": {
+    "companyInfo": "ਹਰਿਆਣਾ ਰੋਡਵੇਜ",
+    "description": "ਭਰੋਸੇਯੋਗ ਅਤੇ ਆਰਾਮਦਾਇਕ ਬੱਸ ਸੇਵਾਵਾਂ ਨਾਲ ਹਰਿਆਣਾ ਭਰ ਦੇ ਲੋਕਾਂ ਨੂੰ ਜੋੜਨਾ।",
+    "quickLinks": "ਤੇਜ਼ ਲਿੰਕ",
+    "contact": "ਸੰਪਰਕ ਜਾਣਕਾਰੀ",
+    "followUs": "ਸਾਨੂੰ ਫਾਲੋ ਕਰੋ",
+    "copyright": "© 2025 ਹਰਿਆਣਾ ਰੋਡਵੇਜ। ਸਾਰੇ ਹੱਕ ਰਾਖਵੇਂ ਹਨ।",
     "company": "ਕੰਪਨੀ",
     "getHelp": "ਮਦਦ ਪ੍ਰਾਪਤ ਕਰੋ",
     "rides": "ਰਾਈਡਸ",
@@ -62,5 +123,11 @@
     "luxury": "ਲਕਸ਼ਰੀ ਮੰਜ਼ਿਲ"
   },
   "passenger": "ਯਾਤਰੀ",
-  "roundTrip": "ਰਾਉਂਡ ਟ੍ਰਿਪ"
+  "roundTrip": "ਰਾਉਂਡ ਟ੍ਰਿਪ",
+  "popularRoutes": "ਪ੍ਰਸਿੱਧ ਰੂਟ",
+  "liveWeatherUpdates": "ਲਾਈਵ ਮੌਸਮ ਅਪਡੇਟਸ",
+  "routeDetails": "ਰੂਟ ਵੇਰਵੇ",
+  "distance": "ਦੂਰੀ",
+  "routeType": "ਰੂਟ ਦੀ ਕਿਸਮ",
+  "availableBusTypes": "ਉਪਲਬਧ ਬੱਸ ਕਿਸਮਾਂ"
 }
