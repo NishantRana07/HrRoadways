@@ -57,7 +57,7 @@ const AffiliateProgram = ({ isHindi = false }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="grid gap-6 md:grid-cols-3"
+        className="grid gap-5 md:grid-cols-3"
       >
         {t.benefits.map((benefit, index) => (
           <motion.div 
@@ -66,7 +66,7 @@ const AffiliateProgram = ({ isHindi = false }) => {
             className={`p-6 rounded-xl shadow-lg text-center ${benefit.color}`}
           >
             <div className="flex items-center justify-center mb-4">
-              <benefit.icon className="w-12 h-12" />
+              <benefit.icon className="w-12" />
             </div>
             <h3 className="mb-2 text-xl font-bold">{benefit.title}</h3>
             <p className="text-sm">{benefit.description}</p>
