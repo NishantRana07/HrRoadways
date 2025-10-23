@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import axios from 'axios';
 import smartRouteRouter from './routes/smartRoute.js';
+import tripPlannerRouter from './routes/tripPlanner.js';
 
 // ES modules don't have __dirname, so we create it
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // Routes
 app.use('/api/smartRoute', smartRouteRouter);
+app.use('/api/tripPlanner', tripPlannerRouter);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

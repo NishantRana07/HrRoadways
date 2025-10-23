@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useUser, SignOutButton } from "@clerk/clerk-react";
 import '../styles/nav.css';
 import { Menu, X, ChevronDown, Phone } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
@@ -18,12 +17,12 @@ const Navigation = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const servicesTimer = useRef(null);
 
-
   // Using zustand store for modal state
-  // Using Clerk for authentication state
-
   const { modalType, openModal } = useModalStore();
-  const { isSignedIn, user } = useUser();
+  
+  // Mock authentication state for testing
+  const isSignedIn = false;
+  const user = null;
  
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -46,6 +45,7 @@ const Navigation = () => {
     { title: t('nav.track'), path: '/track' },
     { title: t('nav.schedule'), path: '/schedule' },
     { title: t('nav.tourGuide'), path: '/tour-guide' },
+    { title: "Trip Planner", path: '/trip-planner' }, // Added Trip Planner to services dropdown
   ];
 
   const toggleSidebar = () => setIsMobileMenuOpen(x => !x);
@@ -232,7 +232,8 @@ const Navigation = () => {
                 </li>
               </>
             )}
-            {isSignedIn && (
+            {/* Comment out SignOutButton since we're not using Clerk */}
+            {/* {isSignedIn && (
               <li>
                 <SignOutButton>
                   <button className="bg-red-500 hover:bg-red-600 px-4 py-2.5 rounded-lg text-white font-semibold transition ml-4 w-[80%]">
@@ -240,7 +241,7 @@ const Navigation = () => {
                   </button>
                 </SignOutButton>
               </li>
-            )}
+            )} */}
           </ul>
         </div>
         

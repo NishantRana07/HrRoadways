@@ -276,6 +276,27 @@
     "passengers": "Passengers",
     "roundTrip": "Round Trip"
   },
+  "tripPlanner": {
+    "title": "AI Trip Planner",
+    "subtitle": "Plan multi-stop journeys with optimized routes",
+    "startLocation": "Start Location",
+    "finalDestination": "Final Destination",
+    "addStop": "Add Stop",
+    "removeStop": "Remove Stop",
+    "preference": "Trip Preference",
+    "fastest": "Fastest Route",
+    "fewestTransfers": "Fewest Transfers",
+    "planTrip": "Plan My Trip",
+    "tripSummary": "Trip Summary",
+    "totalTime": "Total Time",
+    "transfers": "Transfers",
+    "distance": "Distance",
+    "routeSegments": "Route Segments",
+    "fromTo": "{{from}} → {{to}}",
+    "estimatedTime": "Estimated Time: {{time}} minutes",
+    "transport": "Transport",
+    "stops": "Stops"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error occurred",

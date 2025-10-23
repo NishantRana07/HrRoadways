@@ -48,6 +48,7 @@ const Login = lazy(() => import('./components/Login'));
 const MyBookings = lazy(() => import('./components/Userprofile'));
 const NotFound = lazy(() => import('./components/NotFound'));
 const ToastTest = lazy(() => import('./components/ToastTest'));
+const TripPlanner = lazy(() => import('./components/TripPlanner'));
 
 function BookingPageWrapper() {
 	const location = useLocation();
@@ -114,6 +115,7 @@ function App() {
 							element={<BookingPageWrapper />}
 						/>
 						<Route path='/smart-route' element={<SmartRoute />} />
+						<Route path='/trip-planner' element={<TripPlanner />} />
 						<Route path='*' element={<NotFound />} />
 						<Route path='/login' element={<Login />} />
 						{/* <Route path='/register' element={<Register />} /> */} {/* no Register component found */}
