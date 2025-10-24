@@ -44,8 +44,8 @@ const TripPlanner = () => {
 
     try {
       setLoading(true);
-      // Fix the API endpoint URL to include the full path
-      const response = await axios.post("http://localhost:5000/api/tripPlanner", { 
+      // Fix the API endpoint URL to include the trailing slash
+      const response = await axios.post("/api/tripPlanner/", { 
         stops, 
         preference 
       });
