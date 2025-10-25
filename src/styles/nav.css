@@ -1,3 +1,4 @@
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -9,7 +10,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Language Toggle Switch */
+/* ------------------ Language Toggle ------------------ */
 .checkbox-wrapper-5 .check {
   --size: 30px;
   position: relative;
@@ -68,20 +69,17 @@ body {
   left: 75%;
 }
 
-.checkbox-wrapper-5 .check input[type="checkbox"]:checked + label::after {
-  height: calc(0.16 * var(--size));
-  top: calc(0.55 * var(--size));
-  left: calc(1.6 * var(--size));
-  font-size: calc(0.6 * var (--size));
-  line-height: 0;
+.checkbox-wrapper-5 .check input[type="checkbox"]:checked + label {
+  background: linear-gradient(90deg, #358cd4, #295db7);
 }
 
+/* ------------------ Dropdowns ------------------ */
 .dropdown {
   display: none;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .group:hover .dropdown,
@@ -98,21 +96,62 @@ body {
   left: 0;
   z-index: 2000;
   min-width: 200px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.checkbox-wrapper-5 .check input[type="checkbox"]:checked + label {
-  background: linear-gradient(90deg, #358cd4, #295db7);
+/* ------------------ Top Bar ------------------ */
+header > div.bg-blue-900 {
+  background-color: #004aad;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.guide-link {
+  background-color: rgba(12, 17, 81, 0.5);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
+}
+
+.guide-link:hover {
+  background-color: rgba(2, 6, 90, 0.175);
+  color: rgb(128, 183, 255);
+}
+
+/* ------------------ Navbar Links ------------------ */
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: #196bae;
+  transform: scale(1.05);
+}
+
+.nav-link.active,
+.active {
+  color: #1976d2 !important;
+  border-bottom: 2px solid #1976d2;
+  font-weight: bold;
+}
+
+/* ------------------ Mobile Sidebar ------------------ */
 .sidebar {
   position: fixed;
   right: 0;
   width: 100%;
+  max-width: 18rem; /* ~72 */
   height: 100%;
   background-color: rgba(0, 0, 50, 0.9);
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
   transform: translateX(100%);
-  transition: transform 0.3s;
+  transition: transform 0.3s ease-in-out;
   z-index: 1001;
   color: white;
   overflow-y: auto;
@@ -141,7 +180,7 @@ body {
 .sidebar ul li {
   padding: 1rem;
   text-align: center;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
 .sidebar ul li a {
@@ -159,75 +198,36 @@ body {
   color: rgb(128, 183, 255);
 }
 
-/* Dropdown animation */
-.dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  display: none;
-  background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  z-index: 2000;
-  min-width: 200px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
+/* ------------------ Navbar Shadow & Backdrop ------------------ */
+header nav {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  backdrop-filter: blur(5px);
   transition: all 0.3s ease;
 }
 
-.dropdown.show {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-/* Guide CTA Link */
-.guide-link {
-  background-color: rgba(12, 17, 81, 0.503);
-  color: rgb(255, 255, 255);
-  font-weight: bold;
-  border-radius: 8px;
-  padding: 8px 16px;
+/* ------------------ Buttons ------------------ */
+button {
   transition: all 0.3s ease;
 }
 
-.guide-link:hover {
-  background-color: rgba(2, 6, 90, 0.175);
-  color: rgb(128, 183, 255);
+button:hover {
+  transform: scale(1.03);
 }
 
-/* Navbar links */
-.nav-link {
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-  color: #196bae;
-  transform: scale(1.05);
-}
-/* Highlight the active nav link */
-.nav-link.active,
-.active {
-  color: #1976d2 !important;
-  border-bottom: 2px solid #1976d2;
-  font-weight: bold;
-}
-
-/* Mobile sidebar enhancements for language selector */
+/* ------------------ Responsive Mobile Enhancements ------------------ */
 @media (max-width: 768px) {
-  /* Ensure mobile sidebar has proper scrolling */
   .fixed.inset-y-0.right-0 {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Language selector positioning in mobile menu */
   .language-selector-mobile {
     position: relative;
     z-index: 1;
+  }
+
+  .sidebar ul li a {
+    text-align: left;
+    padding-left: 1rem;
   }
 }
