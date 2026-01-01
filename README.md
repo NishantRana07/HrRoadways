@@ -1,7 +1,7 @@
 
   <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
   
-  <h1 align="center">HrRoadways</h1>
+  <h1 align="center">HrRoadways</h1> 
   <p><center>Follow the Maintainer - <a href="linkedin.com/in/nishantrana07">Nishant Rana</a></center></p>
   <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 <p align="center">
