@@ -6,7 +6,7 @@ import "../styles/footer.css"; // make sure this path is correct
 import { socialMediaLinks } from "../utils/translationKeyMap";
 
 function Footer() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // Current time & date
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -60,6 +60,10 @@ function Footer() {
       setIsLoading(false);
     }
   };
+
+  const currentYear = new Intl.NumberFormat(i18n.language || undefined, {
+    useGrouping: false,
+  }).format(new Date().getFullYear());
 
   return (
     <footer className="footer">
@@ -225,7 +229,9 @@ function Footer() {
 
         <div className="footer-bottom">
           <div className="footer-bottom-content">
-            <p className="footer-bottom-text">{t("footer.copyright")}</p>
+            <p className="footer-bottom-text">
+              {t("footer.copyright", { year: currentYear })}
+            </p>
           </div>
         </div>
       </div>
