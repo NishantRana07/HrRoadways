@@ -77,7 +77,7 @@
     "quickLinks": "Quick Links",
     "contact": "Contact Info",
     "followUs": "Follow Us",
-    "copyright": "© 2025 Haryana Roadways. All rights reserved.",
+    "copyright": "© {{year}} Haryana Roadways. All rights reserved.",
     "company": "Company",
     "getHelp": "Help",
     "rides": "Rides",
