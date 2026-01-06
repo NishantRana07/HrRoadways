@@ -13,6 +13,7 @@ import {
   Smartphone,
   AlertTriangle,
 } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 import "../styles/OurServices.css";
 import Loading from "./Loading";
 
@@ -28,27 +29,6 @@ const iconMap = {
   Clock,
   Smartphone,
   AlertTriangle,
-};
-
-// Custom hook to fetch translations
-const useTranslation = (isHindi) => {
-  const [currentLanguage, setCurrentLanguage] = useState(null);
-  // Replace with your hosted JSON blob URL that contains the translation data
-  const translationsUrl =
-    "https://jsonblob.com/api/jsonBlob/1398339756236136448";
-
-  useEffect(() => {
-    fetch(translationsUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setCurrentLanguage(isHindi ? data.hi : data.en);
-      })
-      .catch((error) => {
-        console.error("Error fetching translations:", error);
-      });
-  }, [isHindi, translationsUrl]);
-
-  return currentLanguage;
 };
 
 const useIntersectionObserver = (ref, options = {}) => {
@@ -100,32 +80,28 @@ const ServiceCard = ({ icon: Icon, title, description, color }) => {
   );
 };
 
-const ServiceCategories = ({ isHindi }) => {
-  const t = useTranslation(isHindi);
+const ServiceCategories = () => {
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState("passenger");
-
-  if (!t) {
-    return <Loading />;
-  }
 
   const categories = [
     {
       id: "passenger",
       icon: Bus,
-      title: t.passenger.title,
-      services: t.passenger.services,
+      title: t("servicesPage.passenger.title"),
+      services: t("servicesPage.passenger.services", { returnObjects: true }),
     },
     {
       id: "digital",
       icon: Smartphone,
-      title: t.digital.title,
-      services: t.digital.services,
+      title: t("servicesPage.digital.title"),
+      services: t("servicesPage.digital.services", { returnObjects: true }),
     },
     {
       id: "safety",
       icon: Shield,
-      title: t.safety.title,
-      services: t.safety.services,
+      title: t("servicesPage.safety.title"),
+      services: t("servicesPage.safety.services", { returnObjects: true }),
     },
   ];
 
@@ -178,8 +154,8 @@ const ServiceCategories = ({ isHindi }) => {
   );
 };
 
-const ServicesPage = ({ isHindi }) => {
-  const t = useTranslation(isHindi);
+const ServicesPage = () => {
+  const { t } = useTranslation();
   const [stats, setStats] = useState({
     dailyPassengers: 50000,
     coverageArea: 120,
@@ -190,10 +166,6 @@ const ServicesPage = ({ isHindi }) => {
   const statsRef = useRef(null);
   const isStatsVisible = useIntersectionObserver(statsRef, { threshold: 0.1 });
 
-  if (!t) {
-    return <Loading />;
-  }
-
   return (
     <div className="services-page dark:bg-gray-950 dark:text-white">
       <motion.header
@@ -202,13 +174,13 @@ const ServicesPage = ({ isHindi }) => {
         transition={{ duration: 0.5 }}
         className="services-header"
       >
-        <h1 className="services-title">{t.title}</h1>
-        <p className="services-subtitle">{t.subtitle}</p>
+        <h1 className="services-title">{t("servicesPage.title")}</h1>
+        <p className="services-subtitle">{t("servicesPage.subtitle")}</p>
       </motion.header>
 
       <section className="key-services dark:bg-gray-950 dark:text-white">
         <div className="services-grid">
-          {t.keyServices.map((service, index) => {
+          {t("servicesPage.keyServices", { returnObjects: true }).map((service, index) => {
             const IconComponent = iconMap[service.icon];
             return (
               <ServiceCard
@@ -223,7 +195,7 @@ const ServicesPage = ({ isHindi }) => {
         </div>
       </section>
 
-      <ServiceCategories isHindi={isHindi} />
+      <ServiceCategories />
 
       <section ref={statsRef} className="services-stats rounded-lg dark:bg-gray-950 dark:text-white">
         <div className="stats-container">
@@ -242,16 +214,16 @@ const ServicesPage = ({ isHindi }) => {
                 {key === "customerSatisfaction" ? `${value}/5` : value}
                 {key === "coverageArea" && "+"}
               </div>
-              <div className="stat-label">{t.statsLabels[key]}</div>
+              <div className="stat-label">{t(`servicesPage.statsLabels.${key}`)}</div>
             </motion.div>
           ))}
         </div>
       </section>
 
       <section className="additional-services rounded-lg mt-8 dark:bg-gray-950 dark:text-white">
-        <h2 className="section-title text-gray-800">{t.additionalSupport}</h2>
+        <h2 className="section-title text-gray-800">{t("servicesPage.additionalSupport")}</h2>
         <div className="support-grid">
-          {t.additionalServices.map((service, index) => {
+          {t("servicesPage.additionalServices", { returnObjects: true }).map((service, index) => {
             const IconComponent = iconMap[service.icon]
             return (
             <div key={index} className="support-card">

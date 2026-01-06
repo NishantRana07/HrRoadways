@@ -179,5 +179,110 @@
     "taxBenefitsMessage": "Your donation is eligible for tax exemption under Section 80G.",
     "description": "Your support helps us serve better.",
     "donateButton": "Donate Now"
+  },
+  "servicesPage": {
+    "title": "Our Premium Services",
+    "subtitle": "Experience the best in class travel with Haryana Roadways",
+    "keyServices": [
+      {
+        "icon": "Bus",
+        "title": "Modern Fleet",
+        "description": "Travel in our latest fleet of Volvo and AC buses equipped with modern amenities.",
+        "color": "blue"
+      },
+      {
+        "icon": "Wifi",
+        "title": "Free Wi-Fi",
+        "description": "Stay connected on the go with our complimentary high-speed Wi-Fi service.",
+        "color": "green"
+      },
+      {
+        "icon": "CreditCard",
+        "title": "Easy Payment",
+        "description": "Multiple payment options including UPI, Cards, and Net Banking.",
+        "color": "purple"
+      },
+      {
+        "icon": "Shield",
+        "title": "Safe Journey",
+        "description": "24/7 GPS tracking and emergency support for a secure travel experience.",
+        "color": "red"
+      }
+    ],
+    "passenger": {
+      "title": "Passenger Services",
+      "services": [
+        {
+          "title": "Online Booking",
+          "description": "Book tickets from the comfort of your home"
+        },
+        {
+          "title": "Seat Selection",
+          "description": "Choose your preferred seat while booking"
+        },
+        {
+          "title": "Live Tracking",
+          "description": "Track your bus location in real-time"
+        }
+      ]
+    },
+    "digital": {
+      "title": "Digital Services",
+      "services": [
+        {
+          "title": "Mobile App",
+          "description": "Book and manage trips via our mobile app"
+        },
+        {
+          "title": "E-Tickets",
+          "description": "Go paperless with digital boarding passes"
+        },
+        {
+          "title": "Instant Refunds",
+          "description": "Automated refunds for cancelled bookings"
+        }
+      ]
+    },
+    "safety": {
+      "title": "Safety Features",
+      "services": [
+        {
+          "title": "GPS Tracking",
+          "description": "All buses monitored via central control room"
+        },
+        {
+          "title": "SOS Button",
+          "description": "Emergency assistance at your fingertips"
+        },
+        {
+          "title": "CCTV Cameras",
+          "description": "Surveillance for passenger safety"
+        }
+      ]
+    },
+    "statsLabels": {
+      "dailyPassengers": "Daily Passengers",
+      "coverageArea": "Cities Covered",
+      "busFleet": "Bus Fleet",
+      "customerSatisfaction": "Customer Rating"
+    },
+    "additionalSupport": "Additional Support",
+    "additionalServices": [
+      {
+        "icon": "Headphones",
+        "title": "24/7 Support",
+        "description": "Round the clock customer service"
+      },
+      {
+        "icon": "AlertTriangle",
+        "title": "Lost & Found",
+        "description": "Report and track lost items"
+      },
+      {
+        "icon": "Clock",
+        "title": "Punctuality",
+        "description": "On-time departure and arrival"
+      }
+    ]
   }
 }
