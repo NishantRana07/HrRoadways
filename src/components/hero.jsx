@@ -1,6 +1,6 @@
 // src/components/hero.jsx
-import React, { useState } from 'react';
-import { Search, Calendar, Users, MapPin, ArrowRightLeft, Loader2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, Calendar, Users, MapPin, ArrowRightLeft, Loader2, AlertCircle } from 'lucide-react';
 import { useBusContext } from '../contexts/BusContext';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -18,19 +18,108 @@ const Hero = () => {
     roundTrip: false
   });
 
+  const [errors, setErrors] = useState({
+    from: '',
+    to: ''
+  });
+  
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  // Real-time validation
+  const validateField = (name, value) => {
+    let error = '';
+    
+    if (name === 'from' || name === 'to') {
+      const trimmedValue = value.trim();
+      
+      if (!trimmedValue) {
+        error = currentLanguage.hero?.fieldRequired || 'This field is required';
+      } else if (trimmedValue.length < 2) {
+        error = currentLanguage.hero?.minChars || 'Must be at least 2 characters';
+      } else if (trimmedValue.length > 50) {
+        error = currentLanguage.hero?.maxChars || 'Maximum 50 characters allowed';
+      } else if (!/^[a-zA-Z\s\-.,]+$/.test(trimmedValue)) {
+        error = currentLanguage.hero?.invalidChars || 'Only letters, spaces, hyphens, commas and periods allowed';
+      }
+      
+      // Check if source and destination are same
+      if (name === 'to' && trimmedValue.toLowerCase() === formData.from.trim().toLowerCase() && trimmedValue) {
+        error = currentLanguage.hero?.sameLocation || 'Destination cannot be same as departure';
+      }
+      if (name === 'from' && trimmedValue.toLowerCase() === formData.to.trim().toLowerCase() && trimmedValue) {
+        error = currentLanguage.hero?.sameLocation || 'Departure cannot be same as destination';
+      }
+    }
+    
+    return error;
+  };
+
+  // Handle input change with validation
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+
+    // Validate the changed field
+    if (name === 'from' || name === 'to') {
+      const error = validateField(name, value);
+      setErrors(prev => ({
+        ...prev,
+        [name]: error
+      }));
+    }
   };
+
+  // Validate entire form
+  const validateForm = () => {
+    const fromError = validateField('from', formData.from);
+    const toError = validateField('to', formData.to);
+    
+    const newErrors = {
+      from: fromError,
+      to: toError
+    };
+    
+    setErrors(newErrors);
+    
+    // Form is valid if no errors and both fields have content
+    const isValid = !fromError && !toError && 
+                    formData.from.trim() && 
+                    formData.to.trim();
+    setIsFormValid(isValid);
+    
+    return isValid;
+  };
+
+  // Update form validity when data changes
+  useEffect(() => {
+    validateForm();
+  }, [formData.from, formData.to]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
     
-    if (!formData.from.trim() || !formData.to.trim()) {
-      alert(currentLanguage.hero?.alertMessage || 'Please enter both source and destination');
+    // Final validation before submission
+    if (!validateForm()) {
+      // Focus on first error field
+      if (errors.from) {
+        document.getElementsByName('from')[0]?.focus();
+      } else if (errors.to) {
+        document.getElementsByName('to')[0]?.focus();
+      }
+      return;
+    }
+
+    // Ensure source and destination are not same (final check)
+    if (formData.from.trim().toLowerCase() === formData.to.trim().toLowerCase()) {
+      setErrors(prev => ({
+        ...prev,
+        to: currentLanguage.hero?.sameLocation || 'Destination cannot be same as departure'
+      }));
+      document.getElementsByName('to')[0]?.focus();
       return;
     }
 
@@ -39,8 +128,17 @@ const Hero = () => {
   };
 
   const swapLocations = () => {
+    const newFrom = formData.to;
+    const newTo = formData.from;
+    
     setFormData(prev => ({
       ...prev,
+      from: newFrom,
+      to: newTo
+    }));
+
+    // Swap errors too
+    setErrors(prev => ({
       from: prev.to,
       to: prev.from
     }));
@@ -63,7 +161,7 @@ const Hero = () => {
 
           {/* Search Form */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 md:p-8 mb-10">
-            <form onSubmit={handleSearch}>
+            <form onSubmit={handleSearch} noValidate>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
                 {/* From Location */}
                 <div className="lg:col-span-3">
@@ -71,18 +169,38 @@ const Hero = () => {
                     <div className="flex items-center gap-2">
                       <MapPin size={16} />
                       {currentLanguage.hero?.from || 'From'}
+                      <span className="text-red-500">*</span>
                     </div>
                   </label>
-                  <input
-                    type="text"
-                    name="from"
-                    value={formData.from}
-                    onChange={handleInputChange}
-                    placeholder={currentLanguage.hero?.fromPlaceholder || 'Enter city or station'}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    required
-                    disabled={isLoading}
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="from"
+                      value={formData.from}
+                      onChange={handleInputChange}
+                      placeholder={currentLanguage.hero?.fromPlaceholder || 'Enter departure city'}
+                      className={`w-full px-4 py-3 rounded-lg border ${
+                        errors.from 
+                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500' 
+                          : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all`}
+                      required
+                      disabled={isLoading}
+                      aria-invalid={!!errors.from}
+                      aria-describedby={errors.from ? 'from-error' : undefined}
+                    />
+                    {errors.from && (
+                      <div className="absolute right-3 top-3 text-red-500">
+                        <AlertCircle size={20} />
+                      </div>
+                    )}
+                  </div>
+                  {errors.from && (
+                    <p id="from-error" className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+                      <AlertCircle size={14} />
+                      {errors.from}
+                    </p>
+                  )}
                 </div>
 
                 {/* Swap Button (Centered) */}
@@ -90,8 +208,8 @@ const Hero = () => {
                   <button
                     type="button"
                     onClick={swapLocations}
-                    disabled={isLoading}
-                    className="p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isLoading || !formData.from.trim() || !formData.to.trim()}
+                    className="p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-gray-100 dark:disabled:hover:bg-gray-700"
                     title={currentLanguage.hero?.swap || 'Swap locations'}
                   >
                     <ArrowRightLeft size={20} />
@@ -104,18 +222,38 @@ const Hero = () => {
                     <div className="flex items-center gap-2">
                       <MapPin size={16} />
                       {currentLanguage.hero?.to || 'To'}
+                      <span className="text-red-500">*</span>
                     </div>
                   </label>
-                  <input
-                    type="text"
-                    name="to"
-                    value={formData.to}
-                    onChange={handleInputChange}
-                    placeholder={currentLanguage.hero?.toPlaceholder || 'Enter destination city'}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    required
-                    disabled={isLoading}
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="to"
+                      value={formData.to}
+                      onChange={handleInputChange}
+                      placeholder={currentLanguage.hero?.toPlaceholder || 'Enter destination city'}
+                      className={`w-full px-4 py-3 rounded-lg border ${
+                        errors.to 
+                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500' 
+                          : 'border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all`}
+                      required
+                      disabled={isLoading}
+                      aria-invalid={!!errors.to}
+                      aria-describedby={errors.to ? 'to-error' : undefined}
+                    />
+                    {errors.to && (
+                      <div className="absolute right-3 top-3 text-red-500">
+                        <AlertCircle size={20} />
+                      </div>
+                    )}
+                  </div>
+                  {errors.to && (
+                    <p id="to-error" className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+                      <AlertCircle size={14} />
+                      {errors.to}
+                    </p>
+                  )}
                 </div>
 
                 {/* Date */}
@@ -164,8 +302,9 @@ const Hero = () => {
                 <div className="lg:col-span-1 flex items-end">
                   <button
                     type="submit"
-                    disabled={isLoading}
-                    className="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none flex items-center justify-center gap-2"
+                    disabled={isLoading || !isFormValid}
+                    className="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-none flex items-center justify-center gap-2"
+                    aria-disabled={!isFormValid}
                   >
                     {isLoading ? (
                       <>
@@ -181,6 +320,16 @@ const Hero = () => {
                   </button>
                 </div>
               </div>
+
+              {/* Validation Summary (optional) */}
+              {(!isFormValid && (formData.from || formData.to)) && (
+                <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                  <p className="text-sm text-yellow-800 dark:text-yellow-300 flex items-center gap-2">
+                    <AlertCircle size={16} />
+                    {currentLanguage.hero?.validationHint || 'Please fix the errors above to search for buses'}
+                  </p>
+                </div>
+              )}
 
               {/* Round Trip Checkbox */}
               <div className="mt-6 flex items-center">
