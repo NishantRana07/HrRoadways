@@ -1,23 +1,20 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { ClerkProvider } from '@clerk/clerk-react'
+import { ClerkProvider } from '@clerk/clerk-react';
 import App from './App';
 import './index.css';
 import './i18n';
 import "leaflet/dist/leaflet.css";
+import './styles/footer.css';
 
-
-// ✅ Newsletter global CSS (agar footer ke liye alag CSS file ho)
-import './styles/footer.css'; // ✅ Added for Newsletter
- 
 // Import your publishable key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key")
+  throw new Error("Missing Publishable Key");
 }
 
-// Add error boundary for debugging
+// Error Boundary for debugging
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -37,9 +34,7 @@ class ErrorBoundary extends React.Component {
       return (
         <div style={{ padding: '20px', textAlign: 'center' }}>
           <h2>Something went wrong.</h2>
-          <details style={{ whiteSpace: 'pre-wrap' }}>
-            {this.state.error && this.state.error.toString()}
-          </details>
+          <p>Check console for details</p>
         </div>
       );
     }
@@ -47,10 +42,14 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const root = createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error('Root element not found');
+}
+
+const root = createRoot(rootElement);
 
 console.log('Starting app render...');
-console.log('Root element:', document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
@@ -62,20 +61,4 @@ root.render(
   </React.StrictMode>
 );
 
-console.log('App render called');
-
-// Register Service Worker (disabled for debugging)
-// if ('serviceWorker' in navigator) {
-//   window.addEventListener('load', () => {
-//     navigator.serviceWorker
-//       .register('/service-worker.js')
-//       .then(registration => {
-//         console.log('Service Worker registered: ', registration);
-//       })
-//       .catch(error => {
-//         console.log('Service Worker registration failed: ', error);
-//       });
-//   });
-// }
-
-
+console.log('App render completed');
