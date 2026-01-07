@@ -1,520 +1,307 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  AlertCircle,
-  Info,
-  Repeat,
-  Shield,
-  Star,
-  Phone,
-  Users,
-} from "lucide-react";
-import { useTranslation } from "react-i18next";
-import TrafficUpdates from "./TrafficUpdates";
-import PopularRoutes from "./PopularRoutes";
-import BusDetailModal from "./BusDetailModal";
-import WeatherUpdates from "./WeatherUpdates";
-import { fallbackBusStands, fallbackBusData } from "../data/fallbackData";
-import "../styles/hero.css";
-import "../styles/modal.css";
+// src/components/hero.jsx
+import React, { useState } from 'react';
+import { Search, Calendar, Users, MapPin, ArrowRightLeft, Loader2 } from 'lucide-react';
+import { useBusContext } from '../contexts/BusContext';
+import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 
-// Local YYYY-MM-DD (safer than toISOString due to time zones)
-const TODAY_STR = new Date().toLocaleDateString("en-CA");
-
-// CustomAlert Component to display info and warning alerts
-const CustomAlert = ({ type, children }) => (
-  <div className={`custom-alert ${type === "warning" ? "warning" : "info"}`}>
-    {type === "warning" ? <AlertCircle className="icon" /> : <Info className="icon" />}
-    <p className="text">{children}</p>
-  </div>
-);
-
-// CustomCard Component for reusable card layout
-const CustomCard = ({ children, className }) => (
-  <div className={`custom-card ${className}`}>{children}</div>
-);
-
-// Hero Component - Main Component
 const Hero = () => {
-  const { t } = useTranslation();
-
-  // State management
+  const navigate = useNavigate();
+  const { searchBuses, isLoading } = useBusContext();
+  const { currentLanguage } = useLanguage();
+  
   const [formData, setFormData] = useState({
-    src: "",
-    dest: "",
-    date: TODAY_STR,
+    from: '',
+    to: '',
+    date: new Date().toISOString().split('T')[0],
     passengers: 1,
-    roundTrip: false,
+    roundTrip: false
   });
-  const [busStands, setBusStands] = useState([]);
-  const [srcSuggestions, setSrcSuggestions] = useState([]);
-  const [destSuggestions, setDestSuggestions] = useState([]);
-  const [showSrcSuggestions, setShowSrcSuggestions] = useState(false);
-  const [showDestSuggestions, setShowDestSuggestions] = useState(false);
-  const [alerts, setAlerts] = useState([]);
-  const [buses, setBuses] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBus, setSelectedBus] = useState(null);
-  const [activeSrcSuggestionIndex, setActiveSrcSuggestionIndex] = useState(-1);
-  const [activeDestSuggestionIndex, setActiveDestSuggestionIndex] = useState(-1);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const inputRefs = useRef([]);
-  const containerRef = useRef(null);
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
 
-  // Fetch alerts
-  useEffect(() => {
-    setAlerts([
-      {
-        type: "info",
-        message: "Extra buses available on Delhi-Chandigarh route",
-      },
-      {
-        type: "warning",
-        message: "Weather alert: Fog expected in northern Haryana",
-      },
-    ]);
-  }, []);
-
-  // Fetch bus stands
-  useEffect(() => {
-    setIsLoading(true);
-    fetch("https://jsonblob.com/api/jsonBlob/1333092652136194048")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const uniqueBusStands = new Set();
-        data.forEach((route) => {
-          uniqueBusStands.add(route.from);
-          uniqueBusStands.add(route.to);
-        });
-        setBusStands([...uniqueBusStands]);
-      })
-      .catch((error) => {
-        console.error("Error fetching bus stands:", error);
-        // Set fallback bus stands if API fails
-        setBusStands(fallbackBusStands);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
-
-  // Handle input change for form fields (with past-date guard)
-  const handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
-
-    // Block any manual past-date entry
-    if (name === "date") {
-      const next = value < TODAY_STR ? TODAY_STR : value;
-      setFormData((prev) => ({ ...prev, date: next }));
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    
+    if (!formData.from.trim() || !formData.to.trim()) {
+      alert(currentLanguage.hero?.alertMessage || 'Please enter both source and destination');
       return;
     }
 
-    setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
-
-    if (name === "src") {
-      const filtered = busStands
-        .filter((stand) => stand.toLowerCase().includes(value.toLowerCase()))
-        .slice(0, 10); // Limit to 10 locations
-      setSrcSuggestions(filtered);
-      setShowSrcSuggestions(true);
-      setActiveSrcSuggestionIndex(-1);
-    } else if (name === "dest") {
-      const filtered = busStands
-        .filter((stand) => stand.toLowerCase().includes(value.toLowerCase()))
-        .slice(0, 10); // Limit to 10 locations
-      setDestSuggestions(filtered);
-      setShowDestSuggestions(true);
-      setActiveDestSuggestionIndex(-1);
-    }
+    await searchBuses(formData);
+    navigate('/Available');
   };
 
-  // Handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Search submitted:', formData);
-    
-    // Use fallback data directly (API has CORS issues)
-    const filteredBuses = fallbackBusData.filter((bus) => {
-      const isExactRoute =
-        bus.from.toLowerCase() === formData.src.toLowerCase() &&
-        bus.to.toLowerCase() === formData.dest.toLowerCase();
-      const isReverseRoute =
-        formData.roundTrip &&
-        bus.from.toLowerCase() === formData.dest.toLowerCase() &&
-        bus.to.toLowerCase() === formData.src.toLowerCase();
-      const isViaRoute =
-        bus.from.toLowerCase() === formData.src.toLowerCase() &&
-        bus.Via?.toLowerCase().includes(formData.dest.toLowerCase());
-      const isViaReverseRoute =
-        formData.roundTrip &&
-        bus.from.toLowerCase() === formData.dest.toLowerCase() &&
-        bus.Via?.toLowerCase().includes(formData.src.toLowerCase());
-      return isExactRoute || isReverseRoute || isViaRoute || isViaReverseRoute;
-    });
-    console.log('Filtered buses:', filteredBuses.length, 'matches found');
-    setBuses(filteredBuses);
+  const swapLocations = () => {
+    setFormData(prev => ({
+      ...prev,
+      from: prev.to,
+      to: prev.from
+    }));
   };
-
-  // Handle bus card click to open modal
-  const handleBusCardClick = (bus) => {
-    setSelectedBus(bus);
-    setIsModalOpen(true);
-  };
-
-  // Close modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedBus(null);
-  };
-
-  if (isLoading) {
-    return (
-      <div
-        className="hero-container text-black"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "50vh",
-        }}
-      >
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: "18px", marginBottom: "10px" }}>
-            Loading Haryana Roadways...
-          </div>
-          <div style={{ fontSize: "14px", color: "#666" }}>
-            Fetching bus routes and schedules
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="hero-container text-black dark:bg-gray-950 dark:text-white" ref={containerRef}>
-      <div className="hero-header">
-        <div className="hero-header-overlay" />
-        <img
-          src="/src/assets/Pinjore_Gardens.avif"
-          srcSet="/src/assets/Pinjore_Gardens.avif 480w, /src/assets/Pinjore_Gardens.avif 1024w"
-          sizes="(max-width: 480px) 480px, 1024px"
-          alt="Beautiful Pinjore Gardens showcasing Haryana's natural heritage"
-          className="hero-background-image"
-        />
-        <div className="hero-header-content">
-          <h1 className="hero-heading">{t("hero.heading")}</h1>
-          <p className="hero-subheading">{t("hero.subheading")}</p>
-        </div>
-      </div>
-
-      <div className="hero-features">
-        <div className="features-container">
-          <div className="feature-item">
-            <div className="info-card info-card--compact">
-              <div className="info-card-icon" aria-hidden>
-                <Shield className="w-5 h-5" />
-              </div>
-            <div>
-              <div className="info-card-title">{t("about.safety")}</div>
-              <div className="info-card-desc">{t("about.safetyDesc")}</div>
-            </div>
-          </div>
-        </div>
-
-          <div className="feature-item">
-            <div className="info-card info-card--compact">
-              <div className="info-card-icon" aria-hidden>
-                <Clock className="w-5 h-5" />
-              </div>
-            <div>
-              <div className="info-card-title">{t("about.reliability")}</div>
-              <div className="info-card-desc">{t("about.reliabilityDesc")}</div>
-            </div>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
+      {/* Hero Content */}
+      <div className="container mx-auto px-4 py-12 md:py-20">
+        <div className="max-w-6xl mx-auto">
+          {/* Heading */}
+          <div className="text-center mb-10">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+              {currentLanguage.hero?.title || 'Travel Across Haryana'}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              {currentLanguage.hero?.subtitle || 'Book comfortable, affordable bus tickets with Haryana Roadways'}
+            </p>
           </div>
 
-          <div className="feature-item">
-            <div className="info-card info-card--compact">
-              <div className="info-card-icon" aria-hidden>
-                <Star className="w-5 h-5" />
-              </div>
-            <div>
-              <div className="info-card-title">{t("about.comfort")}</div>
-              <div className="info-card-desc">{t("about.comfortDesc")}</div>
-            </div>
-          </div>
-        </div>
-    
-          <div className="feature-item">
-            <div className="info-card info-card--compact">
-              <div className="info-card-icon" aria-hidden>
-                <Phone className="w-5 h-5" />
-              </div>
-            <div>
-              <div className="info-card-title">{t("services.support")}</div>
-              <div className="info-card-desc">{t("services.supportDesc")}</div>
-            </div>
-            </div>
-          </div>
-      </div>
-    </div>
+          {/* Search Form */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 md:p-8 mb-10">
+            <form onSubmit={handleSearch}>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+                {/* From Location */}
+                <div className="lg:col-span-3">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <div className="flex items-center gap-2">
+                      <MapPin size={16} />
+                      {currentLanguage.hero?.from || 'From'}
+                    </div>
+                  </label>
+                  <input
+                    type="text"
+                    name="from"
+                    value={formData.from}
+                    onChange={handleInputChange}
+                    placeholder={currentLanguage.hero?.fromPlaceholder || 'Enter city or station'}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
 
-      <div className="hero-content dark:bg-gray-950 dark:text-white">
-        <div className="content-grid">
-          <CustomCard className="form-card dark:bg-gray-950 dark:text-white">
-            <form className="form text-slate-950" onSubmit={handleSubmit}>
-              <div className="swap-wrapper">
-                <FormInput
-                  placeholder="Departure location"
-                  label={t("hero.departure")}
-                  name="src"
-                  value={formData.src}
-                  onChange={handleChange}
-                  suggestions={srcSuggestions}
-                  showSuggestions={showSrcSuggestions}
-                  setShowSuggestions={setShowSrcSuggestions}
-                  activeSuggestionIndex={activeSrcSuggestionIndex}
-                  setActiveSuggestionIndex={setActiveSrcSuggestionIndex}
+                {/* Swap Button (Centered) */}
+                <div className="lg:col-span-1 flex items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={swapLocations}
+                    disabled={isLoading}
+                    className="p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    title={currentLanguage.hero?.swap || 'Swap locations'}
+                  >
+                    <ArrowRightLeft size={20} />
+                  </button>
+                </div>
+
+                {/* To Location */}
+                <div className="lg:col-span-3">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <div className="flex items-center gap-2">
+                      <MapPin size={16} />
+                      {currentLanguage.hero?.to || 'To'}
+                    </div>
+                  </label>
+                  <input
+                    type="text"
+                    name="to"
+                    value={formData.to}
+                    onChange={handleInputChange}
+                    placeholder={currentLanguage.hero?.toPlaceholder || 'Enter destination city'}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+
+                {/* Date */}
+                <div className="lg:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <div className="flex items-center gap-2">
+                      <Calendar size={16} />
+                      {currentLanguage.hero?.date || 'Date'}
+                    </div>
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    min={new Date().toISOString().split('T')[0]}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    disabled={isLoading}
+                  />
+                </div>
+
+                {/* Passengers */}
+                <div className="lg:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <div className="flex items-center gap-2">
+                      <Users size={16} />
+                      {currentLanguage.hero?.passengers || 'Passengers'}
+                    </div>
+                  </label>
+                  <select
+                    name="passengers"
+                    value={formData.passengers}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    disabled={isLoading}
+                  >
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
+                      <option key={num} value={num}>
+                        {num} {num === 1 ? 'Passenger' : 'Passengers'}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Search Button */}
+                <div className="lg:col-span-1 flex items-end">
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none flex items-center justify-center gap-2"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        <span>{currentLanguage.hero?.searching || 'Searching...'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Search size={20} />
+                        <span>{currentLanguage.hero?.search || 'Search'}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Round Trip Checkbox */}
+              <div className="mt-6 flex items-center">
+                <input
+                  type="checkbox"
+                  id="roundTrip"
+                  name="roundTrip"
+                  checked={formData.roundTrip}
+                  onChange={handleInputChange}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                  disabled={isLoading}
                 />
-                {/*  ADDING A SWAP BUTTTON HERE */}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      src: prev.dest,
-                      dest: prev.src,
-                    }))
-                  }
-                  className="swap-btn"
-                  title="Swap locations"
-                >
-                  <Repeat size={20} />
-                </button>
-
-                <FormInput
-                  placeholder="Destination city or address"
-                  label={t("hero.arrival")}
-                  name="dest"
-                  value={formData.dest}
-                  onChange={handleChange}
-                  suggestions={destSuggestions}
-                  showSuggestions={showDestSuggestions}
-                  setShowSuggestions={setShowDestSuggestions}
-                  activeSuggestionIndex={activeDestSuggestionIndex}
-                  setActiveSuggestionIndex={setActiveDestSuggestionIndex}
-                  disabled={!formData.src}
-                />
+                <label htmlFor="roundTrip" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                  {currentLanguage.hero?.roundTrip || 'Round Trip'}
+                </label>
               </div>
-              <FormInput
-                label={t("schedule.departure")}
-                name="date"
-                type="date"
-                value={formData.date}
-                onChange={handleChange}
-                min={TODAY_STR}
-              />
-              <FormInput
-                label={t("trip.passengers")}
-                name="passengers"
-                type="number"
-                value={formData.passengers}
-                onChange={handleChange}
-                min="1"
-              />
-              <FormCheckbox
-                label={t("trip.roundTrip")}
-                name="roundTrip"
-                checked={formData.roundTrip}
-                onChange={() =>
-                  setFormData({ ...formData, roundTrip: !formData.roundTrip })
-                }
-              />
-              <button type="submit" className="search-button">
-                {t("hero.button")}
-              </button>
             </form>
-          </CustomCard>
-
-          <div className="right-panel">
-            <PopularRoutes
-              onRouteClick={(route) =>
-                handleChange({ target: { name: "src", value: route.src } })
-              }
-            />
-            <WeatherUpdates />
           </div>
-        </div>
 
-        {buses.length > 0 && (
-          <div className="bus-results">
-            <h3 className="bus-results-heading">{t("hero.allBuses")}</h3>
-            <div className="bus-grid">
-              {buses.map((bus, index) => (
-                <BusCard key={index} bus={bus} onClick={() => handleBusCardClick(bus)} />
+          {/* Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-6 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="text-blue-600 dark:text-blue-400 text-2xl">🚌</div>
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
+                {currentLanguage.hero?.feature1Title || 'Comfortable Travel'}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {currentLanguage.hero?.feature1Desc || 'AC & Non-AC buses with modern amenities'}
+              </p>
+            </div>
+
+            <div className="text-center p-6 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="text-green-600 dark:text-green-400 text-2xl">💰</div>
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
+                {currentLanguage.hero?.feature2Title || 'Affordable Prices'}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {currentLanguage.hero?.feature2Desc || 'Best prices guaranteed across all routes'}
+              </p>
+            </div>
+
+            <div className="text-center p-6 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="text-purple-600 dark:text-purple-400 text-2xl">🔒</div>
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
+                {currentLanguage.hero?.feature3Title || 'Safe & Secure'}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {currentLanguage.hero?.feature3Desc || '24/7 customer support and secure bookings'}
+              </p>
+            </div>
+          </div>
+
+          {/* Popular Routes */}
+          <div className="mt-16">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+              {currentLanguage.hero?.popularRoutes || 'Popular Routes'}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                { from: 'Chandigarh', to: 'Delhi', price: '₹450' },
+                { from: 'Ambala', to: 'Hisar', price: '₹350' },
+                { from: 'Kurukshetra', to: 'Rohtak', price: '₹280' },
+                { from: 'Gurugram', to: 'Karnal', price: '₹320' },
+              ].map((route, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    if (!isLoading) {
+                      setFormData({
+                        ...formData,
+                        from: route.from,
+                        to: route.to
+                      });
+                    }
+                  }}
+                  disabled={isLoading}
+                  className="p-4 bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-xl transition-shadow text-left disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="font-bold text-gray-900 dark:text-white">
+                      {route.from} → {route.to}
+                    </h3>
+                    <span className="text-green-600 font-semibold">{route.price}</span>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {currentLanguage.hero?.routeDesc || 'Daily buses available'}
+                  </p>
+                </button>
               ))}
             </div>
           </div>
-        )}
-      </div>
-      <BusDetailModal isOpen={isModalOpen} onClose={closeModal} bus={selectedBus} />
-    </div>
-  );
-};
 
-// FormInput Component - Reusable input field with suggestions
-const FormInput = ({
-  placeholder,
-  label,
-  name,
-  value,
-  onChange,
-  suggestions = [],
-  showSuggestions,
-  setShowSuggestions,
-  type = "text",
-  disabled = false,
-  min,
-  activeSuggestionIndex,
-  setActiveSuggestionIndex,
-}) => {
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-    const handlePosition = () => {
-      if (inputRef.current) {
-        const rect = inputRef.current.getBoundingClientRect();
-        const dropdown = inputRef.current.nextElementSibling;
-        if (dropdown) {
-          dropdown.parentElement.setAttribute(
-            "data-dropdown-up",
-            rect.bottom + dropdown.offsetHeight > window.innerHeight
-          );
-        }
-      }
-    };
-
-    window.addEventListener("resize", handlePosition);
-    handlePosition();
-
-    return () => {
-      window.removeEventListener("resize", handlePosition);
-    };
-  }, [value]);
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      if (activeSuggestionIndex >= 0 && suggestions[activeSuggestionIndex]) {
-        onChange({
-          target: { name, value: suggestions[activeSuggestionIndex] },
-        });
-        setShowSuggestions(false);
-      }
-    } else if (event.key === "ArrowDown") {
-      setActiveSuggestionIndex((prevIndex) =>
-        prevIndex === suggestions.length - 1 ? 0 : prevIndex + 1
-      );
-    } else if (event.key === "ArrowUp") {
-      setActiveSuggestionIndex((prevIndex) =>
-        prevIndex <= 0 ? suggestions.length - 1 : prevIndex - 1
-      );
-    }
-  };
-
-  return (
-    <div
-      className="form-group"
-      onFocus={() => setShowSuggestions(true)}
-      onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-    >
-      <label className="form-label">
-        {name === "src" || name === "dest" ? <MapPin className="form-icon" /> : null}
-        {label}
-      </label>
-      <input
-        placeholder={placeholder}
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        className="form-input"
-        autoComplete="off"
-        disabled={disabled}
-        min={min}
-        ref={inputRef}
-        onKeyDown={handleKeyDown}
-      />
-      {showSuggestions && (
-        <div className={`suggestions-dropdown ${suggestions.length ? "show" : ""}`}>
-          {suggestions.map((suggestion, index) => (
-            <div
-              key={index}
-              className={`suggestion-item ${index === activeSuggestionIndex ? "active" : ""}`}
-              onMouseDown={() => onChange({ target: { name, value: suggestion } })}
-            >
-              {suggestion}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-// FormCheckbox Component - Reusable checkbox input
-const FormCheckbox = ({ label, name, checked, onChange }) => (
-  <div className="form-group">
-    <label className="form-label">
-      <Repeat className="form-icon mb-3" />
-      {label}
-    </label>
-    <input type="checkbox" name={name} checked={checked} onChange={onChange} className="form-checkbox ml-2" />
-  </div>
-);
-
-// BusCard Component - Bus card displaying bus details
-const BusCard = ({ bus, onClick }) => {
-  const distance = parseFloat(bus.Total_Distance.replace(/[^0-9.]/g, ""));
-  const fillPercentage = Math.min((distance / 1000) * 100, 100);
-
-  return (
-    <div className="bus-item" onClick={onClick}>
-      <div className="bus-info">
-        <div className="bus-card-header">
-          <div className="bus-card-title">
-            <Clock size={20} className="text-blue-600" />
-            <span>{bus.Bus_Type}</span>
-          </div>
-          <div className="bus-card-price">
-            <div className="bus-card-price-value">
-              {bus.Price.includes("₹") ? bus.Price : `₹${bus.Price}`}
-            </div>
-            <div className="bus-card-price-distance">
-              {bus.Total_Distance.includes("KM") ? bus.Total_Distance : `${bus.Total_Distance} KM`}
+          {/* Call to Action */}
+          <div className="mt-16 text-center">
+            <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+              {currentLanguage.hero?.ctaTitle || 'Why Choose Haryana Roadways?'}
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
+              {currentLanguage.hero?.ctaDesc || 'With over 50 years of service, we provide the most reliable and comfortable bus services across Haryana and neighboring states.'}
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <button
+                onClick={() => navigate('/about')}
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                {currentLanguage.hero?.learnMore || 'Learn More'}
+              </button>
+              <button
+                onClick={() => navigate('/trip')}
+                className="px-6 py-3 bg-transparent border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors font-medium"
+              >
+                {currentLanguage.hero?.viewTrips || 'View All Trips'}
+              </button>
             </div>
           </div>
-        </div>
-        <div className="bus-card-details">
-          <div className="bus-card-detail">
-            <MapPin size={16} className="text-gray-400" />
-            <span>{bus.Departure_Time}</span>
-          </div>
-          <div className="bus-card-detail">
-            <MapPin size={16} className="text-gray-400" />
-            <span>Via: {bus.Via}</span>
-          </div>
-        </div>
-        <div className="distance-bar-wrapper">
-          <div className="distance-bar-fill" style={{ width: `${fillPercentage}%` }}></div>
         </div>
       </div>
     </div>
