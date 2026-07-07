@@ -605,7 +605,8 @@ App won't start (dev)
 * **Use PNG/JPG** files and compress images before uploading.
 * **Keep your fork updated** before submitting PRs.
 
-
+## Sponsor Us
+- You can sponsor the owner of repo - nishantrana07 
 
 
 ## Contributor
