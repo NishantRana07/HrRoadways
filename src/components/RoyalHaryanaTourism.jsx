@@ -30,7 +30,7 @@ const royalHaryanaDestinations = {
     {
       id: 2,
       name: "Kurukshetra Heritage Trail",
-      description: "Explore the land of Mahabharata with spiritual and historical significance",
+      description: "Explore the land of the Mahabharata, rich in spiritual and historical significance",
       price: "₹4,599",
       rating: 4.9,
       duration: "3 Days / 2 Nights",
